@@ -9,25 +9,24 @@ class IngredientType extends React.Component {
   }
 
   render() {
-    debugger;
     const { type, data } = this.props;
     const arr = this.filter(data, type.type);
     return (
-      <>
-        <h2 className="text text_type_main-medium pt-10 pb-6">{type.text}</h2>
-        <div className={s.ingredientList}>
+      <li className={`${s.ingredientTypeBlock} pb-10`} id={`#${type.type}`}>
+        <h2 className="text text_type_main-medium pb-6">{type.text}</h2>
+        <ul className={s.ingredientList}>
           {arr.map((item, index) => (
             <IngredientItem {...item} key={index} />
           ))}
-        </div>
-      </>
+        </ul>
+      </li>
     );
   }
 }
 
 IngredientType.propTypes = {
   filterType: PropTypes.object,
-  data: PropTypes.object,
+  data: PropTypes.array,
 };
 
 export default IngredientType;

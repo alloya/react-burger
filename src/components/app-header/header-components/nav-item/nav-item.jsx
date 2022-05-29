@@ -6,7 +6,13 @@ const NavItem = (props) => {
   return (
     <a href="#id" className={`${s.nav_item} p-5`}>
       <span className="pr-2">{props.children}</span>
-      <p className="text text_type_main-default">{props.text}</p>
+      <p
+        className={`${
+          props.active ? "" : "text_color_inactive"
+        } text text_type_main-default`}
+      >
+        {props.text}
+      </p>
     </a>
   );
 };

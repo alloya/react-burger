@@ -1,0 +1,53 @@
+.ml_auto {
+  margin-left: auto;
+}
+
+.mr_auto {
+  margin-right: auto;
+}
+
+.m_auto {
+  margin: auto;
+}
+
+.d_flex {
+  display: flex;
+}
+
+.w_100 {
+  width: 100%;
+}
+
+.h_100 {
+  height: 100%;
+}
+
+.justify_center {
+  justify-content: center;
+}
+
+.align_center {
+  align-items: center;
+}
+
+.scrollable {
+  overflow: auto;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: #2f2f37;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.mt_0 {
+  margin-top: 0;
+}
+
+.mb_0 {
+  margin-bottom: 0;
+}

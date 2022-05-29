@@ -5,17 +5,17 @@ import s from "./ingredient-item.module.css";
 
 const IngredientItem = ({ image, price, name, counter }) => {
   return (
-    <div className={s.container}>
+    <li className={s.container}>
       {counter && <Counter count={counter} size="small" />}
       <img className={`pb-2`} src={image} alt=""></img>
       <Price price={price} />
-      <p className="text text_type_main-default pt-2">{name}</p>
-    </div>
+      <p className="text text_type_main-default pt-2 pr-2 pl-2">{name}</p>
+    </li>
   );
 };
 
 IngredientItem.propTypes = {
-  img: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   counter: PropTypes.number,

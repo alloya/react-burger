@@ -1,0 +1,41 @@
+.constructor {
+  display: flex;
+  flex-direction: column;
+}
+
+.constructorWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.constructorContainer {
+  display: flex;
+  flex-direction: column;
+  max-height: 48vh;
+  row-gap: 16px;
+  margin: 0;
+}
+
+.constructorContainer li {
+  list-style: none;
+  width: 100%;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: auto;
+}
+
+.constructor-element {
+  width: 100%;
+}
+
+.item {
+  width: 100%;
+}
+
+.item div {
+  width: 100%;
+}

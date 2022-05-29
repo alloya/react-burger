@@ -5,3 +5,8 @@
 .container {
   width: 100%;
 }
+
+.ingredientList {
+  height: 65vh;
+  padding-left: 0;
+}
