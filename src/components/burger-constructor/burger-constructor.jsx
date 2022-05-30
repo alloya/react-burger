@@ -7,6 +7,7 @@ import {
 import s from "./burger-constructor.module.css";
 import Price from "../price/price";
 import styles from "../../utils/styles.module.css";
+import { randomizeId } from "../../utils/utils";
 
 export class BurgerConstructor extends React.Component {
   render() {
@@ -23,13 +24,16 @@ export class BurgerConstructor extends React.Component {
             />
           </div>
           <ul className={`${s.constructorContainer} ${styles.scrollable} pr-2`}>
-            {ingredients.map((item, index) => (
-              <li style={{ display: "flex", alignItems: "center" }}>
+            {ingredients.map((item) => (
+              <li
+                className={`${styles.align_center} ${styles.d_flex}`}
+                key={randomizeId()}
+              >
                 <span className="mr-2">
                   <DragIcon type="primary" />
                 </span>
                 <div className={s.item}>
-                  <ConstructorElement {...item} key={index} />
+                  <ConstructorElement {...item} />
                 </div>
               </li>
             ))}
@@ -61,35 +65,45 @@ export default BurgerConstructor;
 
 const ingredients = [
   {
+    _id: "60666c42cc7b410027a1a9b4",
     text: "Мясо бессмертных моллюсков Protostomia",
     price: 1337,
     thumbnail: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
     isLocked: false,
   },
   {
+    _id: "60666c42cc7b410027a1a9b5",
     text: "Говяжий метеорит",
     price: 3000,
     thumbnail: "https://code.s3.yandex.net/react/code/meat-04-mobile.png",
     isLocked: false,
   },
   {
-    text: "Краторная булка N-200i (верх)",
-    price: 50,
-    thumbnail: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+    _id: "60666c42cc7b410027a1a9b4",
+    text: "Мясо бессмертных моллюсков Protostomia",
+    price: 1337,
+    thumbnail: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
+    isLocked: false,
   },
   {
-    text: "Краторная булка N-200i (верх)",
-    price: 50,
-    thumbnail: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+    _id: "60666c42cc7b410027a1a9b5",
+    text: "Говяжий метеорит",
+    price: 3000,
+    thumbnail: "https://code.s3.yandex.net/react/code/meat-04-mobile.png",
+    isLocked: false,
   },
   {
-    text: "Краторная булка N-200i (верх)",
-    price: 50,
-    thumbnail: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+    _id: "60666c42cc7b410027a1a9b4",
+    text: "Мясо бессмертных моллюсков Protostomia",
+    price: 1337,
+    thumbnail: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
+    isLocked: false,
   },
   {
-    text: "Краторная булка N-200i (верх)",
-    price: 50,
-    thumbnail: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+    _id: "60666c42cc7b410027a1a9b5",
+    text: "Говяжий метеорит",
+    price: 3000,
+    thumbnail: "https://code.s3.yandex.net/react/code/meat-04-mobile.png",
+    isLocked: false,
   },
 ];

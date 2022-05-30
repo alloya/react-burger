@@ -15,8 +15,8 @@ class IngredientType extends React.Component {
       <li className={`${s.ingredientTypeBlock} pb-10`} id={`#${type.type}`}>
         <h2 className="text text_type_main-medium pb-6">{type.text}</h2>
         <ul className={s.ingredientList}>
-          {arr.map((item, index) => (
-            <IngredientItem {...item} key={index} />
+          {arr.map((item) => (
+            <IngredientItem {...item} key={item._id} />
           ))}
         </ul>
       </li>

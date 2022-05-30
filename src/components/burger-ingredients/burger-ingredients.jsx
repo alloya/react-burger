@@ -5,6 +5,7 @@ import styles from "../../utils/styles.module.css";
 import ingredientsData from "../../utils/data";
 import IngredientType from "./ingredient-type/ingredient-type";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
+import { randomizeId } from "../../utils/utils";
 
 class BurgerIngredients extends React.Component {
   render() {
@@ -15,11 +16,11 @@ class BurgerIngredients extends React.Component {
         <section className={`${s.ingredients} mr-5`}>
           <IngredientsTab />
           <ul className={`${s.ingredientList} ${styles.scrollable} mt-10`}>
-            {types.map((item, index) => (
+            {types.map((item) => (
               <IngredientType
                 type={IngredientTypes[item]}
                 data={data}
-                key={index}
+                key={randomizeId()}
               />
             ))}
           </ul>

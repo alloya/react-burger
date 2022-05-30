@@ -18,7 +18,7 @@ const NavItem = (props) => {
 };
 
 NavItem.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.string.isRequired,
 };
 
 export default NavItem;
