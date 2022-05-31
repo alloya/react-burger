@@ -1,0 +1,9 @@
+.container {
+  width: 272px;
+  height: 208px;
+  position: relative;
+  justify-content: center;
+  text-align: center;
+  list-style: none;
+  cursor: pointer;
+}

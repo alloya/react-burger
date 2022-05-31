@@ -1,0 +1,9 @@
+.main {
+  max-width: 1280px;
+  margin: auto;
+  max-height: calc(100vh - 128px);
+}
+
+.content {
+  display: flex;
+}

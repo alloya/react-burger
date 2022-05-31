@@ -1,0 +1,7 @@
+.nav_item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+}
