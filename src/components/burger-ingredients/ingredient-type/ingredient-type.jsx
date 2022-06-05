@@ -12,7 +12,7 @@ class IngredientType extends React.Component {
     const { type, data } = this.props;
     const arr = this.filter(data, type.type);
     return (
-      <li className={`${s.ingredientTypeBlock} pb-10`} id={`#${type.type}`}>
+      <li className={`${s.ingredientTypeBlock} pb-10`} id={type.type}>
         <h2 className="text text_type_main-medium pb-6">{type.text}</h2>
         <ul className={s.ingredientList}>
           {arr.map((item) => (

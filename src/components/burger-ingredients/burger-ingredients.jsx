@@ -8,13 +8,25 @@ import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { randomizeId } from "../../utils/utils";
 
 class BurgerIngredients extends React.Component {
+  state = {
+    scrollTo: 'bun'
+  }
+
+  setScroll = (value) => {
+    this.setState({scrollTo: value})
+  }
+
+  componentDidUpdate() {
+    document.getElementById(this.state.scrollTo).scrollIntoView({ behavior: "smooth"})
+  }
+
   render() {
     const data = ingredientsData;
     const types = Object.keys(IngredientTypes);
     return (
       <>
         <section className={`${s.ingredients} mr-5`}>
-          <IngredientsTab />
+          <IngredientsTab typesList={types} active={this.state.scrollTo} scrollTo={this.setScroll}/>
           <ul className={`${s.ingredientList} ${styles.scrollable} mt-10`}>
             {types.map((item) => (
               <IngredientType
