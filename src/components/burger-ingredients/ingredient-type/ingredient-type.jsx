@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import s from "./ingredient-type.module.css";
+import { IngredientPropTypes } from "../../../utils/prop-types";
 
 const IngredientType = (props) => {
-  debugger  
   const { type, data, openModal, getIngredientDetails } = props;
   const filter = (data, filterType) => {
     return data.filter((item) => item.type === filterType);
@@ -25,8 +25,10 @@ const IngredientType = (props) => {
 }
 
 IngredientType.propTypes = {
-  filterType: PropTypes.object,
-  data: PropTypes.array,
+  type: PropTypes.object.isRequired,
+  data: PropTypes.arrayOf(IngredientPropTypes).isRequired,
+  openModal: PropTypes.func.isRequired,
+  getIngredientDetails: PropTypes.func.isRequired
 };
 
 export default IngredientType;

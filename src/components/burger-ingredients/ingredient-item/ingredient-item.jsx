@@ -4,8 +4,6 @@ import Price from "../../price/price";
 import s from "./ingredient-item.module.css";
 import { IngredientPropTypes } from "../../../utils/prop-types";
 
-//{ image, price, name, counter, openModal, getIngredientDetails }
-
 const IngredientItem = (props) => {
   const ingredient = props.ingredient;
   const openModal = props.openModal;
@@ -28,7 +26,7 @@ const IngredientItem = (props) => {
 
 IngredientItem.propTypes = {
   ingredient: IngredientPropTypes.isRequired,
-  openModal: PropTypes.func,
+  openModal: PropTypes.func.isRequired,
   counter: PropTypes.number,
 };
 

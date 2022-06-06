@@ -3,6 +3,7 @@ import s from './modal.module.css';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from "prop-types";
 
 const modalsContainer = document.querySelector('#modals');
 
@@ -13,7 +14,7 @@ const Modal = ({ title, onOverlayClick, onEscKeydown, children }) => {
     return () => {
       document.removeEventListener('keydown', onEscKeydown);
     };
-  }, []);
+  });
 
   return ReactDOM.createPortal(
     <>
@@ -31,3 +32,9 @@ const Modal = ({ title, onOverlayClick, onEscKeydown, children }) => {
 };
 
 export default Modal;
+
+Modal.propTypes = {
+  title: PropTypes.string,
+  onOverlayClick: PropTypes.func,
+  onEscKeydown: PropTypes.func
+};

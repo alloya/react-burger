@@ -1,6 +1,7 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import styles from "../../../utils/styles.module.css";
+import PropTypes from "prop-types";
 
 const IngredientsTab = (props) => {
   const [current, setCurrent] = React.useState(props.active);
@@ -29,3 +30,9 @@ const IngredientsTab = (props) => {
 };
 
 export default IngredientsTab;
+
+IngredientsTab.propTypes = {
+  typesList: PropTypes.arrayOf(String).isRequired,
+  active: PropTypes.string.isRequired,
+  scrollTo: PropTypes.func.isRequired
+};

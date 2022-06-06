@@ -1,5 +1,6 @@
 import s from './order-details.module.css';
 import checkMark from '../../img/check.svg';
+import PropTypes from "prop-types";
 
 const OrderDetails = (props) => {
   return (
@@ -18,3 +19,7 @@ export default OrderDetails;
 const orderData = {
   orderNumber: '034546'
 }
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.number
+};

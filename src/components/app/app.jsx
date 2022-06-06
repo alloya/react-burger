@@ -8,6 +8,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
+const appUrl = 'https://norma.nomoreparties.space/api/ingredients';
+
 const App = () => {
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = React.useState(false);
   const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = React.useState(false);
@@ -25,7 +27,7 @@ const App = () => {
     const ingredientsData = async () => {
       setState({...state, hasError: false, isLoading: true});
       try {
-        await fetch('https://norma.nomoreparties.space/api/ingredients')
+        await fetch(appUrl)
         .then(res => {
           return res.json()
         })
@@ -34,10 +36,11 @@ const App = () => {
         })
       } catch(e) {
         console.log("error", e);
+        setState({...state, hasError: true, isLoading: false, data: data.data})
       }
     };
     ingredientsData();
-  }, []);
+  }, [setState]);
   const { data, isLoading, hasError } = state;
 
   const closeAllModals = () => {

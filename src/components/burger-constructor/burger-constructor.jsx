@@ -1,4 +1,4 @@
-import React from "react";
+import ingredients from "../../utils/data";
 import {
   Button,
   ConstructorElement,
@@ -8,8 +8,14 @@ import s from "./burger-constructor.module.css";
 import Price from "../price/price";
 import styles from "../../utils/styles.module.css";
 import { randomizeId } from "../../utils/utils";
+import PropTypes from "prop-types";
 
 const BurgerConstructor = (props) => {
+  const countBasket = (ingredients) => {
+    return ingredients.reduce((sum, ingredient) => {
+      return sum + ingredient.price
+    }, 400)
+  }
   return (
     <section className={`${s.constructor} ${styles.ml_auto}`}>
       <div className={s.constructorWrapper}>
@@ -49,7 +55,7 @@ const BurgerConstructor = (props) => {
       </div>
       <div className={`${s.total} pt-10`}>
         <span className="pr-10">
-          <Price price={1} size={"medium"} />
+          <Price price={countBasket(ingredients)} size={"medium"} />
         </span>
         <Button type="primary" size="large" onClick={props.openModal}>
           <p className="text text_type_main-default">Оформить заказ</p>
@@ -59,49 +65,8 @@ const BurgerConstructor = (props) => {
   );
 }
 
-export default BurgerConstructor;
+BurgerConstructor.propTypes = {
+  openModal: PropTypes.func.isRequired
+};
 
-const ingredients = [
-  {
-    _id: "60666c42cc7b410027a1a9b4",
-    text: "Мясо бессмертных моллюсков Protostomia",
-    price: 1337,
-    thumbnail: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
-    isLocked: false,
-  },
-  {
-    _id: "60666c42cc7b410027a1a9b5",
-    text: "Говяжий метеорит",
-    price: 3000,
-    thumbnail: "https://code.s3.yandex.net/react/code/meat-04-mobile.png",
-    isLocked: false,
-  },
-  {
-    _id: "60666c42cc7b410027a1a9b4",
-    text: "Мясо бессмертных моллюсков Protostomia",
-    price: 1337,
-    thumbnail: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
-    isLocked: false,
-  },
-  {
-    _id: "60666c42cc7b410027a1a9b5",
-    text: "Говяжий метеорит",
-    price: 3000,
-    thumbnail: "https://code.s3.yandex.net/react/code/meat-04-mobile.png",
-    isLocked: false,
-  },
-  {
-    _id: "60666c42cc7b410027a1a9b4",
-    text: "Мясо бессмертных моллюсков Protostomia",
-    price: 1337,
-    thumbnail: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
-    isLocked: false,
-  },
-  {
-    _id: "60666c42cc7b410027a1a9b5",
-    text: "Говяжий метеорит",
-    price: 3000,
-    thumbnail: "https://code.s3.yandex.net/react/code/meat-04-mobile.png",
-    isLocked: false,
-  },
-];
+export default BurgerConstructor;
