@@ -6,7 +6,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const modalsContainer = document.querySelector('#modals');
 
-const Modal = ({ onOverlayClick, onEscKeydown, children }) => {
+const Modal = ({ title, onOverlayClick, onEscKeydown, children }) => {
   useEffect(() => {
     document.addEventListener('keydown', onEscKeydown);
 
@@ -15,16 +15,15 @@ const Modal = ({ onOverlayClick, onEscKeydown, children }) => {
     };
   }, []);
 
-  // Рендерим модалку в соответствующий DOM-элемент
   return ReactDOM.createPortal(
     <>
-      
-        <div className={`${s.modal} p-10`}>
-          <div className={s.closeButton} onClick={onOverlayClick} >
-            <CloseIcon type="primary" />
-          </div>
-          {children}
+      <div className={`${s.modal} p-10`}>
+        {title && <h3>{title}</h3>}
+        <div className={s.closeButton} onClick={onOverlayClick} >
+          <CloseIcon type="primary" />
         </div>
+        {children}
+      </div>
       <ModalOverlay onClick={onOverlayClick} />
     </>,
     modalsContainer
