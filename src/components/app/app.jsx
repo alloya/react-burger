@@ -7,6 +7,7 @@ import Title from "../title/title";
 import s from "./app.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 
 
@@ -15,10 +16,11 @@ const App = () => {
   const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = React.useState(false);
 
   const [ingredientDetails, setIngredientDetails] = React.useState({});
-
   const updateIngredient = (newData) => {
     setIngredientDetails(newData);
   }
+
+
 
   const closeAllModals = () => {
     setIsOrderDetailsOpened(false);
@@ -35,19 +37,24 @@ const App = () => {
       <div className={s.main}>
         <Title text="Собери бургер" />
         <div className={s.content}>
-          <BurgerIngredients 
-            openModal={setIsIngredientDetailsOpened} 
+          <BurgerIngredients
+            openModal={setIsIngredientDetailsOpened}
             getDetails={updateIngredient} />
-          <BurgerConstructor />
+          <BurgerConstructor
+            openModal={setIsOrderDetailsOpened}
+          />
         </div>
       </div>
-      {isIngredientDetailsOpened &&
-        <Modal
-          onOverlayClick={closeAllModals}
-          onEscKeydown={handleEscKeydown}
-        >
-          <IngredientDetails {...ingredientDetails} /> {/* вложенное содержимое, идет в пропс children */}
-        </Modal>}
+      {(isIngredientDetailsOpened || isOrderDetailsOpened) &&
+        <div className={s.modalWrapper}>
+          <Modal
+            onOverlayClick={closeAllModals}
+            onEscKeydown={handleEscKeydown}
+          >
+            {isIngredientDetailsOpened && <IngredientDetails {...ingredientDetails} />}
+            {isOrderDetailsOpened && <OrderDetails />}
+          </Modal>
+        </div>}
     </>
   );
 }

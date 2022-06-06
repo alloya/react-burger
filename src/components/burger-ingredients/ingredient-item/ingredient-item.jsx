@@ -13,9 +13,10 @@ const IngredientItem = (props) => {
   let counter = props.counter;
 
   return (
-    <li className={s.container} onClick={() => {
-        openModal(true);
-        getIngredientDetails(ingredient);
+    <li className={s.container} onClick={(e) => {
+      e.stopPropagation();
+      getIngredientDetails(ingredient);
+      openModal(true);
     }}>
       {counter && <Counter count={counter} size="small" />}
       <img className={`pb-2`} src={ingredient.image} alt={ingredient.name}></img>

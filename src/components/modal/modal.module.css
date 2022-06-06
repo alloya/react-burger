@@ -1,17 +1,17 @@
 .modal {
+  display: flex;
   width: 100%;
   max-width: 720px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
   background: #1C1C21;
   margin: auto;
-  align-items: center;
-  justify-content: center;
   box-sizing: border-box;
   border-radius: 20px;
-  position: relative;
+  position: fixed;
   z-index: 10;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .closeButton {
@@ -19,4 +19,8 @@
   top: 60px;
   right: 40px;
   cursor: pointer;
+}
+
+.modalWrapper {
+  position: fixed;
 }
