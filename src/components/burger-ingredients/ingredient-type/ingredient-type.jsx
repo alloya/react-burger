@@ -9,14 +9,16 @@ class IngredientType extends React.Component {
   }
 
   render() {
-    const { type, data } = this.props;
+    const { type, data, openModal, getIngredientDetails } = this.props;
     const arr = this.filter(data, type.type);
     return (
       <li className={`${s.ingredientTypeBlock} pb-10`} id={type.type}>
         <h2 className="text text_type_main-medium pb-6">{type.text}</h2>
         <ul className={s.ingredientList}>
           {arr.map((item) => (
-            <IngredientItem {...item} key={item._id} />
+            <IngredientItem ingredient={item} key={item._id} 
+              openModal={openModal} 
+              getIngredientDetails={getIngredientDetails}/>
           ))}
         </ul>
       </li>

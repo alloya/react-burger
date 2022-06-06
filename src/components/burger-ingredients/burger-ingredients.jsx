@@ -26,13 +26,18 @@ class BurgerIngredients extends React.Component {
     return (
       <>
         <section className={`${s.ingredients} mr-5`}>
-          <IngredientsTab typesList={types} active={this.state.scrollTo} scrollTo={this.setScroll}/>
+          <IngredientsTab 
+            typesList={types} 
+            active={this.state.scrollTo} 
+            scrollTo={this.setScroll}/>
           <ul className={`${s.ingredientList} ${styles.scrollable} mt-10`}>
             {types.map((item) => (
               <IngredientType
                 type={IngredientTypes[item]}
                 data={data}
                 key={randomizeId()}
+                openModal={this.props.openModal}
+                getIngredientDetails = {this.props.getDetails}
               />
             ))}
           </ul>
