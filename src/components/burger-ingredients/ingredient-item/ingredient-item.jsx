@@ -11,8 +11,7 @@ const IngredientItem = (props) => {
   let counter = props.counter;
 
   return (
-    <li className={s.container} onClick={(e) => {
-      e.stopPropagation();
+    <li className={s.container} onClick={() => {
       getIngredientDetails(ingredient);
       openModal(true);
     }}>

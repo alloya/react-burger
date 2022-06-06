@@ -36,11 +36,11 @@ const App = () => {
         })
       } catch(e) {
         console.log("error", e);
-        setState({...state, hasError: true, isLoading: false, data: data.data})
+        setState({...state, hasError: true, isLoading: false, data: []})
       }
     };
     ingredientsData();
-  }, [setState]);
+  }, []);
   const { data, isLoading, hasError } = state;
 
   const closeAllModals = () => {
