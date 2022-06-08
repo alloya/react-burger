@@ -27,15 +27,15 @@ const App = () => {
 
   useEffect(() => {
     const ingredientsData = async () => {
-      setState({...state, hasError: false, isLoading: true});
+      setState({ ...state, hasError: false, isLoading: true });
       getIngredientsData()
         .then(data => {
-          setState({...state, hasError: false, isLoading: false, data: data.data})
+          setState({ ...state, hasError: false, isLoading: false, data: data.data })
         })
-      .catch(e => {
-        console.log("error", e);
-        setState({...state, hasError: true, isLoading: false, data: []})
-      })
+        .catch(e => {
+          console.log("error", e);
+          setState({ ...state, hasError: true, isLoading: false, data: [] })
+        })
     };
     ingredientsData();
   }, []);
@@ -55,15 +55,15 @@ const App = () => {
         {isLoading && 'Загрузка...'}
         {hasError && 'Произошла ошибка'}
         {!isLoading && !hasError && data.length &&
-        <div className={s.content}>
-          <BurgerIngredients
-            ingredientsData={data}
-            openModal={setIsIngredientDetailsOpened}
-            getDetails={updateIngredient} />
-          <BurgerConstructor
-            openModal={setIsOrderDetailsOpened}
-          />
-        </div>}
+          <div className={s.content}>
+            <BurgerIngredients
+              ingredientsData={data}
+              openModal={setIsIngredientDetailsOpened}
+              getDetails={updateIngredient} />
+            <BurgerConstructor
+              openModal={setIsOrderDetailsOpened}
+            />
+          </div>}
       </div>
       {(isIngredientDetailsOpened || isOrderDetailsOpened) &&
         <div className={s.modalWrapper}>

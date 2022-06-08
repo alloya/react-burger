@@ -24,3 +24,9 @@
 h2 {
   align-self: start;
 }
+
+
+.ingredientImage {
+  height: 240px;
+  object-fit: cover;
+}
