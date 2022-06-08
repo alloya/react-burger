@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
 import s from "./burger-ingredients.module.css";
 import styles from "../../utils/styles.module.css";
@@ -11,7 +11,7 @@ import { IngredientPropTypes } from "../../utils/prop-types";
 const BurgerIngredients = (props) => {
   const data = props.ingredientsData;
   const types = Object.keys(IngredientTypes);
-  const [activeState, setState] = React.useState(types[0]);
+  const [activeState, setState] = useState(types[0]);
 
   const setScroll = (value) => {
     setState(value);
@@ -44,7 +44,7 @@ const BurgerIngredients = (props) => {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  ingredientsData: PropTypes.arrayOf(IngredientPropTypes).isRequired,
+  ingredientsData: PropTypes.arrayOf(IngredientPropTypes.isRequired).isRequired,
   openModal: PropTypes.func.isRequired,
   getDetails: PropTypes.func.isRequired
 };

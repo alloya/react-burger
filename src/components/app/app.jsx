@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -7,49 +7,44 @@ import s from "./app.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import { getIngredientsData } from "../../utils/api";
 
 const appUrl = 'https://norma.nomoreparties.space/api/ingredients';
 
 const App = () => {
-  const [isOrderDetailsOpened, setIsOrderDetailsOpened] = React.useState(false);
-  const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = React.useState(false);
-  const [state, setState] = React.useState({
+  const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
+  const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = useState(false);
+  const [state, setState] = useState({
     isLoading: false,
     hasError: false,
     data: []
   });
 
-  const [ingredientDetails, setIngredientDetails] = React.useState({});
+  const [ingredientDetails, setIngredientDetails] = useState({});
   const updateIngredient = (newData) => {
     setIngredientDetails(newData);
   }
+
   useEffect(() => {
     const ingredientsData = async () => {
       setState({...state, hasError: false, isLoading: true});
-      try {
-        await fetch(appUrl)
-        .then(res => {
-          return res.json()
-        })
+      getIngredientsData()
         .then(data => {
           setState({...state, hasError: false, isLoading: false, data: data.data})
         })
-      } catch(e) {
+      .catch(e => {
         console.log("error", e);
         setState({...state, hasError: true, isLoading: false, data: []})
-      }
+      })
     };
     ingredientsData();
   }, []);
+
   const { data, isLoading, hasError } = state;
 
   const closeAllModals = () => {
     setIsOrderDetailsOpened(false);
     setIsIngredientDetailsOpened(false);
-  };
-
-  const handleEscKeydown = (event) => {
-    event.key === "Escape" && closeAllModals();
   };
 
   return (
@@ -74,7 +69,6 @@ const App = () => {
         <div className={s.modalWrapper}>
           <Modal
             onOverlayClick={closeAllModals}
-            onEscKeydown={handleEscKeydown}
           >
             {isIngredientDetailsOpened && <IngredientDetails {...ingredientDetails} />}
             {isOrderDetailsOpened && <OrderDetails />}
