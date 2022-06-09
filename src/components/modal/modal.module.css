@@ -1,0 +1,22 @@
+.modal {
+  display: flex;
+  width: 100%;
+  max-width: 720px;
+  background: #1C1C21;
+  margin: auto;
+  box-sizing: border-box;
+  border-radius: 20px;
+  position: fixed;
+  z-index: 10;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.closeButton {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  cursor: pointer;
+}

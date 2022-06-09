@@ -39,3 +39,7 @@
 .item div {
   width: 100%;
 }
+
+.bun {
+  align-self: end;
+}

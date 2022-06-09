@@ -1,0 +1,14 @@
+.orderDetails {
+  padding: 80px 60px;
+  text-align: center;
+}
+
+.orderDetails h1 {
+  text-shadow: 0 0 1em blue, 0 0 0.2em blue;
+}
+
+.accepted {
+  padding: 70px 0;
+  height: 102px;
+  width: 107px;
+}
