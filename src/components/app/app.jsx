@@ -19,6 +19,7 @@ const App = () => {
     hasError: false,
     data: []
   });
+  const [orderNumber, setOrderNumber] = useState(null)
 
   const [ingredientDetails, setIngredientDetails] = useState({});
   const updateIngredient = (newData) => {
@@ -34,7 +35,6 @@ const App = () => {
         .then(data => {
           setState({ ...state, hasError: false, isLoading: false, data: data.data });
           setConstructorItems(createBurger(data.data));
-          console.log(constructorItems);
         })
         .catch(e => {
           console.log("error", e);
@@ -50,7 +50,7 @@ const App = () => {
     setIsOrderDetailsOpened(false);
     setIsIngredientDetailsOpened(false);
   };
-  console.log(constructorItems);
+
   return (
     <>
       <Header />
@@ -67,6 +67,7 @@ const App = () => {
             <ConstructorContext.Provider value={{constructorItems, setConstructorItems}}>
               <BurgerConstructor
                 openModal={setIsOrderDetailsOpened}
+                setOrderNumber={setOrderNumber}
               />
             </ConstructorContext.Provider>
           </div>}
@@ -77,7 +78,7 @@ const App = () => {
             onOverlayClick={closeAllModals}
           >
             {isIngredientDetailsOpened && <IngredientDetails {...ingredientDetails} />}
-            {isOrderDetailsOpened && <OrderDetails />}
+            {isOrderDetailsOpened && <OrderDetails orderNumber={orderNumber} />}
           </Modal>
         </div>}
     </>

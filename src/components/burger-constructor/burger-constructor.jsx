@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { useMemo, useContext } from "react";
 import { ConstructorContext } from '../../services/constructor-context';
+import { postOrder } from "../../utils/api";
 
 const BurgerConstructor = (props) => {
   const {constructorItems, setConstructorItems} = useContext(ConstructorContext);
@@ -23,6 +24,15 @@ const BurgerConstructor = (props) => {
   const bun = useMemo (() => constructorItems.find(el => el.type && el.type === IngredientTypes.bun.type), [constructorItems]);
 
   const notBuns = useMemo (() => constructorItems.filter(el => el.type && el.type !== IngredientTypes.bun.type), [constructorItems]);
+
+  const submitOrder = async () => {
+    postOrder(constructorItems.map(el => el._id))
+      .then(data => {
+        debugger
+        props.setOrderNumber(data.order.number);
+        props.openModal(true)
+      })
+  }
 
   return (
     <section className={`${s.constructor} ${styles.ml_auto}`}>
@@ -70,7 +80,7 @@ const BurgerConstructor = (props) => {
         <span className="pr-10">
           <Price price={useMemo(() =>countBasket(constructorItems), [constructorItems])} size={"medium"} />
         </span>
-        <Button type="primary" size="large" onClick={props.openModal}>
+        <Button type="primary" size="large" onClick={submitOrder}>
           <p className="text text_type_main-default">Оформить заказ</p>
         </Button>
       </div>
