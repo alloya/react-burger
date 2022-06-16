@@ -16,21 +16,29 @@ const BurgerConstructor = (props) => {
   const {constructorItems, setConstructorItems} = useContext(ConstructorContext);
 
   const countBasket = (ingredients) => {
-    return ingredients.reduce((sum, ingredient) => {
-      return sum + ingredient.price
-    }, 0)
+    if (ingredients.length) {
+      return [...buns, ...notBuns].reduce((sum, ingredient) => {
+        return sum + ingredient.price
+      }, 0)
+    }
+    return 0;
   }
 
-  const bun = useMemo (() => constructorItems.find(el => el.type && el.type === IngredientTypes.bun.type), [constructorItems]);
+  const buns = useMemo (() => {
+    const bun = constructorItems.find(el => el.type && el.type === IngredientTypes.bun.type);
+      return [bun, bun];
+    }, [constructorItems]);
 
   const notBuns = useMemo (() => constructorItems.filter(el => el.type && el.type !== IngredientTypes.bun.type), [constructorItems]);
 
   const submitOrder = async () => {
     postOrder(constructorItems.map(el => el._id))
       .then(data => {
-        debugger
         props.setOrderNumber(data.order.number);
-        props.openModal(true)
+        props.openModal(true);
+      })
+      .catch(e => {
+        console.log("error", e);
       })
   }
 
@@ -38,10 +46,10 @@ const BurgerConstructor = (props) => {
     <section className={`${s.constructor} ${styles.ml_auto}`}>
       <div className={s.constructorWrapper}>
         <div className={`${styles.mt_0} ${s.bun} pr-5 pb-4`}>
-          {bun && <ConstructorElement
-            text={bun.name}
-            thumbnail={bun.image_mobile}
-            price={bun.price}
+          {buns && buns[0] && <ConstructorElement
+            text={buns[0].name}
+            thumbnail={buns[0].image_mobile}
+            price={buns[0].price}
             type="top"
             isLocked={true}
           />}
@@ -67,10 +75,10 @@ const BurgerConstructor = (props) => {
             ))}
           </ul>}
         <div className={`${s.bun} ${styles.mb_0} pr-5 pt-4`}>
-        {bun && <ConstructorElement
-            text={bun.name}
-            thumbnail={bun.image_mobile}
-            price={bun.price}
+        {buns && buns[1] && <ConstructorElement
+            text={buns[1].name}
+            thumbnail={buns[1].image_mobile}
+            price={buns[1].price}
             type="bottom"
             isLocked={true}
           />}
