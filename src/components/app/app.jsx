@@ -8,8 +8,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { getIngredientsData } from "../../utils/api";
-
-const appUrl = 'https://norma.nomoreparties.space/api/ingredients';
+import { ConstructorContext } from "../../services/constructor-context";
+import { createBurger } from "../../utils/utils";
 
 const App = () => {
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
@@ -25,12 +25,16 @@ const App = () => {
     setIngredientDetails(newData);
   }
 
+  const [constructorItems, setConstructorItems] = useState([]);
+
   useEffect(() => {
     const ingredientsData = async () => {
       setState({ ...state, hasError: false, isLoading: true });
       getIngredientsData()
         .then(data => {
-          setState({ ...state, hasError: false, isLoading: false, data: data.data })
+          setState({ ...state, hasError: false, isLoading: false, data: data.data });
+          setConstructorItems(createBurger(data.data));
+          console.log(constructorItems);
         })
         .catch(e => {
           console.log("error", e);
@@ -46,7 +50,7 @@ const App = () => {
     setIsOrderDetailsOpened(false);
     setIsIngredientDetailsOpened(false);
   };
-
+  console.log(constructorItems);
   return (
     <>
       <Header />
@@ -60,9 +64,11 @@ const App = () => {
               ingredientsData={data}
               openModal={setIsIngredientDetailsOpened}
               getDetails={updateIngredient} />
-            <BurgerConstructor
-              openModal={setIsOrderDetailsOpened}
-            />
+            <ConstructorContext.Provider value={{constructorItems, setConstructorItems}}>
+              <BurgerConstructor
+                openModal={setIsOrderDetailsOpened}
+              />
+            </ConstructorContext.Provider>
           </div>}
       </div>
       {(isIngredientDetailsOpened || isOrderDetailsOpened) &&
