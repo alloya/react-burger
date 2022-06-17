@@ -27,6 +27,7 @@ IngredientItem.propTypes = {
   ingredient: IngredientPropTypes.isRequired,
   openModal: PropTypes.func.isRequired,
   counter: PropTypes.number,
+  getIngredientDetails: PropTypes.func.isRequired
 };
 
 export default IngredientItem;
