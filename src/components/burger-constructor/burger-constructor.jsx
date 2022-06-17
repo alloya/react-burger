@@ -47,7 +47,7 @@ const BurgerConstructor = (props) => {
       <div className={s.constructorWrapper}>
         <div className={`${styles.mt_0} ${s.bun} pr-5 pb-4`}>
           {buns && buns[0] && <ConstructorElement
-            text={buns[0].name}
+            text={buns[0].name + ' (верх)'}
             thumbnail={buns[0].image_mobile}
             price={buns[0].price}
             type="top"
@@ -76,7 +76,7 @@ const BurgerConstructor = (props) => {
           </ul>}
         <div className={`${s.bun} ${styles.mb_0} pr-5 pt-4`}>
         {buns && buns[1] && <ConstructorElement
-            text={buns[1].name}
+            text={buns[1].name + ' (низ)'}
             thumbnail={buns[1].image_mobile}
             price={buns[1].price}
             type="bottom"

@@ -75,9 +75,9 @@ const App = () => {
       {(isIngredientDetailsOpened || isOrderDetailsOpened) &&
         <div className={s.modalWrapper}>
           <Modal
-            onOverlayClick={closeAllModals}
+            onClose={closeAllModals}
           >
-            {isIngredientDetailsOpened && <IngredientDetails {...ingredientDetails} />}
+            {isIngredientDetailsOpened && <IngredientDetails ingredient={ingredientDetails} />}
             {isOrderDetailsOpened && <OrderDetails orderNumber={orderNumber} />}
           </Modal>
         </div>}

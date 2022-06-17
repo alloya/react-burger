@@ -1,13 +1,15 @@
 const appUrl = 'https://norma.nomoreparties.space/api';
 
+function checkResponse(res) {
+  if (!res.ok) {
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  return res.json();
+}
+
 export const getIngredientsData = () => {
   return fetch(`${appUrl}/ingredients`)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Ответ сети не был ok')
-      }
-      return res.json()
-    })
+    .then(checkResponse)
 }
 
 export const postOrder = (data) => {
@@ -20,10 +22,5 @@ export const postOrder = (data) => {
       "ingredients": data
     })
   })
-  .then(res => {
-    if (!res.ok) {
-      throw new Error('Ответ сети не был ok')
-    }
-    return res.json()
-  })
+  .then(checkResponse)
 }

@@ -1,7 +1,8 @@
 import s from './ingredient-details.module.css';
+import { IngredientPropTypes } from '../../utils/prop-types';
 
 const IngredientDetails = (props) => {
-  const { name, calories, proteins, fat, carbohydrates, image_large } = props;
+  const { name, calories, proteins, fat, carbohydrates, image_large } = props.ingredient;
   return (
     <div className={s.ingredientDetails}>
       <h2 className='text text_type_main-large'>Детали ингредиента</h2>
@@ -20,3 +21,7 @@ const IngredientDetails = (props) => {
 }
 
 export default IngredientDetails;
+
+IngredientDetails.propTypes = {
+  ingredient: IngredientPropTypes.isRequired
+};
