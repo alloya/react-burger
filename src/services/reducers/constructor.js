@@ -1,11 +1,12 @@
 import {
   DELETE_ITEM,
   ADD_ITEM,
-  CLEAR_CONSTRUCTOR
+  CLEAR_CONSTRUCTOR,
+  FILL_CONSTRUCTOR
 } from '../actions/constructor';
 
 const constructorInitialState = {
-  items: []
+  constructorItems: []
 }
 
 export const constructorReducer = (state = constructorInitialState, action) => {
@@ -13,20 +14,26 @@ export const constructorReducer = (state = constructorInitialState, action) => {
     case ADD_ITEM: {
       return {
         ...state,
-        items: [...state.items, action.element]
+        constructorItems: [...state.constructorItems, action.element]
       };
     }
     case DELETE_ITEM: {
       return {
         ...state,
-        items: [...state.items].filter(item => item._id !== action.item._id)
+        constructorItems: [...state.constructorItems].filter(item => item._id !== action.item._id)
       };
     }
     case CLEAR_CONSTRUCTOR: {
       return {
         ...state,
-        items: []
+        constructorItems: []
       }
+    }
+    case FILL_CONSTRUCTOR: {
+      return {
+        ...state,
+        constructorItems: action.elements
+      };
     }
     default: {
       return state;

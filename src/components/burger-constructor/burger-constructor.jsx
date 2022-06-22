@@ -8,15 +8,26 @@ import Price from "../price/price";
 import styles from "../../utils/styles.module.css";
 import PropTypes from "prop-types";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
-import { useMemo, useContext } from "react";
-import { ConstructorContext } from '../../services/constructor-context';
+import { useMemo, useEffect } from "react";
 import { postOrder } from "../../utils/api";
+import { useDispatch, useSelector } from "react-redux";
+import { createBurger } from "../../utils/utils";
+import { FILL_CONSTRUCTOR } from "../../services/actions/constructor";
 
 const BurgerConstructor = (props) => {
-  const {constructorItems, setConstructorItems} = useContext(ConstructorContext);
+  const dispatch = useDispatch();
+  const { ingredients } = useSelector(store => store.ingredients);
+  const { constructorItems } = useSelector(store => store.constructor);
+
+  useEffect(
+    () => {
+      const elements = createBurger(ingredients);
+      dispatch({type: FILL_CONSTRUCTOR, elements})
+    }, [ingredients]
+  )
 
   const countBasket = (ingredients) => {
-    if (ingredients.length) {
+    if (ingredients && ingredients.length) {
       return [...buns, ...notBuns].reduce((sum, ingredient) => {
         return sum + ingredient.price
       }, 0)
@@ -25,11 +36,19 @@ const BurgerConstructor = (props) => {
   }
 
   const buns = useMemo (() => {
-    const bun = constructorItems.find(el => el.type && el.type === IngredientTypes.bun.type);
+    if (constructorItems && constructorItems.length) {
+      const bun = constructorItems.find(el => el.type && el.type === IngredientTypes.bun.type);
       return [bun, bun];
-    }, [constructorItems]);
+    }
+    return null;
+  }, [constructorItems]);
 
-  const notBuns = useMemo (() => constructorItems.filter(el => el.type && el.type !== IngredientTypes.bun.type), [constructorItems]);
+  const notBuns = useMemo (() => {
+    if (constructorItems && constructorItems.length) {
+      return constructorItems.filter(el => el.type && el.type !== IngredientTypes.bun.type)
+    }
+    return null;
+  }, [constructorItems]);
 
   const submitOrder = async () => {
     postOrder(constructorItems.map(el => el._id))

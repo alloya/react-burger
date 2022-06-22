@@ -7,18 +7,24 @@ import s from "./app.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { getIngredientsData } from "../../utils/api";
-import { ConstructorContext } from "../../services/constructor-context";
-import { createBurger } from "../../utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const modal = useSelector(store => store.modal);
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.ingredients);
+
+  useEffect(
+    () => {
+      dispatch(getIngredients())
+    }, [dispatch]
+  );
+
+
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
   const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = useState(false);
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    data: []
-  });
+
   const [orderNumber, setOrderNumber] = useState(null)
 
   const [ingredientDetails, setIngredientDetails] = useState({});
@@ -27,24 +33,6 @@ const App = () => {
   }
 
   const [constructorItems, setConstructorItems] = useState([]);
-
-  useEffect(() => {
-    const ingredientsData = async () => {
-      setState({ ...state, hasError: false, isLoading: true });
-      getIngredientsData()
-        .then(data => {
-          setState({ ...state, hasError: false, isLoading: false, data: data.data });
-          setConstructorItems(createBurger(data.data));
-        })
-        .catch(e => {
-          console.log("error", e);
-          setState({ ...state, hasError: true, isLoading: false, data: [] })
-        })
-    };
-    ingredientsData();
-  }, []);
-
-  const { data, isLoading, hasError } = state;
 
   const closeAllModals = () => {
     setIsOrderDetailsOpened(false);
@@ -56,21 +44,19 @@ const App = () => {
       <Header />
       <div className={s.main}>
         <Title text="Собери бургер" />
-        {isLoading && 'Загрузка...'}
-        {hasError && 'Произошла ошибка'}
-        {!isLoading && !hasError && data.length &&
+        {ingredientsRequest && 'Загрузка...'}
+        {ingredientsFailed && 'Произошла ошибка'}
+        {!ingredientsRequest && !ingredientsFailed && ingredients.length &&
           <div className={s.content}>
             <BurgerIngredients
-              ingredientsData={data}
               openModal={setIsIngredientDetailsOpened}
               getDetails={updateIngredient} />
-            <ConstructorContext.Provider value={{constructorItems, setConstructorItems}}>
-              <BurgerConstructor
-                openModal={setIsOrderDetailsOpened}
-                setOrderNumber={setOrderNumber}
-              />
-            </ConstructorContext.Provider>
-          </div>}
+            <BurgerConstructor
+              openModal={setIsOrderDetailsOpened}
+              setOrderNumber={setOrderNumber}
+            />
+          </div>
+        }
       </div>
       {(isIngredientDetailsOpened || isOrderDetailsOpened) &&
         <div className={s.modalWrapper}>

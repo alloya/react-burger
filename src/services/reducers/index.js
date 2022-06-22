@@ -8,7 +8,7 @@ import { modalReducer } from './modal';
 
 export const rootReducer = 
 combineReducers({
-  ingredient: ingredientsReducer,
+  ingredients: ingredientsReducer,
   constructor: constructorReducer,
   checkout: checkoutReducer,
   modal: modalReducer

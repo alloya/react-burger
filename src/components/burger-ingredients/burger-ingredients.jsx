@@ -7,9 +7,12 @@ import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { randomizeId } from "../../utils/utils";
 import PropTypes from "prop-types";
 import { IngredientPropTypes } from "../../utils/prop-types";
+import { useSelector } from "react-redux";
 
 const BurgerIngredients = (props) => {
-  const data = props.ingredientsData;
+  const { ingredients, currentTab } = useSelector(store => store.ingredients);
+
+  //const data = props.ingredientsData;
   const types = Object.keys(IngredientTypes);
   const [activeState, setState] = useState(types[0]);
 
@@ -20,6 +23,7 @@ const BurgerIngredients = (props) => {
 
   return (
     <>
+      {ingredients.length && 
       <section className={`${s.ingredients} mr-5`}>
         <IngredientsTab
           typesList={types}
@@ -29,14 +33,13 @@ const BurgerIngredients = (props) => {
           {types.map((item) => (
             <IngredientType
               type={IngredientTypes[item]}
-              data={data}
               key={randomizeId()}
               openModal={props.openModal}
               getIngredientDetails={props.getDetails}
             />
           ))}
         </ul>
-      </section>
+      </section>}
     </>
   );
 }
@@ -44,7 +47,7 @@ const BurgerIngredients = (props) => {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  ingredientsData: PropTypes.arrayOf(IngredientPropTypes.isRequired).isRequired,
+  //ingredientsData: PropTypes.arrayOf(IngredientPropTypes.isRequired).isRequired,
   openModal: PropTypes.func.isRequired,
   getDetails: PropTypes.func.isRequired
 };

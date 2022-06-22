@@ -1,3 +1,4 @@
 export const ADD_ITEM = 'ADD_ITEM';
 export const DELETE_ITEM = 'DELETE_ITEM';
 export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
+export const FILL_CONSTRUCTOR = 'FILL_CONSTRUCTOR';
