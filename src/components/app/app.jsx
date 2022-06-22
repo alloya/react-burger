@@ -8,8 +8,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { getIngredientsData } from "../../utils/api";
-
-const appUrl = 'https://norma.nomoreparties.space/api/ingredients';
+import { ConstructorContext } from "../../services/constructor-context";
+import { createBurger } from "../../utils/utils";
 
 const App = () => {
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
@@ -19,18 +19,22 @@ const App = () => {
     hasError: false,
     data: []
   });
+  const [orderNumber, setOrderNumber] = useState(null)
 
   const [ingredientDetails, setIngredientDetails] = useState({});
   const updateIngredient = (newData) => {
     setIngredientDetails(newData);
   }
 
+  const [constructorItems, setConstructorItems] = useState([]);
+
   useEffect(() => {
     const ingredientsData = async () => {
       setState({ ...state, hasError: false, isLoading: true });
       getIngredientsData()
         .then(data => {
-          setState({ ...state, hasError: false, isLoading: false, data: data.data })
+          setState({ ...state, hasError: false, isLoading: false, data: data.data });
+          setConstructorItems(createBurger(data.data));
         })
         .catch(e => {
           console.log("error", e);
@@ -60,18 +64,21 @@ const App = () => {
               ingredientsData={data}
               openModal={setIsIngredientDetailsOpened}
               getDetails={updateIngredient} />
-            <BurgerConstructor
-              openModal={setIsOrderDetailsOpened}
-            />
+            <ConstructorContext.Provider value={{constructorItems, setConstructorItems}}>
+              <BurgerConstructor
+                openModal={setIsOrderDetailsOpened}
+                setOrderNumber={setOrderNumber}
+              />
+            </ConstructorContext.Provider>
           </div>}
       </div>
       {(isIngredientDetailsOpened || isOrderDetailsOpened) &&
         <div className={s.modalWrapper}>
           <Modal
-            onOverlayClick={closeAllModals}
+            onClose={closeAllModals}
           >
-            {isIngredientDetailsOpened && <IngredientDetails {...ingredientDetails} />}
-            {isOrderDetailsOpened && <OrderDetails />}
+            {isIngredientDetailsOpened && <IngredientDetails ingredient={ingredientDetails} />}
+            {isOrderDetailsOpened && <OrderDetails orderNumber={orderNumber} />}
           </Modal>
         </div>}
     </>

@@ -7,10 +7,10 @@ import PropTypes from "prop-types";
 
 const modalsContainer = document.querySelector('#modals');
 
-const Modal = ({ title, onOverlayClick, children }) => {
+const Modal = ({ title, onClose, children }) => {
 
   const handleEscKeydown = (event) => {
-    event.key === "Escape" && onOverlayClick();
+    event.key === "Escape" && onClose();
   };
 
   useEffect(() => {
@@ -25,12 +25,12 @@ const Modal = ({ title, onOverlayClick, children }) => {
     <>
       <div className={`${s.modal} p-10`}>
         {title && <h3>{title}</h3>}
-        <div className={s.closeButton} onClick={onOverlayClick} >
+        <div className={s.closeButton} onClick={onClose} >
           <CloseIcon type="primary" />
         </div>
         {children}
       </div>
-      <ModalOverlay onClick={onOverlayClick} />
+      <ModalOverlay onClick={onClose} />
     </>,
     modalsContainer
   );
@@ -39,6 +39,6 @@ const Modal = ({ title, onOverlayClick, children }) => {
 export default Modal;
 
 Modal.propTypes = {
-  title: PropTypes.string,
-  onOverlayClick: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired
 };
