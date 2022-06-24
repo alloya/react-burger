@@ -22,8 +22,11 @@ const BurgerConstructor = () => {
 
   useEffect(
     () => {
-      const elements = createBurger(ingredients);
-      dispatch({type: FILL_CONSTRUCTOR, elements})
+      if (ingredients.length) {
+        const elements = createBurger(ingredients);
+        dispatch({type: FILL_CONSTRUCTOR, elements})
+      }
+
     }, [ingredients]
   )
 
@@ -54,7 +57,6 @@ const BurgerConstructor = () => {
   const submitOrder = async () => {
     postOrder(constructorItems.map(el => el._id))
       .then(data => {
-        debugger
         dispatch({type: ADD_ORDER_NUMBER_TO_MODAL, data})
         dispatch({type: SHOW_ORDER_DETAILS_POPUP})
       })

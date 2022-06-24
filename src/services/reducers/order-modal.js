@@ -7,7 +7,6 @@ const orderModalInitialState = {
 export const orderModalReducer = (state = orderModalInitialState, action) => {
   switch (action.type) {
     case ADD_ORDER_NUMBER_TO_MODAL: {
-      debugger
       return {
         ...state,
         orderNumber: action.data.order.number
