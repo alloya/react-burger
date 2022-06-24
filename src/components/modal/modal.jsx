@@ -3,14 +3,27 @@ import s from './modal.module.css';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from 'react-redux';
+import { CLOSE_ALL_POPUPS } from '../../services/actions/modal';
+import { REMOVE_INGREDIENT_INFO_TO_MODAL } from '../../services/actions/ingredient-modal';
 
 const modalsContainer = document.querySelector('#modals');
 
-const Modal = ({ title, onClose, children }) => {
+const Modal = ({ children }) => {
+
+  const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
+  console.log(ingredientModalOpened, orderModalOpened)
+  const dispatch = useDispatch();
+
+  const closeModal = () => {
+    if (ingredientModalOpened) {
+      dispatch({type: REMOVE_INGREDIENT_INFO_TO_MODAL});
+    }
+    dispatch({type: CLOSE_ALL_POPUPS})
+  }
 
   const handleEscKeydown = (event) => {
-    event.key === "Escape" && onClose();
+    event.key === "Escape" && closeModal();
   };
 
   useEffect(() => {
@@ -24,21 +37,15 @@ const Modal = ({ title, onClose, children }) => {
   return ReactDOM.createPortal(
     <>
       <div className={`${s.modal} p-10`}>
-        {title && <h3>{title}</h3>}
-        <div className={s.closeButton} onClick={onClose} >
+        <div className={s.closeButton} onClick={closeModal} >
           <CloseIcon type="primary" />
         </div>
         {children}
       </div>
-      <ModalOverlay onClick={onClose} />
+      <ModalOverlay onClick={closeModal} />
     </>,
     modalsContainer
   );
 };
 
 export default Modal;
-
-Modal.propTypes = {
-  title: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired
-};

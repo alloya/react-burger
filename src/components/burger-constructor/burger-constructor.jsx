@@ -6,15 +6,16 @@ import {
 import s from "./burger-constructor.module.css";
 import Price from "../price/price";
 import styles from "../../utils/styles.module.css";
-import PropTypes from "prop-types";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { useMemo, useEffect } from "react";
 import { postOrder } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { createBurger } from "../../utils/utils";
 import { FILL_CONSTRUCTOR } from "../../services/actions/constructor";
+import { SHOW_ORDER_DETAILS_POPUP } from "../../services/actions/modal";
+import { ADD_ORDER_NUMBER_TO_MODAL } from "../../services/actions/orderModal";
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const { ingredients } = useSelector(store => store.ingredients);
   const { constructorItems } = useSelector(store => store.constructor);
@@ -53,8 +54,9 @@ const BurgerConstructor = (props) => {
   const submitOrder = async () => {
     postOrder(constructorItems.map(el => el._id))
       .then(data => {
-        props.setOrderNumber(data.order.number);
-        props.openModal(true);
+        debugger
+        dispatch({type: ADD_ORDER_NUMBER_TO_MODAL, data})
+        dispatch({type: SHOW_ORDER_DETAILS_POPUP})
       })
       .catch(e => {
         console.log("error", e);
@@ -114,10 +116,5 @@ const BurgerConstructor = (props) => {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  openModal: PropTypes.func.isRequired,
-  setOrderNumber: PropTypes.func.isRequired
-};
 
 export default BurgerConstructor;

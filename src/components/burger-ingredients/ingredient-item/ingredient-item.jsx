@@ -3,17 +3,19 @@ import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import Price from "../../price/price";
 import s from "./ingredient-item.module.css";
 import { IngredientPropTypes } from "../../../utils/prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_INGREDIENT_INFO_TO_MODAL } from "../../../services/actions/ingredient-modal";
+import { SHOW_INGREDIENT_DETAILS_POPUP } from "../../../services/actions/modal";
 
 const IngredientItem = (props) => {
   const ingredient = props.ingredient;
-  const openModal = props.openModal;
-  const getIngredientDetails = props.getIngredientDetails;
   let counter = props.counter;
+  const dispatch = useDispatch();
 
   return (
     <li className={s.container} onClick={() => {
-      getIngredientDetails(ingredient);
-      openModal(true);
+      dispatch({type: ADD_INGREDIENT_INFO_TO_MODAL, ingredient});
+      dispatch({type: SHOW_INGREDIENT_DETAILS_POPUP})
     }}>
       {counter && <Counter count={counter} size="small" />}
       <img className={`pb-2`} src={ingredient.image} alt={ingredient.name}></img>
@@ -25,9 +27,7 @@ const IngredientItem = (props) => {
 
 IngredientItem.propTypes = {
   ingredient: IngredientPropTypes.isRequired,
-  openModal: PropTypes.func.isRequired,
   counter: PropTypes.number,
-  getIngredientDetails: PropTypes.func.isRequired
 };
 
 export default IngredientItem;

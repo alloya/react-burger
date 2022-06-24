@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Header from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -12,7 +12,7 @@ import { getIngredients } from "../../services/actions/ingredients";
 
 const App = () => {
   const dispatch = useDispatch();
-  const modal = useSelector(store => store.modal);
+  const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.ingredients);
 
   useEffect(
@@ -20,24 +20,6 @@ const App = () => {
       dispatch(getIngredients())
     }, [dispatch]
   );
-
-
-  const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
-  const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = useState(false);
-
-  const [orderNumber, setOrderNumber] = useState(null)
-
-  const [ingredientDetails, setIngredientDetails] = useState({});
-  const updateIngredient = (newData) => {
-    setIngredientDetails(newData);
-  }
-
-  const [constructorItems, setConstructorItems] = useState([]);
-
-  const closeAllModals = () => {
-    setIsOrderDetailsOpened(false);
-    setIsIngredientDetailsOpened(false);
-  };
 
   return (
     <>
@@ -48,23 +30,16 @@ const App = () => {
         {ingredientsFailed && 'Произошла ошибка'}
         {!ingredientsRequest && !ingredientsFailed && ingredients.length &&
           <div className={s.content}>
-            <BurgerIngredients
-              openModal={setIsIngredientDetailsOpened}
-              getDetails={updateIngredient} />
-            <BurgerConstructor
-              openModal={setIsOrderDetailsOpened}
-              setOrderNumber={setOrderNumber}
-            />
+            <BurgerIngredients />
+            <BurgerConstructor />
           </div>
         }
       </div>
-      {(isIngredientDetailsOpened || isOrderDetailsOpened) &&
+      {(ingredientModalOpened || orderModalOpened) &&
         <div className={s.modalWrapper}>
-          <Modal
-            onClose={closeAllModals}
-          >
-            {isIngredientDetailsOpened && <IngredientDetails ingredient={ingredientDetails} />}
-            {isOrderDetailsOpened && <OrderDetails orderNumber={orderNumber} />}
+          <Modal>
+            {ingredientModalOpened && <IngredientDetails />}
+            {orderModalOpened && <OrderDetails />}
           </Modal>
         </div>}
     </>

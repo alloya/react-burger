@@ -2,10 +2,9 @@ import { useMemo } from "react";
 import PropTypes from "prop-types";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import s from "./ingredient-type.module.css";
-import { IngredientPropTypes } from "../../../utils/prop-types";
 import { useSelector } from "react-redux";
 
-const IngredientType = ({ type, openModal, getIngredientDetails }) => {
+const IngredientType = ({ type }) => {
 
   const { ingredients } = useSelector(store => store.ingredients)
 
@@ -29,8 +28,7 @@ const IngredientType = ({ type, openModal, getIngredientDetails }) => {
           <IngredientItem 
             ingredient={item} 
             key={item._id}
-            openModal={openModal}
-            getIngredientDetails={getIngredientDetails} />
+          />
         ))}
       </ul>
     </li>
@@ -39,8 +37,6 @@ const IngredientType = ({ type, openModal, getIngredientDetails }) => {
 
 IngredientType.propTypes = {
   type: PropTypes.object.isRequired,
-  openModal: PropTypes.func.isRequired,
-  getIngredientDetails: PropTypes.func.isRequired
 };
 
 export default IngredientType;
