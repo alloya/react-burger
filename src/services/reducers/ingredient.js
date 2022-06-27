@@ -4,7 +4,7 @@ const ingredientsInitialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
-  currentTab: 'buns'
+  currentTab: 'bun'
 }
 
 export const ingredientsReducer = (state = ingredientsInitialState, action) => {

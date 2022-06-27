@@ -1,16 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import IngredientsTab from "./ingredients-tab/ingredients-tab";
 import s from "./burger-ingredients.module.css";
 import styles from "../../utils/styles.module.css";
 import IngredientType from "./ingredient-type/ingredient-type";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
-import { randomizeId } from "../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
+import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.ingredients);
+
+  const [bunRef, bunInView, bunEntry] = useInView({ threshold: 0.5 });
+  const [sauseRef, sauseInView, sauseEntry] = useInView({ threshold: 0.3 });
+  const [mainRef, mainIinView, mainEntry] = useInView({ threshold: 0.1 });
 
   useEffect(
     () => {
@@ -18,12 +22,6 @@ const BurgerIngredients = () => {
     }, [dispatch]
   );
   const types = Object.keys(IngredientTypes);
-  const [activeState, setState] = useState(types[0]);
-
-  const setScroll = (value) => {
-    setState(value);
-    document.getElementById(value).scrollIntoView({ behavior: "smooth" })
-  }
 
   return (
     <>
@@ -32,16 +30,24 @@ const BurgerIngredients = () => {
       {!ingredientsRequest && !ingredientsFailed && ingredients.length &&
         <section className={`${s.ingredients} mr-5`}>
           <IngredientsTab
+            bunInView={bunInView}
+            sauseInView={sauseInView}
+            mainIinView={mainIinView}
             typesList={types}
-            active={activeState}
-            scrollTo={setScroll} />
+             />
           <ul className={`${s.ingredientList} ${styles.scrollable} mt-10`}>
-            {types.map((item) => (
-              <IngredientType
-                type={IngredientTypes[item]}
-                key={randomizeId()}
-              />
-            ))}
+            <IngredientType
+              innerRef={bunRef}
+              type={IngredientTypes[types[0]]}
+            />
+            <IngredientType
+              innerRef={sauseRef}
+              type={IngredientTypes[types[1]]}
+            />
+            <IngredientType
+              innerRef={mainRef}
+              type={IngredientTypes[types[2]]}
+            />
           </ul>
         </section>}
     </>

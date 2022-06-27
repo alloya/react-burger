@@ -4,8 +4,8 @@ import IngredientItem from "../ingredient-item/ingredient-item";
 import s from "./ingredient-type.module.css";
 import { useSelector } from "react-redux";
 
-const IngredientType = ({ type }) => {
-
+const IngredientType = ({ type, innerRef }) => {
+  
   const { ingredients } = useSelector(store => store.ingredients)
 
   const filter = (data, filterType) => {
@@ -21,7 +21,7 @@ const IngredientType = ({ type }) => {
   );
   
   return (
-    <li className={`${s.ingredientTypeBlock} pb-10`} id={type.type}>
+    <li className={`${s.ingredientTypeBlock} pb-10`} id={type.type} ref={innerRef}>
       <h2 className="text text_type_main-medium pb-6">{type.text}</h2>
       <ul className={s.ingredientList}>
         {arr.map((item) => (
@@ -37,6 +37,7 @@ const IngredientType = ({ type }) => {
 
 IngredientType.propTypes = {
   type: PropTypes.object.isRequired,
+  ref: PropTypes.func
 };
 
 export default IngredientType;

@@ -68,7 +68,7 @@ const BurgerConstructor = () => {
   return (
     <section className={`${s.constructor} ${styles.ml_auto}`}>
       <div className={s.constructorWrapper}>
-        <div className={`${styles.mt_0} ${s.bun} pr-5 pb-4`}>
+        <div className={`${styles.mt_0} ${s.bun} pr-4 pb-4`}>
           {buns && buns[0] && <ConstructorElement
             text={buns[0].name + ' (верх)'}
             thumbnail={buns[0].image_mobile}
@@ -97,7 +97,7 @@ const BurgerConstructor = () => {
               </li>
             ))}
           </ul>}
-        <div className={`${s.bun} ${styles.mb_0} pr-5 pt-4`}>
+        <div className={`${s.bun} ${styles.mb_0} pr-4 pt-4`}>
         {buns && buns[1] && <ConstructorElement
             text={buns[1].name + ' (низ)'}
             thumbnail={buns[1].image_mobile}
