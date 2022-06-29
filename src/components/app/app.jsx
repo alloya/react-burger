@@ -6,12 +6,12 @@ import s from "./app.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const App = () => {
-  const dispatch = useDispatch();
   const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
-  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.ingredients);
 
   return (
     <>
@@ -19,8 +19,10 @@ const App = () => {
       <div className={s.main}>
         <Title text="Собери бургер" />
         <div className={s.content}>
-          <BurgerIngredients />
-          <BurgerConstructor />
+        <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
         </div>
       </div>
       {(ingredientModalOpened || orderModalOpened) &&

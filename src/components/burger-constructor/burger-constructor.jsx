@@ -11,24 +11,27 @@ import { useMemo, useEffect } from "react";
 import { postOrder } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { createBurger } from "../../utils/utils";
-import { FILL_CONSTRUCTOR } from "../../services/actions/constructor";
+import { addIngredient, deleteBun, deleteIngredient, clearConstructor } from "../../services/actions/constructor";
 import { SHOW_ORDER_DETAILS_POPUP } from "../../services/actions/modal";
 import { ADD_ORDER_NUMBER_TO_MODAL } from "../../services/actions/orderModal";
+import { useDrop } from "react-dnd";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const { ingredients } = useSelector(store => store.ingredients);
   const { constructorItems } = useSelector(store => store.constructor);
-
-  useEffect(
-    () => {
-      if (ingredients.length) {
-        const elements = createBurger(ingredients);
-        dispatch({type: FILL_CONSTRUCTOR, elements})
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: 'ingredient',
+    collect: monitor => ({
+      isHover: monitor.isOver()
+    }),
+    drop(element) {
+      if (element.ingredient.type === IngredientTypes.bun.type) {
+        dispatch(deleteBun())
       }
-
-    }, [ingredients]
-  )
+      dispatch(addIngredient(element))
+    }
+  })
 
   const countBasket = (ingredients) => {
     if (ingredients && ingredients.length) {
@@ -39,15 +42,18 @@ const BurgerConstructor = () => {
     return 0;
   }
 
-  const buns = useMemo (() => {
+  const buns = useMemo(() => {
     if (constructorItems && constructorItems.length) {
       const bun = constructorItems.find(el => el.type && el.type === IngredientTypes.bun.type);
-      return [bun, bun];
+      if (bun) {
+        return [bun, bun];
+      }
+      return [];
     }
-    return null;
+    return [];
   }, [constructorItems]);
 
-  const notBuns = useMemo (() => {
+  const notBuns = useMemo(() => {
     if (constructorItems && constructorItems.length) {
       return constructorItems.filter(el => el.type && el.type !== IngredientTypes.bun.type)
     }
@@ -57,18 +63,25 @@ const BurgerConstructor = () => {
   const submitOrder = async () => {
     postOrder(constructorItems.map(el => el._id))
       .then(data => {
-        dispatch({type: ADD_ORDER_NUMBER_TO_MODAL, data})
-        dispatch({type: SHOW_ORDER_DETAILS_POPUP})
+        dispatch({ type: ADD_ORDER_NUMBER_TO_MODAL, data })
+        dispatch({ type: SHOW_ORDER_DETAILS_POPUP })
+        dispatch(clearConstructor());
       })
       .catch(e => {
         console.log("error", e);
       })
   }
 
+  const handleClose = (ingredient) => {
+    dispatch(deleteIngredient(ingredient))
+  }
+
   return (
     <section className={`${s.constructor} ${styles.ml_auto}`}>
-      <div className={s.constructorWrapper}>
-        <div className={`${styles.mt_0} ${s.bun} pr-4 pb-4`}>
+      {(!constructorItems || constructorItems.length === 0)&&
+        <div className="text text_type_main-default"> Перетащите ингридиенты в конструктор</div>}
+      <div className={s.constructorWrapper} ref={dropTarget}>
+        <div className={`${styles.mt_0} ${s.bun} pr-2 pb-4`}>
           {buns && buns[0] && <ConstructorElement
             text={buns[0].name + ' (верх)'}
             thumbnail={buns[0].image_mobile}
@@ -77,28 +90,27 @@ const BurgerConstructor = () => {
             isLocked={true}
           />}
         </div>
-        {notBuns && notBuns.length &&
+        {notBuns &&
           <ul className={`${s.constructorContainer} ${styles.scrollable} pr-2`}>
             {notBuns.map((item, index) => (
-              <li
-                className={`${styles.align_center} ${styles.d_flex}`}
-                key={index}
-              >
+              <li className={`${styles.align_center} ${styles.d_flex}`} key={index} >
                 <span className="mr-2">
                   <DragIcon type="primary" />
                 </span>
                 <div className={s.item}>
-                  <ConstructorElement 
+                  <ConstructorElement
                     text={item.name}
                     thumbnail={item.image_mobile}
                     price={item.price}
-                   />
+                    handleClose = {() => handleClose(item._id)}
+                  />
                 </div>
               </li>
             ))}
-          </ul>}
-        <div className={`${s.bun} ${styles.mb_0} pr-4 pt-4`}>
-        {buns && buns[1] && <ConstructorElement
+          </ul>
+        }
+        <div className={`${s.bun} ${styles.mb_0} pr-2 pt-4`}>
+          {buns && buns[1] && <ConstructorElement
             text={buns[1].name + ' (низ)'}
             thumbnail={buns[1].image_mobile}
             price={buns[1].price}
@@ -107,9 +119,10 @@ const BurgerConstructor = () => {
           />}
         </div>
       </div>
+
       <div className={`${s.total} pt-10`}>
         <span className="pr-10">
-          <Price price={useMemo(() =>countBasket(constructorItems), [constructorItems])} size={"medium"} />
+          <Price price={useMemo(() => countBasket(constructorItems), [constructorItems])} size={"medium"} />
         </span>
         <Button type="primary" size="large" onClick={submitOrder}>
           <p className="text text_type_main-default">Оформить заказ</p>
