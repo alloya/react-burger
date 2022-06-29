@@ -1,13 +1,12 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import s from "./ingredient-type.module.css";
 import { useSelector } from "react-redux";
 
 const IngredientType = ({ type, innerRef }) => {
-  
-  const { ingredients } = useSelector(store => store.ingredients)
-
+  const { ingredients } = useSelector(store => store.ingredients);
+ // const { constructorItems } = useSelector(store => store.constructor);
   const filter = (data, filterType) => {
     return data.filter((item) => item.type === filterType);
   }
@@ -20,6 +19,13 @@ const IngredientType = ({ type, innerRef }) => {
   }, [ingredients, type.type]
   );
   
+  // const count = useEffect((el) => {
+  //   debugger
+  //   if (constructorItems && constructorItems.length) {
+  //     return constructorItems.filter(item => item._id === el).length
+  //   }
+  // }, [constructorItems])
+
   return (
     <li className={`${s.ingredientTypeBlock} pb-10`} id={type.type} ref={innerRef}>
       <h2 className="text text_type_main-medium pb-6">{type.text}</h2>
@@ -37,7 +43,7 @@ const IngredientType = ({ type, innerRef }) => {
 
 IngredientType.propTypes = {
   type: PropTypes.object.isRequired,
-  ref: PropTypes.func
+  innerRef: PropTypes.func.isRequired
 };
 
 export default IngredientType;

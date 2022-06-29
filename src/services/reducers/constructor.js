@@ -3,7 +3,8 @@ import {
   ADD_ITEM,
   CLEAR_CONSTRUCTOR,
   FILL_CONSTRUCTOR,
-  REMOVE_BUN
+  REMOVE_BUN,
+  DELETE_ITEM_BY_INDEX
 } from '../actions/constructor';
 
 const constructorInitialState = {
@@ -52,6 +53,13 @@ export const constructorReducer = (state = constructorInitialState, action) => {
         }
       }
       else { return state }
+    }
+    case DELETE_ITEM_BY_INDEX: {
+      const index = state.constructorItems.find(el => el.type === 'bun') ? action.index + 1 : action.index
+      return {
+        ...state,
+        constructorItems: [...state.constructorItems.slice(0, index), ...state.constructorItems.slice(index + 1)]
+      }
     }
     default: {
       return state;

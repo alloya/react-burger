@@ -10,8 +10,7 @@ import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { useMemo, useEffect } from "react";
 import { postOrder } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
-import { createBurger } from "../../utils/utils";
-import { addIngredient, deleteBun, deleteIngredient, clearConstructor } from "../../services/actions/constructor";
+import { addIngredient, deleteBun, clearConstructor, deleteIngredientByIndex } from "../../services/actions/constructor";
 import { SHOW_ORDER_DETAILS_POPUP } from "../../services/actions/modal";
 import { ADD_ORDER_NUMBER_TO_MODAL } from "../../services/actions/orderModal";
 import { useDrop } from "react-dnd";
@@ -72,8 +71,8 @@ const BurgerConstructor = () => {
       })
   }
 
-  const handleClose = (ingredient) => {
-    dispatch(deleteIngredient(ingredient))
+  const handleDelete = (index) => {
+    dispatch(deleteIngredientByIndex(index))
   }
 
   return (
@@ -81,7 +80,7 @@ const BurgerConstructor = () => {
       {(!constructorItems || constructorItems.length === 0)&&
         <div className="text text_type_main-default"> Перетащите ингридиенты в конструктор</div>}
       <div className={s.constructorWrapper} ref={dropTarget}>
-        <div className={`${styles.mt_0} ${s.bun} pr-2 pb-4`}>
+        <div className={`${styles.mt_0} ${s.bun} pr-4 pb-4`}>
           {buns && buns[0] && <ConstructorElement
             text={buns[0].name + ' (верх)'}
             thumbnail={buns[0].image_mobile}
@@ -91,7 +90,7 @@ const BurgerConstructor = () => {
           />}
         </div>
         {notBuns &&
-          <ul className={`${s.constructorContainer} ${styles.scrollable} pr-2`}>
+          <ul className={`${s.constructorContainer} ${styles.scrollable} pr-4`}>
             {notBuns.map((item, index) => (
               <li className={`${styles.align_center} ${styles.d_flex}`} key={index} >
                 <span className="mr-2">
@@ -102,14 +101,14 @@ const BurgerConstructor = () => {
                     text={item.name}
                     thumbnail={item.image_mobile}
                     price={item.price}
-                    handleClose = {() => handleClose(item._id)}
+                    handleClose = {() => handleDelete(index)}
                   />
                 </div>
               </li>
             ))}
           </ul>
         }
-        <div className={`${s.bun} ${styles.mb_0} pr-2 pt-4`}>
+        <div className={`${s.bun} ${styles.mb_0} pr-4 pt-4`}>
           {buns && buns[1] && <ConstructorElement
             text={buns[1].name + ' (низ)'}
             thumbnail={buns[1].image_mobile}
