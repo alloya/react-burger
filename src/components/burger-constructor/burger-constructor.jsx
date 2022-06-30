@@ -1,63 +1,42 @@
 import {
   Button,
-  ConstructorElement,
-  DragIcon,
+  ConstructorElement
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import s from "./burger-constructor.module.css";
 import Price from "../price/price";
 import styles from "../../utils/styles.module.css";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { postOrder } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
-import { addIngredient, deleteBun, clearConstructor, deleteIngredientByIndex } from "../../services/actions/constructor";
+import { addIngredient, clearConstructor } from "../../services/actions/constructor";
 import { SHOW_ORDER_DETAILS_POPUP } from "../../services/actions/modal";
 import { ADD_ORDER_NUMBER_TO_MODAL } from "../../services/actions/orderModal";
 import { useDrop } from "react-dnd";
+import { DraggableConstructorItem } from "./draggable-constructor-item/draggable-constructor-item";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const { ingredients } = useSelector(store => store.ingredients);
   const { constructorItems } = useSelector(store => store.constructor);
-  const [{ isHover }, dropTarget] = useDrop({
-    accept: 'ingredient',
-    collect: monitor => ({
-      isHover: monitor.isOver()
-    }),
+
+  const [, dropTarget] = useDrop({
+    accept: ['ingredient'],
     drop(element) {
-      if (element.ingredient.type === IngredientTypes.bun.type) {
-        dispatch(deleteBun())
-      }
       dispatch(addIngredient(element))
     }
   })
 
   const countBasket = (ingredients) => {
     if (ingredients && ingredients.length) {
-      return [...buns, ...notBuns].reduce((sum, ingredient) => {
+      return ingredients.reduce((sum, ingredient) => {
+        if (ingredient.type === IngredientTypes.bun.type) {
+          return sum + ingredient.price * 2;
+        }
         return sum + ingredient.price
       }, 0)
     }
     return 0;
   }
-
-  const buns = useMemo(() => {
-    if (constructorItems && constructorItems.length) {
-      const bun = constructorItems.find(el => el.type && el.type === IngredientTypes.bun.type);
-      if (bun) {
-        return [bun, bun];
-      }
-      return [];
-    }
-    return [];
-  }, [constructorItems]);
-
-  const notBuns = useMemo(() => {
-    if (constructorItems && constructorItems.length) {
-      return constructorItems.filter(el => el.type && el.type !== IngredientTypes.bun.type)
-    }
-    return null;
-  }, [constructorItems]);
 
   const submitOrder = async () => {
     postOrder(constructorItems.map(el => el._id))
@@ -71,54 +50,62 @@ const BurgerConstructor = () => {
       })
   }
 
-  const handleDelete = (index) => {
-    dispatch(deleteIngredientByIndex(index))
+  const hasBun = () => {
+    return constructorItems && constructorItems.find(el => el.type === IngredientTypes.bun.type)
   }
 
   return (
-    <section className={`${s.constructor} ${styles.ml_auto}`}>
-      {(!constructorItems || constructorItems.length === 0)&&
-        <div className="text text_type_main-default"> Перетащите ингридиенты в конструктор</div>}
-      <div className={s.constructorWrapper} ref={dropTarget}>
-        <div className={`${styles.mt_0} ${s.bun} pr-4 pb-4`}>
-          {buns && buns[0] && <ConstructorElement
-            text={buns[0].name + ' (верх)'}
-            thumbnail={buns[0].image_mobile}
-            price={buns[0].price}
-            type="top"
-            isLocked={true}
-          />}
+    <section className={`${s.constructor} ${styles.ml_auto}`} ref={dropTarget} >
+      {(!constructorItems || constructorItems.length === 0) &&
+        <div className="text text_type_main-default">
+          Перетащите ингридиенты в конструктор
         </div>
-        {notBuns &&
+      }
+      {constructorItems &&
+        <div className={s.constructorWrapper}>
+          <div className={`${styles.mt_0} ${s.bun} pr-4 pb-4`}>
+            {constructorItems
+              .filter(item => item.type === IngredientTypes.bun.type)
+              .map((item, index) => (
+                <ConstructorElement
+                  text={item.name + ' (верх)'}
+                  thumbnail={item.image_mobile}
+                  price={item.price}
+                  type="top"
+                  isLocked={true}
+                  key={index}
+                />
+              ))}
+          </div>
           <ul className={`${s.constructorContainer} ${styles.scrollable} pr-4`}>
-            {notBuns.map((item, index) => (
-              <li className={`${styles.align_center} ${styles.d_flex}`} key={index} >
-                <span className="mr-2">
-                  <DragIcon type="primary" />
-                </span>
-                <div className={s.item}>
-                  <ConstructorElement
-                    text={item.name}
-                    thumbnail={item.image_mobile}
-                    price={item.price}
-                    handleClose = {() => handleDelete(index)}
-                  />
-                </div>
-              </li>
-            ))}
+            {constructorItems
+              .filter(item => item.type !== IngredientTypes.bun.type)
+              .map((item, index) => (
+                <DraggableConstructorItem
+                ingredient={item}
+                  key={index}
+                  index={hasBun() ? index + 1 : index}
+                  id={hasBun() ? index + 1 : index}
+                />
+              ))}
           </ul>
-        }
-        <div className={`${s.bun} ${styles.mb_0} pr-4 pt-4`}>
-          {buns && buns[1] && <ConstructorElement
-            text={buns[1].name + ' (низ)'}
-            thumbnail={buns[1].image_mobile}
-            price={buns[1].price}
-            type="bottom"
-            isLocked={true}
-          />}
-        </div>
-      </div>
+          <div className={`${s.bun} ${styles.mb_0} pr-4 pt-4`}>
+            {constructorItems
+              .filter(item => item.type === IngredientTypes.bun.type)
+              .map((item, index) => (
+                <ConstructorElement
+                  text={item.name + ' (низ)'}
+                  thumbnail={item.image_mobile}
+                  price={item.price}
+                  type="bottom"
+                  isLocked={true}
+                  key={index}
+                />
+              ))}
+          </div>
 
+        </div>
+      }
       <div className={`${s.total} pt-10`}>
         <span className="pr-10">
           <Price price={useMemo(() => countBasket(constructorItems), [constructorItems])} size={"medium"} />

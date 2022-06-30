@@ -2,9 +2,8 @@ import {
   DELETE_ITEM,
   ADD_ITEM,
   CLEAR_CONSTRUCTOR,
-  FILL_CONSTRUCTOR,
-  REMOVE_BUN,
-  DELETE_ITEM_BY_INDEX
+  DELETE_ITEM_BY_INDEX,
+  CHANGE_ITEMS_ORDER
 } from '../actions/constructor';
 
 const constructorInitialState = {
@@ -15,6 +14,14 @@ export const constructorReducer = (state = constructorInitialState, action) => {
   switch (action.type) {
     case ADD_ITEM: {
       if (state.constructorItems && state.constructorItems.length) {
+        if (action.payload.ingredient.type === 'bun') {
+          const arr = state.constructorItems.filter(el => el.type !== 'bun');
+          arr.unshift(action.payload.ingredient);
+          return {
+            ...state,
+            constructorItems: [...arr]
+          }
+        }
         return {
           ...state,
           constructorItems:  [...state.constructorItems, action.payload.ingredient]
@@ -34,31 +41,24 @@ export const constructorReducer = (state = constructorInitialState, action) => {
       }
     }
     case CLEAR_CONSTRUCTOR: {
-      return {
-        ...state,
-        constructorItems: []
-      }
-    }
-    case FILL_CONSTRUCTOR: {
-      return {
-        ...state,
-        constructorItems: action.elements
-      }
-    }
-    case REMOVE_BUN: {
-      if (state.constructorItems && state.constructorItems.find(el => el.type === 'bun')) {
-        return {
-          ...state,
-          constructorItems: [...state.constructorItems].filter(el => el.type !== 'bun')
-        }
-      }
-      else { return state }
+      return constructorInitialState;
     }
     case DELETE_ITEM_BY_INDEX: {
-      const index = state.constructorItems.find(el => el.type === 'bun') ? action.index + 1 : action.index
       return {
         ...state,
-        constructorItems: [...state.constructorItems.slice(0, index), ...state.constructorItems.slice(index + 1)]
+        constructorItems: [...state.constructorItems.slice(0, action.index), ...state.constructorItems.slice(action.index + 1)]
+      }
+    }
+    case CHANGE_ITEMS_ORDER: {
+      const ingredients = [...state.constructorItems];
+      ingredients.splice(
+        action.payload.to, 
+        0, 
+        ingredients.splice(action.payload.from, 1)[0]
+      );
+      return {
+        ...state,
+        constructorItems: [...ingredients]
       }
     }
     default: {

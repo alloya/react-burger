@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ADD_INGREDIENT_INFO_TO_MODAL } from "../../../services/actions/ingredient-modal";
 import { SHOW_INGREDIENT_DETAILS_POPUP } from "../../../services/actions/modal";
 import { useDrag } from "react-dnd";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import IngredientTypes from "../../../utils/models/ingredient-type-model";
 
 const IngredientItem = ({ ingredient }) => {
@@ -31,12 +31,12 @@ const IngredientItem = ({ ingredient }) => {
   }, [constructorItems])
 
   return (
-    <li className={s.container} onClick={() => {
+    <li className={s.container} ref={ref} onClick={() => {
       dispatch({type: ADD_INGREDIENT_INFO_TO_MODAL, ingredient});
       dispatch({type: SHOW_INGREDIENT_DETAILS_POPUP})
-    }}style={{ opacity }}>
+    }} style={{ opacity }}>
       {counter !== 0 && <Counter count={counter} size="small" />}
-      <img className={`pb-2`} src={ingredient.image} alt={ingredient.name}  ref={ref} ></img>
+      <img className={`pb-2`} src={ingredient.image} alt={ingredient.name} ></img>
       <Price price={ingredient.price} />
       <p className="text text_type_main-default pt-2 pr-2 pl-2">{ingredient.name}</p>
     </li>
