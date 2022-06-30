@@ -80,5 +80,5 @@ export const DraggableConstructorItem = ({ id, index, ingredient }) => {
 DraggableConstructorItem.propTypes = {
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
-  item: IngredientPropTypes.isRequired
+  ingredient: IngredientPropTypes.isRequired
 };

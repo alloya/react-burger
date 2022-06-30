@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// @ts-ignore
+import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
@@ -11,13 +12,15 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

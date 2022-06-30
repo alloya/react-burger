@@ -82,7 +82,7 @@ const BurgerConstructor = () => {
               .filter(item => item.type !== IngredientTypes.bun.type)
               .map((item, index) => (
                 <DraggableConstructorItem
-                ingredient={item}
+                  ingredient={item}
                   key={index}
                   index={hasBun() ? index + 1 : index}
                   id={hasBun() ? index + 1 : index}
