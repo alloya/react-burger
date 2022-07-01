@@ -1,29 +1,32 @@
 import { postOrder } from "../../utils/api";
-import { SHOW_ORDER_DETAILS_POPUP }from './modal';
+import { clearConstructor } from "./constructor";
+import { SHOW_ORDER_DETAILS_POPUP } from './modal';
 
 export const ORDER_CHECKOUT_REQUEST = 'ORDER_CHECKOUT_REQUEST';
 export const ORDER_CHECKOUT_SUCCESS = 'ORDER_CHECKOUT_SUCCESS';
 export const ORDER_CHECKOUT_FAILED = 'ORDER_CHECKOUT_FAILED';
 
-export function orderCheckout(order) {
-  return function(dispatch) {
-    dispatch({
-      type: ORDER_CHECKOUT_REQUEST
-    });
-    postOrder(order).then(res => {
+export const orderCheckout = (order) => (dispatch) => {
+  dispatch({
+    type: ORDER_CHECKOUT_REQUEST
+  });
+  postOrder(order)
+    .then(res => {
       if (res && res.success) {
         dispatch({
           type: ORDER_CHECKOUT_SUCCESS,
-          order: res.data
+          order: res.order.number
         });
         dispatch({
-          type: SHOW_ORDER_DETAILS_POPUP,
+          type: SHOW_ORDER_DETAILS_POPUP
         });
-      } else {
-        dispatch({
-          type: ORDER_CHECKOUT_FAILED
-        });
+        dispatch(clearConstructor())
       }
-    });
-  };
-}
+    })
+    .catch(err => {
+      dispatch({
+        type: ORDER_CHECKOUT_FAILED
+      });
+      console.log(err)
+    })
+};
