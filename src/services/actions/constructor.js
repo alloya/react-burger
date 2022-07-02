@@ -6,10 +6,16 @@ export const DELETE_ITEM_BY_INDEX = 'DELETE_ITEM_BY_INDEX';
 export const CHANGE_ITEMS_ORDER = 'CHANGE_ITEMS_ORDER';
 
 export const addIngredient = (element) =>  {
-  element.ingredient.innerId = uuidv4();
+  const addedElement = {
+    ...element,
+    ingredient: {
+      ...element.ingredient,
+      innerId: uuidv4()
+    }
+  }
   return {
     type: ADD_ITEM,
-    payload: element
+    payload: addedElement
   }
 }
 
