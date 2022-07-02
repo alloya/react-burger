@@ -3,6 +3,8 @@ import s from './modal.module.css';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from "prop-types";
+
 
 const modalsContainer = document.querySelector('#modals');
 
@@ -35,3 +37,7 @@ const Modal = ({ closeModal, children }) => {
 };
 
 export default Modal;
+
+Modal.propTypes = {
+  closeModal: PropTypes.func.isRequired
+};

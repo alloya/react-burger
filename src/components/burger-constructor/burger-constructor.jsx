@@ -12,7 +12,6 @@ import { addIngredient } from "../../services/actions/constructor";
 import { useDrop } from "react-dnd";
 import { DraggableConstructorItem } from "./draggable-constructor-item/draggable-constructor-item";
 import { orderCheckout } from "../../services/actions/checkout";
-import { v4 as uuidv4 } from 'uuid';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -25,6 +24,17 @@ const BurgerConstructor = () => {
       dispatch(addIngredient(element))
     }
   })
+
+  const buns = useMemo(() => {
+    if (constructorItems && constructorItems.length) {
+      const bun = constructorItems.find(el => el.type && el.type === IngredientTypes.bun.type);
+      if (bun) {
+        return [bun, bun];
+      }
+      return [];
+    }
+    return [];
+  }, [constructorItems]);
 
   const countBasket = (ingredients) => {
     if (ingredients && ingredients.length) {
@@ -56,18 +66,13 @@ const BurgerConstructor = () => {
       {constructorItems &&
         <div className={s.constructorWrapper}>
           <div className={`${styles.mt_0} ${s.bun} pr-4 pb-4`}>
-            {constructorItems
-              .filter(item => item.type === IngredientTypes.bun.type)
-              .map((item) => (
-                <ConstructorElement
-                  text={item.name + ' (верх)'}
-                  thumbnail={item.image_mobile}
-                  price={item.price}
-                  type="top"
-                  isLocked={true}
-                  key={uuidv4()}
-                />
-              ))}
+            {buns && buns[0] && <ConstructorElement
+              text={buns[0].name + ' (верх)'}
+              thumbnail={buns[0].image_mobile}
+              price={buns[0].price}
+              type="top"
+              isLocked={true}
+            />}
           </div>
           <ul className={`${s.constructorContainer} ${styles.scrollable} pr-4`}>
             {constructorItems
@@ -75,27 +80,21 @@ const BurgerConstructor = () => {
               .map((item, index) => (
                 <DraggableConstructorItem
                   ingredient={item}
-                  key={uuidv4()}
+                  key={item.innerId}
                   index={hasBun() ? index + 1 : index}
                   id={hasBun() ? index + 1 : index}
                 />
               ))}
           </ul>
           <div className={`${s.bun} ${styles.mb_0} pr-4 pt-4`}>
-            {constructorItems
-              .filter(item => item.type === IngredientTypes.bun.type)
-              .map((item) => (
-                <ConstructorElement
-                  text={item.name + ' (низ)'}
-                  thumbnail={item.image_mobile}
-                  price={item.price}
-                  type="bottom"
-                  isLocked={true}
-                  key={uuidv4()}
-                />
-              ))}
+            {buns && buns[1] && <ConstructorElement
+              text={buns[1].name + ' (низ)'}
+              thumbnail={buns[1].image_mobile}
+              price={buns[1].price}
+              type="bottom"
+              isLocked={true}
+            />}
           </div>
-
         </div>
       }
       <div className={`${s.total} pt-10`}>

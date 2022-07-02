@@ -11,12 +11,11 @@ import { IngredientPropTypes } from '../../../utils/prop-types';
 export const DraggableConstructorItem = ({ id, index, ingredient }) => {
   const ref = useRef(null);
   const dispatch = useDispatch();
-  const [{ handlerId, targetOpacity }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop({
     accept: 'consctuctorItem',
     collect(monitor) {
       return {
-        handlerId: monitor.getHandlerId(),
-        targetOpacity: monitor.isOver() ? 1 : 0
+        handlerId: monitor.getHandlerId()
       }
     },
     hover(item, monitor) {
@@ -63,7 +62,8 @@ export const DraggableConstructorItem = ({ id, index, ingredient }) => {
     <li className={`${styles.align_center} ${styles.d_flex}`}
       ref={ref}
       index={index}
-      data-handler-id={handlerId}>
+      data-handler-id={handlerId}
+      style = {{opacity}}>
       <span className="mr-2"><DragIcon type="primary" /></span>
       <div className={s.item}>
         <ConstructorElement
