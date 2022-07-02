@@ -5,12 +5,12 @@ export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 export const DELETE_ITEM_BY_INDEX = 'DELETE_ITEM_BY_INDEX';
 export const CHANGE_ITEMS_ORDER = 'CHANGE_ITEMS_ORDER';
 
-export const addIngredient = (element) => (dispatch) => {
+export const addIngredient = (element) =>  {
   element.ingredient.innerId = uuidv4();
-  dispatch({
+  return {
     type: ADD_ITEM,
     payload: element
-  })
+  }
 }
 
 export const deleteIngredient = (element) => {
