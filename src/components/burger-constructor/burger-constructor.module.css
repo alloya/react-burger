@@ -1,11 +1,16 @@
 .constructor {
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 200px);
+  min-height: calc(100vh - 200px);
+  justify-content: space-between;
 }
 
 .constructorWrapper {
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 300px);
+  min-height: calc(100vh - 300px);
 }
 
 .constructorContainer {

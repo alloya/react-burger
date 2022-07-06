@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Header from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -7,78 +6,40 @@ import s from "./app.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { getIngredientsData } from "../../utils/api";
-import { ConstructorContext } from "../../services/constructor-context";
-import { createBurger } from "../../utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { REMOVE_INGREDIENT_INFO_TO_MODAL } from "../../services/actions/ingredient-modal";
+import { CLOSE_ALL_POPUPS } from "../../services/actions/modal";
 
 const App = () => {
-  const [isOrderDetailsOpened, setIsOrderDetailsOpened] = useState(false);
-  const [isIngredientDetailsOpened, setIsIngredientDetailsOpened] = useState(false);
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    data: []
-  });
-  const [orderNumber, setOrderNumber] = useState(null)
+  const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
+  const dispatch = useDispatch();
 
-  const [ingredientDetails, setIngredientDetails] = useState({});
-  const updateIngredient = (newData) => {
-    setIngredientDetails(newData);
+  const closeModal = () => {
+    if (ingredientModalOpened) {
+      dispatch({type: REMOVE_INGREDIENT_INFO_TO_MODAL});
+    }
+    dispatch({type: CLOSE_ALL_POPUPS})
   }
-
-  const [constructorItems, setConstructorItems] = useState([]);
-
-  useEffect(() => {
-    const ingredientsData = async () => {
-      setState({ ...state, hasError: false, isLoading: true });
-      getIngredientsData()
-        .then(data => {
-          setState({ ...state, hasError: false, isLoading: false, data: data.data });
-          setConstructorItems(createBurger(data.data));
-        })
-        .catch(e => {
-          console.log("error", e);
-          setState({ ...state, hasError: true, isLoading: false, data: [] })
-        })
-    };
-    ingredientsData();
-  }, []);
-
-  const { data, isLoading, hasError } = state;
-
-  const closeAllModals = () => {
-    setIsOrderDetailsOpened(false);
-    setIsIngredientDetailsOpened(false);
-  };
 
   return (
     <>
       <Header />
       <div className={s.main}>
         <Title text="Собери бургер" />
-        {isLoading && 'Загрузка...'}
-        {hasError && 'Произошла ошибка'}
-        {!isLoading && !hasError && data.length &&
-          <div className={s.content}>
-            <BurgerIngredients
-              ingredientsData={data}
-              openModal={setIsIngredientDetailsOpened}
-              getDetails={updateIngredient} />
-            <ConstructorContext.Provider value={{constructorItems, setConstructorItems}}>
-              <BurgerConstructor
-                openModal={setIsOrderDetailsOpened}
-                setOrderNumber={setOrderNumber}
-              />
-            </ConstructorContext.Provider>
-          </div>}
+        <div className={s.content}>
+        <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
+        </div>
       </div>
-      {(isIngredientDetailsOpened || isOrderDetailsOpened) &&
+      {(ingredientModalOpened || orderModalOpened) &&
         <div className={s.modalWrapper}>
-          <Modal
-            onClose={closeAllModals}
-          >
-            {isIngredientDetailsOpened && <IngredientDetails ingredient={ingredientDetails} />}
-            {isOrderDetailsOpened && <OrderDetails orderNumber={orderNumber} />}
+          <Modal closeModal={closeModal}>
+            {ingredientModalOpened && <IngredientDetails/>}
+            {orderModalOpened && <OrderDetails/>}
           </Modal>
         </div>}
     </>

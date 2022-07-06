@@ -7,6 +7,6 @@
 }
 
 .ingredientList {
-  height: 65vh;
+  max-height: calc(100vh - 300px);
   padding-left: 0;
 }
