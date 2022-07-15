@@ -1,48 +1,49 @@
-import Header from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import Title from "../title/title";
-import s from "./app.module.css";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { REMOVE_INGREDIENT_INFO_TO_MODAL } from "../../services/actions/ingredient-modal";
-import { CLOSE_ALL_POPUPS } from "../../services/actions/modal";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ForgotPasswordPage } from '../../pages/forgot-password-page';
+import { LoginPage } from '../../pages/login-page';
+import { RecoverPasswordPage } from '../../pages/recover-password-page';
+import { RegistrationPage } from '../../pages/registration-page';
+import Header from '../app-header/app-header';
+import MainPage from '../main/main';
+import { ProtectedRoute } from '../protected-route/protected-route';
+// import { ProvideAuth } from './services/auth';
 
 const App = () => {
-  const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
-  const dispatch = useDispatch();
-
-  const closeModal = () => {
-    if (ingredientModalOpened) {
-      dispatch({type: REMOVE_INGREDIENT_INFO_TO_MODAL});
-    }
-    dispatch({type: CLOSE_ALL_POPUPS})
-  }
-
   return (
-    <>
-      <Header />
-      <div className={s.main}>
-        <Title text="Собери бургер" />
-        <div className={s.content}>
-        <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
-        </div>
-      </div>
-      {(ingredientModalOpened || orderModalOpened) &&
-        <div className={s.modalWrapper}>
-          <Modal closeModal={closeModal}>
-            {ingredientModalOpened && <IngredientDetails/>}
-            {orderModalOpened && <OrderDetails/>}
-          </Modal>
-        </div>}
-    </>
+    // <ProvideAuth>
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/register">
+            <RegistrationPage />
+          </Route>
+          <Route path="/recover-password">
+            <RecoverPasswordPage />
+          </Route>
+          <Route path="/forgot-password">
+            <ForgotPasswordPage />
+          </Route>
+          <Route path="/" exact={true}>
+            <MainPage />
+          </Route>
+          {/* <ProtectedRoute path="/list" exact={true}>
+            <ListPage />
+          </ProtectedRoute>
+          <ProtectedRoute path={`/list/:country`} exact={true}>
+            <CountryPage />
+          </ProtectedRoute>
+          <ProtectedRoute path={`/list/:country/:personId`} exact={true}>
+            <PersonPage />
+          </ProtectedRoute>
+          <Route>
+            <NotFound404 />
+          </Route> */}
+        </Switch>
+      </Router>
+    // </ProvideAuth>
   );
 }
 

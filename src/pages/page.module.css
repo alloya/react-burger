@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 130px);
+}
+
+.content {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  color: #4C4CFF;
+  text-decoration: none;
+}
+
+.input div:first-child {
+  width: 480px;
+}
