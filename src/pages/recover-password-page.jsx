@@ -13,7 +13,7 @@ export function RecoverPasswordPage() {
 
 
   return (
-    <div className={s.container}>
+    <div className={`${s.container} ${s.centered}`}>
       <div className={s.content}>
         <div className="text text_type_main-medium pb-6">Восстановление пароля</div>
         <div className={`${s.input} pb-6`}>

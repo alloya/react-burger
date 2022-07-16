@@ -1,6 +1,9 @@
 .container {
   display: flex;
   justify-content: center;
+}
+
+.centered {
   height: calc(100vh - 130px);
 }
 
@@ -18,4 +21,8 @@
 
 .input div:first-child {
   width: 480px;
+}
+
+.profile {
+  margin-top: 120px;
 }

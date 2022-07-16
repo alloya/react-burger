@@ -1,8 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ForgotPasswordPage } from '../../pages/forgot-password-page';
-import { LoginPage } from '../../pages/login-page';
-import { RecoverPasswordPage } from '../../pages/recover-password-page';
-import { RegistrationPage } from '../../pages/registration-page';
+import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage } from '../../pages';
 import Header from '../app-header/app-header';
 import MainPage from '../main/main';
 import { ProtectedRoute } from '../protected-route/protected-route';
@@ -25,6 +22,9 @@ const App = () => {
           </Route>
           <Route path="/forgot-password">
             <ForgotPasswordPage />
+          </Route>
+          <Route path="/profile" >
+            <ProfilePage />
           </Route>
           <Route path="/" exact={true}>
             <MainPage />
