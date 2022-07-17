@@ -24,3 +24,45 @@ export const postOrder = (data) => {
   })
   .then(checkResponse)
 }
+
+export const createUser = ({name, email, password}) => {
+  return fetch(`${appUrl}/auth/register`, {
+    method: "POST",
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      "name": name,
+      "email": email,
+      "password": password
+    })
+  })
+  .then(checkResponse)
+}
+
+export const resetPasswordRequest = (email) => {
+  return fetch(`${appUrl}/reset-password`, {
+    method: "POST",
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      "email": email
+    })
+  })
+  .then(checkResponse)
+}
+
+export const setNewPasswordRequest = ({email, token}) => {
+  return fetch(`${appUrl}/reset-password/reset`, {
+    method: "POST",
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      "email": email,
+      "token": token
+    })
+  })
+  .then(checkResponse)
+}

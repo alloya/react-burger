@@ -1,6 +1,8 @@
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import s from './page.module.css';
+import { resetPasswordRequest } from "../utils/api";
+import { Link } from 'react-router-dom';
 
 export function ForgotPasswordPage() {
 
@@ -10,7 +12,18 @@ export function ForgotPasswordPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-
+  const resetPassword = useCallback(
+    () => {
+      resetPasswordRequest(form.email)
+        .then(res => {
+          if (res.succsess) {
+            document.href = "/recover-password"
+          }
+        })
+        .catch(err => console.log(err))
+    },
+    [form.email]
+  )
 
   return (
     <div className={`${s.container} ${s.centered}`}>
@@ -19,10 +32,10 @@ export function ForgotPasswordPage() {
         <div className={`${s.input} pb-6`}>
           <Input onChange={onChange} value={form.email} name={'email'} placeholder={'Укажите e-mail'} />
         </div>
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={resetPassword}>
           Восстановить
         </Button>
-        <p className="text text_type_main-default text_color_inactive pt-20 pb-4">Вспомнили пароль? <a href="/login" className={s.link}>Войти</a></p>
+        <p className="text text_type_main-default text_color_inactive pt-20 pb-4">Вспомнили пароль? <Link to="/login" className={s.link}>Войти</Link></p>
       </div>
     </div>
   )

@@ -1,8 +1,11 @@
 import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
+import { createUser } from "../utils/api";
 import s from './page.module.css';
+import { Link, useLocation } from 'react-router-dom';
 
 export function RegistrationPage() {
+  const { state } = useLocation();
 
   const [form, setValue] = useState({ name: '', email: '', password: '' });
 
@@ -10,7 +13,11 @@ export function RegistrationPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-
+  const register = () => {
+    createUser(form)
+      .then()
+      .catch(err => console.log(err))
+  }
 
   return (
     <div className={`${s.container} ${s.centered}`}>
@@ -26,10 +33,10 @@ export function RegistrationPage() {
           <PasswordInput onChange={onChange} value={form.password} name={'password'} />
         </div>
 
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={register}>
           Зарегистрироваться
         </Button>
-        <p className="text text_type_main-default text_color_inactive pt-20 pb-4">Уже зарегистрированы? <a href="/login" className={s.link}>Войти</a></p>
+        <p className="text text_type_main-default text_color_inactive pt-20 pb-4">Уже зарегистрированы? <Link to={{ pathname: `/login`, state }} className={s.link}>Войти</Link></p>
       </div>
     </div>
   )

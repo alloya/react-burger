@@ -1,6 +1,7 @@
 import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import s from './page.module.css';
+import { Link } from 'react-router-dom';
 
 export function LoginPage() {
 
@@ -26,8 +27,8 @@ export function LoginPage() {
         <Button type="primary" size="medium">
           Войти
         </Button>
-        <p className="text text_type_main-default text_color_inactive pt-20 pb-4">Вы - новый пользователь? <a href="/register" className={s.link}>Зарегистрироваться</a></p>
-        <p className="text text_type_main-default text_color_inactive">Забыли пароль? <a href="/forgot-password" className={s.link}>Восстановить пароль</a></p>
+        <p className="text text_type_main-default text_color_inactive pt-20 pb-4">Вы - новый пользователь? <Link to="/register" className={s.link}>Зарегистрироваться</Link></p>
+        <p className="text text_type_main-default text_color_inactive">Забыли пароль? <Link to="/forgot-password" className={s.link}>Восстановить пароль</Link></p>
       </div>
     </div>
   )
