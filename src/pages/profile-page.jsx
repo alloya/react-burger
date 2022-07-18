@@ -1,5 +1,4 @@
-import { Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRouteMatch } from "react-router-dom";
+import { EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import s from './page.module.css';
 import { SideMenu } from "../components/side-menu/side-menu";
@@ -13,14 +12,14 @@ export function ProfilePage() {
   };
 
   return (
-    <div className={`${s.container} ${s.profile}`}>
+    <div className={`${s.container} ${s.profile} ${s.left_side}`}>
       <SideMenu />
       <div>
         <div className={`${s.input} pb-6`}>
           <Input onChange={onChange} value={form.name} name={'name'} placeholder={'Имя'} type="text" icon="EditIcon" />
         </div>
         <div className={`${s.input} pb-6`}>
-          <Input onChange={onChange} value={form.email} name={'email'} placeholder={'E-mail'} type="email" icon="EditIcon" />
+          <EmailInput onChange={onChange} value={form.email} name={'email'} placeholder={'E-mail'} />
         </div>
         <div className={`${s.input} pb-6`}>
           <PasswordInput onChange={onChange} value={form.password} name={'password'} />
