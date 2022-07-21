@@ -3,7 +3,6 @@ import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, Regist
 import Header from '../app-header/app-header';
 import MainPage from '../main/main';
 import { ProtectedRoute } from '../protected-route/protected-route';
-// import { ProvideAuth } from './services/auth';
 
 const App = () => {
   return (
@@ -23,27 +22,19 @@ const App = () => {
           <Route path="/forgot-password">
             <ForgotPasswordPage />
           </Route>
-          <Route path="/profile" exact>
+          <ProtectedRoute path="/profile" exact>
             <ProfilePage />
-          </Route>
-          <Route path="/profile/orders" exact>
+          </ProtectedRoute>
+          <ProtectedRoute path="/profile/orders" exact>
             <OrdersPage />
-          </Route>
-          <Route path="/profile/orders/:id" exact>
+          </ProtectedRoute>
+          <ProtectedRoute path="/profile/orders/:id" exact>
             <OrderInfoPage />
-          </Route>
+          </ProtectedRoute>
           <Route path="/" exact>
             <MainPage />
           </Route>
-          {/* <ProtectedRoute path="/list" exact={true}>
-            <ListPage />
-          </ProtectedRoute>
-          <ProtectedRoute path={`/list/:country`} exact={true}>
-            <CountryPage />
-          </ProtectedRoute>
-          <ProtectedRoute path={`/list/:country/:personId`} exact={true}>
-            <PersonPage />
-          </ProtectedRoute>
+          {/* 
           <Route>
             <NotFound404 />
           </Route> */}

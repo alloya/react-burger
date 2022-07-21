@@ -1,3 +1,5 @@
+import { getCookie } from "./utils";
+
 const appUrl = 'https://norma.nomoreparties.space/api';
 
 function checkResponse(res) {
@@ -64,5 +66,63 @@ export const setNewPasswordRequest = ({email, token}) => {
       "token": token
     })
   })
-  .then(checkResponse)
+  .then(checkResponse);
 }
+
+export const refreshTokenRequest = (token) => {
+  return fetch(`${appUrl}/auth/token`, {
+    method: "POST",
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      "token": token
+    })
+  })
+  .then(checkResponse);
+}
+
+export const getUserRequest = async () => 
+  await fetch(`${appUrl}/auth/user`, {
+    method: "GET",
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('token')
+    }
+  })
+  .then(checkResponse);
+
+
+export const patchUserRequest = async ({name, email}) => {
+  await fetch(`${appUrl}/auth/user`, {
+    method: "PATCH",
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('token')
+    },
+    body: JSON.stringify({
+      "name": name,
+      "email": email
+    })
+  })
+}
+
+export const loginRequest = async form => {
+  return await fetch(`${appUrl}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(form)
+  })
+  .then(checkResponse);
+};
+
+export const logoutRequest = async () => {
+  return await fetch(`${appUrl}/auth/logout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+};

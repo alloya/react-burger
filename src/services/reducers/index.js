@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { authReducer } from './auth';
 import { checkoutReducer } from './checkout';
 import { constructorReducer } from './constructor';
 import { ingredientsReducer } from './ingredient';
@@ -11,5 +12,6 @@ combineReducers({
   constructor: constructorReducer,
   checkout: checkoutReducer,
   modal: modalReducer,
-  ingredientModal: ingredientModalReducer
+  ingredientModal: ingredientModalReducer,
+  auth: authReducer
 });
