@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 export function LoginPage() {
   const dispatch = useDispatch();
-  const { isAuth, user, accessToken, refreshToken } = useSelector(store => store.auth);
+  const { isAuth } = useSelector(store => store.auth);
   const [form, setValue] = useState({ email: '', password: '' });
-console.log(isAuth)
+
   const onChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };

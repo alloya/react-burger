@@ -1,4 +1,5 @@
 import { NavLink, useRouteMatch } from "react-router-dom";
+import { logout } from "../../services/actions/auth";
 import s from './side-menu.module.css';
 
 export function SideMenu() {
@@ -16,7 +17,7 @@ export function SideMenu() {
         </ul>
         <ul className={`${s.menu_item} text text_type_main-medium`}>
           <NavLink to={`${match.url}/orders`}
-            className={`${s.link} ` + (useIsMatch('/profile/orders') && `${s.active}` || 'text_color_inactive')}>
+            className={`${s.link} ` + (useIsMatch('/profile/orders') && `${s.active}` || 'text_color_inactive')} >
             История заказов
           </NavLink>
         </ul>

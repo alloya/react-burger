@@ -2,10 +2,12 @@ import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burg
 import { useState } from "react";
 import { createUser } from "../utils/api";
 import s from './page.module.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 export function RegistrationPage() {
   const { state } = useLocation();
+  const { isAuth } = useSelector(store => store.auth);
 
   const [form, setValue] = useState({ name: '', email: '', password: '' });
 
@@ -17,6 +19,12 @@ export function RegistrationPage() {
     createUser(form)
       .then()
       .catch(err => console.log(err))
+  }
+
+  if (isAuth) {
+    return (
+      <Redirect to={ '/' } />
+    )
   }
 
   return (

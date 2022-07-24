@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, refreshAccessToken, setAuth, setAuthSuccess } from '../../services/actions/auth';
+import { getUser, refreshAccessToken, setAuth } from '../../services/actions/auth';
 import { getCookie, getRefreshToken } from '../../utils/utils';
 
 export const ProtectedRoute = ({ children, ...rest }) => {
@@ -22,7 +22,7 @@ export const ProtectedRoute = ({ children, ...rest }) => {
     await getCookie('token') && dispatch(getUser());
     setUserLoaded(true);
     debugger
-    setAuth();
+    dispatch(setAuth());
   };
 
   useEffect(() => {

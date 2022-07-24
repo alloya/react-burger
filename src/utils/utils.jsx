@@ -60,7 +60,7 @@ export function setCookie(name, value, props) {
 }
 
 export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 });
+  setCookie(name, '', { expires: -1 });
 }
 
 export function setRefreshToken(name, value) {
@@ -69,4 +69,8 @@ export function setRefreshToken(name, value) {
 
 export function getRefreshToken() {
   return localStorage.getItem('refreshToken');
+}
+
+export function deleteRefreshToken() {
+  localStorage.removeItem('refreshToken');
 }

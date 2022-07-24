@@ -16,7 +16,17 @@ import {
   LOGIN_SUCCESS,
   AUTH_SUCCESS,
   AUTH_FAILED,
-  UPDATE_TOKENS
+  UPDATE_TOKENS,
+  LOGOUT_FAILED,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  PASSWORD_RESET_FAILED,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_REQUEST,
+  RESET_PASSWORD_RESET_STATE,
+  SET_PASSWORD_REQUEST,
+  SET_PASSWORD_SUCCESS,
+  SET_PASSWORD_FAILED
 } from '../actions/auth';
 
 const authInitianState = {
@@ -31,6 +41,15 @@ const authInitianState = {
   registrationFailed: false,
   loginRequest: false,
   loginFailed: false,
+  logoutRequest: false,
+  logoutFailed: false,
+  updateUserRequest: false,
+  passwordResetRequest: false,
+  passwordResetSuccess: false,
+  passwordResetFailed: false,
+  setPasswordRequest: false,
+  setPasswordSuccess: false,
+  setPasswordFailed: false,
   token: getCookie('token'),
   isAuth: Boolean(getCookie('token'))
 };
@@ -99,7 +118,79 @@ export const authReducer = (state = authInitianState, action) => {
         refreshToken: action.refreshToken
       }
     }
-
+    case LOGOUT_REQUEST: {
+      return {
+        ...state,
+        logoutRequest: true
+      }
+    }
+    case LOGOUT_SUCCESS: {
+      return {
+        ...state,
+        logoutRequest: false,
+        isAuth: false
+      }
+    }
+    case LOGOUT_FAILED: {
+      return {
+        ...state,
+        logoutRequest: false
+      }
+    }
+    case PASSWORD_RESET_REQUEST: {
+      return {
+        ...state,
+        passwordResetRequest: true,
+        passwordResetFailed: false,
+        passwordResetSuccess: false
+      }
+    }
+    case PASSWORD_RESET_SUCCESS: {
+      return {
+        ...state,
+        passwordResetRequest: false,
+        passwordResetSuccess: true
+      }
+    }
+    case PASSWORD_RESET_FAILED: {
+      return {
+        ...state,
+        passwordResetRequest: false,
+        passwordResetFailed: true
+      }
+    }
+    case RESET_PASSWORD_RESET_STATE: {
+      return {
+        ...state,
+        passwordResetRequest: false,
+        passwordResetFailed: false,
+        passwordResetSuccess: false
+      }
+    }
+    case SET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        setPasswordRequest: true,
+        setPasswordSuccess: false,
+        setPasswordFailed: false
+      }
+    }
+    case SET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        setPasswordRequest: false,
+        setPasswordSuccess: true,
+        setPasswordFailed: false
+      }
+    }
+    case SET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        setPasswordRequest: false,
+        setPasswordSuccess: false,
+        setPasswordFailed: true
+      }
+    }
     default: {
       return state;
     }
