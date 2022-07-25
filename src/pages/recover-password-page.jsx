@@ -1,7 +1,7 @@
 import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useEffect } from "react";
 import s from './page.module.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { RESET_PASSWORD_RESET_STATE, setNewPassword, } from "../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,11 +9,12 @@ export function RecoverPasswordPage() {
   const dispatch = useDispatch();
   const { setPasswordRequest, setPasswordSuccess, setPasswordFailed } = useSelector(store => store.auth);
   const [form, setValue] = useState({ password: '', token: '' });
+  const location = useLocation();
+  const referrer = location.state?.referrer;
 
   useEffect(() => {
     dispatch({ type: RESET_PASSWORD_RESET_STATE })
   }, [])
-
 
   const onChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -21,6 +22,10 @@ export function RecoverPasswordPage() {
 
   const save = () => {
     setNewPassword(form)
+  }
+
+  if (!referrer) {
+    return <Redirect to='/forgot-password' />
   }
 
   return (

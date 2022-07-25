@@ -33,7 +33,14 @@ export function ForgotPasswordPage() {
         </Button>
         <p className="text text_type_main-default text_color_inactive pt-20 pb-4">Вспомнили пароль? <Link to="/login" className={s.link}>Войти</Link></p>
         {passwordResetFailed && <span>Произошла ошибка, повторите запрос позже</span>}
-        {passwordResetSuccess && <Redirect to="/recover-password" />}
+        {passwordResetSuccess &&
+          <Redirect
+            to={{
+              pathname: "/recover-password",
+              state: { referrer: 'reset-password' }
+            }}
+          />
+        }
       </div>
     </div>
   )

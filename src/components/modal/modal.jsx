@@ -4,14 +4,10 @@ import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from "prop-types";
-import { useLocation } from 'react-router';
-
 
 const modalsContainer = document.querySelector('#modals');
 
 const Modal = ({ closeModal, children }) => {
-  const location = useLocation();
-  console.log(location)
   const handleEscKeydown = (event) => {
     event.key === "Escape" && closeModal();
   };

@@ -1,16 +1,35 @@
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrderInfoPage, OrdersPage } from '../../pages';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { LogoutPage } from '../../pages/logout-page';
+import { REMOVE_INGREDIENT_INFO_TO_MODAL } from '../../services/actions/ingredient-modal';
+import { CLOSE_ALL_POPUPS } from '../../services/actions/modal';
 import Header from '../app-header/app-header';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 import MainPage from '../main/main';
+import Modal from '../modal/modal';
 import { ProtectedRoute } from '../protected-route/protected-route';
 
 const App = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
+  let background = location.state && location.state?.background;
+  // console.log('background', background);
+  // console.log('location', location);
+
+  const closeModal = () => {
+    if (ingredientModalOpened) {
+      dispatch({ type: REMOVE_INGREDIENT_INFO_TO_MODAL });
+    }
+    dispatch({ type: CLOSE_ALL_POPUPS })
+  }
+
   return (
-    <Router>
+    <>
       <Header />
-      <Switch>
+      <Switch location={background || location}>
         <Route path="/login">
           <LoginPage />
         </Route>
@@ -46,7 +65,11 @@ const App = () => {
             <NotFound404 />
           </Route> */}
       </Switch>
-    </Router>
+      {background &&
+        <Route path="/ingredient/:id">
+          <Modal closeModal={closeModal} ><IngredientDetails /></Modal>
+        </Route>}
+    </>
   );
 }
 
