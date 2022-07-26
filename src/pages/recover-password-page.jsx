@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export function RecoverPasswordPage() {
   const dispatch = useDispatch();
-  const { setPasswordRequest, setPasswordSuccess, setPasswordFailed } = useSelector(store => store.auth);
+  const { isAuth, setPasswordRequest, setPasswordSuccess, setPasswordFailed } = useSelector(store => store.auth);
   const [form, setValue] = useState({ password: '', token: '' });
   const location = useLocation();
   const referrer = location.state?.referrer;
@@ -22,6 +22,10 @@ export function RecoverPasswordPage() {
 
   const save = () => {
     setNewPassword(form)
+  }
+
+  if (isAuth) {
+    return <Redirect to='/' />
   }
 
   if (!referrer) {

@@ -7,7 +7,7 @@ import { resetPassword } from "../services/actions/auth";
 
 export function ForgotPasswordPage() {
   const dispatch = useDispatch();
-  const { passwordResetSuccess, passwordResetFailed, passwordResetRequest } = useSelector(store => store.auth);
+  const { isAuth, passwordResetSuccess, passwordResetFailed, passwordResetRequest } = useSelector(store => store.auth);
   const [form, setValue] = useState({ email: '' });
 
   const onChange = e => {
@@ -20,6 +20,10 @@ export function ForgotPasswordPage() {
     },
     [dispatch, form.email]
   )
+
+  if (isAuth) {
+    return <Redirect to='/' />
+  }
 
   return (
     <div className={`${s.container} ${s.centered}`}>

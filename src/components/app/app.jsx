@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrderInfoPage, OrdersPage } from '../../pages';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { LogoutPage } from '../../pages/logout-page';
@@ -14,16 +14,16 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 const App = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory();
   const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
   let background = location.state && location.state?.background;
-  // console.log('background', background);
-  // console.log('location', location);
 
   const closeModal = () => {
     if (ingredientModalOpened) {
       dispatch({ type: REMOVE_INGREDIENT_INFO_TO_MODAL });
     }
-    dispatch({ type: CLOSE_ALL_POPUPS })
+    dispatch({ type: CLOSE_ALL_POPUPS });
+    history.goBack();
   }
 
   return (
@@ -67,7 +67,7 @@ const App = () => {
       </Switch>
       {background &&
         <Route path="/ingredient/:id">
-          <Modal closeModal={closeModal} ><IngredientDetails /></Modal>
+          {ingredientModalOpened && <Modal closeModal={closeModal} ><IngredientDetails /></Modal>}
         </Route>}
     </>
   );
