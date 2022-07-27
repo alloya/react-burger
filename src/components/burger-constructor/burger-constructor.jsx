@@ -12,11 +12,14 @@ import { addIngredient } from "../../services/actions/constructor";
 import { useDrop } from "react-dnd";
 import { DraggableConstructorItem } from "./draggable-constructor-item/draggable-constructor-item";
 import { orderCheckout } from "../../services/actions/checkout";
+import { useHistory } from "react-router";
+import { checkAuth } from "../../services/actions/auth";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const { constructorItems } = useSelector(store => store.constructor);
   const { orderCheckoutRequest } = useSelector(store => store.checkout);
+  const history = useHistory();
 
   const [, dropTarget] = useDrop({
     accept: ['ingredient'],
@@ -48,8 +51,12 @@ const BurgerConstructor = () => {
     return 0;
   }
 
-  const submitOrder = () => {
-    dispatch(orderCheckout(constructorItems.map(el => el._id)))
+  
+  const submitOrder = async () => {
+    const auth = await dispatch(checkAuth())
+    !auth 
+      ? history.push('/login') 
+      : dispatch(orderCheckout(constructorItems.map(el => el._id)))
   }
 
   const hasBun = () => {

@@ -43,6 +43,7 @@ const authInitianState = {
   loginFailed: false,
   logoutRequest: false,
   logoutFailed: false,
+  logoutSuccess: false,
   updateUserRequest: false,
   passwordResetRequest: false,
   passwordResetSuccess: false,
@@ -128,13 +129,15 @@ export const authReducer = (state = authInitianState, action) => {
       return {
         ...state,
         logoutRequest: false,
+        logoutSuccess: true,
         isAuth: false
       }
     }
     case LOGOUT_FAILED: {
       return {
         ...state,
-        logoutRequest: false
+        logoutRequest: false,
+        logoutFailed: true
       }
     }
     case PASSWORD_RESET_REQUEST: {

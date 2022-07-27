@@ -1,27 +1,21 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, refreshAccessToken, setAuth } from '../../services/actions/auth';
-import { getCookie, getRefreshToken } from '../../utils/utils';
+import { checkAuth, getUser, setAuth } from '../../services/actions/auth';
 
 export const ProtectedRoute = ({ children, ...rest }) => {
   const dispatch = useDispatch();
-  const { token, isAuth } = useSelector(store => store.auth);
+  const location = useLocation();
+  console.log(location);
+  const { isAuth } = useSelector(store => store.auth);
   const [ isUserLoaded, setUserLoaded ] = useState(false);
 
   const init = async () => {
-    let accessToken = getCookie('token');
-    let refreshToken = getRefreshToken();
-    if (!accessToken && !refreshToken) {
-      setUserLoaded(true);
-      return;
+    const auth = await dispatch(checkAuth());
+    if (auth) {
+      await dispatch(getUser());
     }
-    if (!accessToken && refreshToken) {
-      await dispatch(refreshAccessToken(refreshToken));
-    }
-    await getCookie('token') && dispatch(getUser());
     setUserLoaded(true);
-    debugger
     dispatch(setAuth());
   };
 

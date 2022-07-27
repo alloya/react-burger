@@ -40,6 +40,9 @@ export const refreshAccessToken = (refreshToken) => async (dispatch) => {
     let res = await refreshTokenRequest(refreshToken)
     if (res && res.success) {
       updateTokens(res.accessToken, res.refreshToken)
+      dispatch({
+        type: REFRESH_TOKEN_SUCCESS
+      });
     }
     else {
       dispatch({
@@ -189,7 +192,6 @@ export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT_REQUEST });
   logoutRequest(getRefreshToken())
     .then(res => {
-      debugger
       if (res && res.ok) {
         dispatch({
           type: LOGOUT_SUCCESS
@@ -202,4 +204,22 @@ export const logout = () => (dispatch) => {
       dispatch({ type: LOGOUT_FAILED });
       console.log(err)
     })
+}
+
+export const checkAuth = () => async (dispatch) => {
+  let accessToken = getCookie('token');
+  let refreshToken = getRefreshToken();
+  if (accessToken && refreshToken) {
+    return true;
+  }
+  if (!accessToken && !refreshToken) {
+    return false;
+  }
+  if (!accessToken && refreshToken) {
+    await dispatch(refreshAccessToken(refreshToken));
+    return true;
+  }
+  else {
+    return false;
+  }
 }

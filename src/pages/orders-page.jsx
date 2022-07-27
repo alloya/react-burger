@@ -8,7 +8,7 @@ export function OrdersPage() {
     <div className={`${s.container} ${s.profile}`}>
       <SideMenu />
       <div>
-        
+      <div className="text text_type_main-medium pb-6">Orders Page</div>
       </div>
     </div>
   )

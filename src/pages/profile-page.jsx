@@ -29,7 +29,6 @@ export function ProfilePage() {
   };
 
   const update = () => {
-    debugger
     dispatch(updateUser(form));
   }
 

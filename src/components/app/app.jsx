@@ -3,12 +3,14 @@ import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrderInfoPage, OrdersPage } from '../../pages';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { LogoutPage } from '../../pages/logout-page';
+import { NotFoundPage } from '../../pages/not-found';
 import { REMOVE_INGREDIENT_INFO_TO_MODAL } from '../../services/actions/ingredient-modal';
 import { CLOSE_ALL_POPUPS } from '../../services/actions/modal';
 import Header from '../app-header/app-header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import MainPage from '../main/main';
 import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
 import { ProtectedRoute } from '../protected-route/protected-route';
 
 const App = () => {
@@ -21,9 +23,9 @@ const App = () => {
   const closeModal = () => {
     if (ingredientModalOpened) {
       dispatch({ type: REMOVE_INGREDIENT_INFO_TO_MODAL });
+      history.goBack();
     }
     dispatch({ type: CLOSE_ALL_POPUPS });
-    history.goBack();
   }
 
   return (
@@ -60,15 +62,16 @@ const App = () => {
         <Route path="/" exact>
           <MainPage />
         </Route>
-        {/* 
-          <Route>
-            <NotFound404 />
-          </Route> */}
+        <Route>
+          <NotFoundPage />
+        </Route>
       </Switch>
       {background &&
         <Route path="/ingredient/:id">
           {ingredientModalOpened && <Modal closeModal={closeModal} ><IngredientDetails /></Modal>}
-        </Route>}
+        </Route>
+      }
+      {orderModalOpened && <Modal closeModal={closeModal} ><OrderDetails /></Modal>}
     </>
   );
 }
