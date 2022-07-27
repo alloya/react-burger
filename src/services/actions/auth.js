@@ -94,6 +94,8 @@ export const registration = (form) => (dispatch) => {
           accessToken: res.accessToken,
           refreshToken: res.refreshToken
         });
+        dispatch(updateTokens(res.accessToken, res.refreshToken));
+        dispatch(setAuth());
       }
     })
     .catch(err => {
