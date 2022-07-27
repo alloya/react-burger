@@ -82,9 +82,7 @@ export const updateTokens = (accessToken, refreshToken) => {
 }
 
 export const registration = (form) => (dispatch) => {
-  dispatch({
-    type: REGISTRATION_REQUEST
-  });
+  dispatch({ type: REGISTRATION_REQUEST });
   createUser(form)
     .then(res => {
       if (res && res.success) {
@@ -99,9 +97,7 @@ export const registration = (form) => (dispatch) => {
       }
     })
     .catch(err => {
-      dispatch({
-        type: REGISTRATION_FAILED
-      });
+      dispatch({ type: REGISTRATION_FAILED });
       console.log(err)
     })
 }
@@ -137,9 +133,8 @@ export const setNewPassword = (form) => (dispatch) => {
 }
 
 export const login = (form) => (dispatch) => {
-  dispatch({
-    type: LOGIN_REQUEST
-  });
+  debugger
+  dispatch({ type: LOGIN_REQUEST });
   loginRequest(form)
     .then(res => {
       if (res && res.success) {
@@ -153,15 +148,11 @@ export const login = (form) => (dispatch) => {
           type: LOGIN_SUCCESS,
           user: res.user
         });
-        dispatch({
-          type: AUTH_SUCCESS
-        })
+        dispatch({ type: AUTH_SUCCESS })
       }
     })
     .catch(err => {
-      dispatch({
-        type: LOGIN_FAILED
-      });
+      dispatch({ type: LOGIN_FAILED });
       console.log(err)
     })
 }
@@ -169,9 +160,7 @@ export const login = (form) => (dispatch) => {
 export const setAuth = () => {
   const token = getCookie('token');
   if (token) {
-    return {
-      type: AUTH_SUCCESS
-    }
+    return { type: AUTH_SUCCESS }
   }
   return { type: AUTH_FAILED }
 }
@@ -195,9 +184,7 @@ export const logout = () => (dispatch) => {
   logoutRequest(getRefreshToken())
     .then(res => {
       if (res && res.ok) {
-        dispatch({
-          type: LOGOUT_SUCCESS
-        });
+        dispatch({ type: LOGOUT_SUCCESS });
         deleteCookie('token');
         deleteRefreshToken();
       }

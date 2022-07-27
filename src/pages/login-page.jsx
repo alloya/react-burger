@@ -23,7 +23,7 @@ export function LoginPage() {
   }
 
   const onSubmit = (e, data) => {  
-    e.preventDefaul();
+    e.preventDefault();
     console.log(data);
     dispatch(login(form));
   }
@@ -32,10 +32,10 @@ export function LoginPage() {
       <form className={s.content} onSubmit={(e) => onSubmit(e, form)}>
         <div className="text text_type_main-medium pb-6">Вход</div>
         <div className={`${s.input} pb-6`}>
-          <Input onChange={onChange} value={form.email} name={'email'} placeholder={'E-mail'} />
+          <Input onChange={onChange} value={form.email} name={'email'} placeholder={'E-mail'} type="email"/>
         </div>
         <div className={`${s.input} pb-6`}>
-          <PasswordInput onChange={onChange} value={form.password} name={'password'} />
+          <PasswordInput onChange={onChange} value={form.password} name={'password'}/>
         </div>
 
         <Button type="primary" size="medium" disabled={loginRequest}>
