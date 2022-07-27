@@ -1,10 +1,8 @@
 import { getCookie } from '../../utils/utils';
 import {
-  AUTH_TOKENS,
   REFRESH_TOKEN_REQUEST,
   REFRESH_TOKEN_SUCCESS,
   REFRESH_TOKEN_FAILED,
-  REDIRECT_TO_HOMEPAGE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
@@ -16,6 +14,10 @@ import {
   LOGIN_SUCCESS,
   AUTH_SUCCESS,
   AUTH_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
+  RESET_UPDATE_USER,
   UPDATE_TOKENS,
   LOGOUT_FAILED,
   LOGOUT_REQUEST,
@@ -26,7 +28,7 @@ import {
   RESET_PASSWORD_RESET_STATE,
   SET_PASSWORD_REQUEST,
   SET_PASSWORD_SUCCESS,
-  SET_PASSWORD_FAILED
+  SET_PASSWORD_FAILED,
 } from '../actions/auth';
 
 const authInitianState = {
@@ -37,14 +39,18 @@ const authInitianState = {
   getUserFailed: false,
   refreshTokenRequest: false,
   refreshTokenFailed: false,
+  refreshTokenSuccess: false,
   registrationRequest: false,
   registrationFailed: false,
+  registrationSuccess: false,
   loginRequest: false,
   loginFailed: false,
   logoutRequest: false,
   logoutFailed: false,
   logoutSuccess: false,
   updateUserRequest: false,
+  updateUserFailed: false,
+  updateUserSuccess: false,
   passwordResetRequest: false,
   passwordResetSuccess: false,
   passwordResetFailed: false,
@@ -76,6 +82,46 @@ export const authReducer = (state = authInitianState, action) => {
         ...state,
         user: action.payload,
         getUserRequest: false
+      }
+    }
+    case REFRESH_TOKEN_REQUEST: {
+      return {
+        ...state,
+        refreshTokenRequest: true
+      }
+    }
+    case REFRESH_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        refreshTokenRequest: false,
+        refreshTokenSuccess: true
+      }
+    }
+    case REFRESH_TOKEN_FAILED: {
+      return {
+        ...state,
+        refreshTokenRequest: false,
+        refreshTokenFailed: true
+      }
+    }
+    case REGISTRATION_REQUEST: {
+      return {
+        ...state,
+        registrationRequest: true
+      }
+    }
+    case REGISTRATION_FAILED: {
+      return {
+        ...state,
+        registrationRequest: false,
+        registrationFailed: true
+      }
+    }
+    case REGISTRATION_SUCCESS: {
+      return {
+        ...state,
+        registrationRequest: false,
+        registrationSuccess: true
       }
     }
     case LOGIN_REQUEST: {
@@ -110,6 +156,33 @@ export const authReducer = (state = authInitianState, action) => {
       return {
         ...state,
         isAuth: false
+      }
+    }
+    case UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        updateUserRequest: true
+      }
+    }
+    case UPDATE_USER_SUCCESS: {
+      return {
+        ...state,
+        updateUserSuccess: true,
+        updateUserRequest: false,
+        user: action.payload
+      }
+    }
+    case UPDATE_USER_FAILED: {
+      return {
+        ...state,
+        updateUserFailed: true,
+        updateUserRequest: false
+      }
+    }
+    case RESET_UPDATE_USER: {
+      return {
+        ...state,
+        updateUserSuccess: false
       }
     }
     case UPDATE_TOKENS: {
@@ -167,7 +240,10 @@ export const authReducer = (state = authInitianState, action) => {
         ...state,
         passwordResetRequest: false,
         passwordResetFailed: false,
-        passwordResetSuccess: false
+        passwordResetSuccess: false,
+        setPasswordRequest: false,
+        setPasswordFailed: false,
+        setPasswordSuccess: false
       }
     }
     case SET_PASSWORD_REQUEST: {

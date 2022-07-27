@@ -1,12 +1,10 @@
-import { Redirect, Route, useLocation } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAuth, getUser, setAuth } from '../../services/actions/auth';
 
 export const ProtectedRoute = ({ children, ...rest }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  console.log(location);
   const { isAuth } = useSelector(store => store.auth);
   const [ isUserLoaded, setUserLoaded ] = useState(false);
 

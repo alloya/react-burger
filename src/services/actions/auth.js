@@ -1,11 +1,9 @@
 import { createUser, getUserRequest, loginRequest, logoutRequest, patchUserRequest, refreshTokenRequest, resetPasswordRequest, setNewPasswordRequest } from "../../utils/api";
 import { deleteCookie, getCookie, getRefreshToken, setCookie, setRefreshToken, deleteRefreshToken } from "../../utils/utils";
 
-export const AUTH_TOKENS = 'AUTH_TOKENS';
 export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
 export const REFRESH_TOKEN_FAILED = 'REFRESH_TOKEN_FAILED';
-export const REDIRECT_TO_HOMEPAGE = 'REDIRECT_TO_HOMEPAGE';
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
@@ -31,6 +29,7 @@ export const RESET_PASSWORD_RESET_STATE = 'RESET_PASSWORD_RESET_STATE';
 export const SET_PASSWORD_REQUEST = 'SET_PASSWORD_REQUEST';
 export const SET_PASSWORD_SUCCESS = 'SET_PASSWORD_SUCCESS';
 export const SET_PASSWORD_FAILED = 'SET_PASSWORD_FAILED';
+export const RESET_UPDATE_USER = 'RESET_UPDATE_USER';
 
 export const refreshAccessToken = (refreshToken) => async (dispatch) => {
   dispatch({
@@ -86,12 +85,7 @@ export const registration = (form) => (dispatch) => {
   createUser(form)
     .then(res => {
       if (res && res.success) {
-        dispatch({
-          type: REGISTRATION_SUCCESS,
-          user: res.user,
-          accessToken: res.accessToken,
-          refreshToken: res.refreshToken
-        });
+        dispatch({ type: REGISTRATION_SUCCESS });
         dispatch(updateTokens(res.accessToken, res.refreshToken));
         dispatch(setAuth());
       }
@@ -119,7 +113,7 @@ export const resetPassword = (email) => (dispatch) => {
 
 export const setNewPassword = (form) => (dispatch) => {
   dispatch({ type: SET_PASSWORD_REQUEST });
-  setNewPasswordRequest(form)
+  setNewPasswordRequest(form.password, form.token)
     .then(res => {
       if (res && res.success) {
         dispatch({ type: SET_PASSWORD_SUCCESS });
@@ -133,7 +127,6 @@ export const setNewPassword = (form) => (dispatch) => {
 }
 
 export const login = (form) => (dispatch) => {
-  debugger
   dispatch({ type: LOGIN_REQUEST });
   loginRequest(form)
     .then(res => {
@@ -171,28 +164,35 @@ export const updateUser = (form) => async (dispatch) => {
       await refreshAccessToken(getRefreshToken());
     }
     dispatch({ type: UPDATE_USER_REQUEST });
-    await patchUserRequest(form);
-    dispatch({ type: UPDATE_USER_SUCCESS });
+    const res = await patchUserRequest(form);
+    if (res && res.success) {
+      dispatch({
+        type: UPDATE_USER_SUCCESS,
+        payload: res.user
+      });
+      console.log('in update')
+    }
+    else { dispatch({ type: UPDATE_USER_FAILED }) }
   } catch (error) {
     dispatch({ type: UPDATE_USER_FAILED });
     console.log(error);
   }
 }
 
-export const logout = () => (dispatch) => {
+export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT_REQUEST });
-  logoutRequest(getRefreshToken())
-    .then(res => {
-      if (res && res.ok) {
-        dispatch({ type: LOGOUT_SUCCESS });
-        deleteCookie('token');
-        deleteRefreshToken();
-      }
-    })
-    .catch(err => {
-      dispatch({ type: LOGOUT_FAILED });
-      console.log(err)
-    })
+  try {
+    const res = await logoutRequest(getRefreshToken())
+    if (res && res.success) {
+      dispatch({ type: LOGOUT_SUCCESS });
+      deleteCookie('token');
+      deleteRefreshToken();
+    }
+    else { dispatch({ type: LOGOUT_FAILED }) }
+  } catch (error) {
+    dispatch({ type: LOGOUT_FAILED });
+    console.log(error)
+  }
 }
 
 export const checkAuth = () => async (dispatch) => {

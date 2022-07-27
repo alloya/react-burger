@@ -55,14 +55,14 @@ export const resetPasswordRequest = (email) => {
   .then(checkResponse)
 }
 
-export const setNewPasswordRequest = ({email, token}) => {
+export const setNewPasswordRequest = (password, token) => {
   return fetch(`${appUrl}/password-reset/reset`, {
     method: "POST",
     headers: {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      "email": email,
+      "password": password,
       "token": token
     })
   })
@@ -82,8 +82,8 @@ export const refreshTokenRequest = (token) => {
   .then(checkResponse);
 }
 
-export const getUserRequest = async () => 
-  await fetch(`${appUrl}/auth/user`, {
+export const getUserRequest = async () => {
+  return await fetch(`${appUrl}/auth/user`, {
     method: "GET",
     headers: {
       'Content-type': 'application/json',
@@ -91,11 +91,10 @@ export const getUserRequest = async () =>
     }
   })
   .then(checkResponse);
-
+}
 
 export const patchUserRequest = async ({name, email, password = null}) => {
-  debugger
-  await fetch(`${appUrl}/auth/user`, {
+  return await fetch(`${appUrl}/auth/user`, {
     method: "PATCH",
     headers: {
       'Content-type': 'application/json',
@@ -107,6 +106,7 @@ export const patchUserRequest = async ({name, email, password = null}) => {
       "password": password
     })
   })
+  .then(checkResponse);
 }
 
 export const loginRequest = async form => {
@@ -129,5 +129,6 @@ export const logoutRequest = async (refreshToken) => {
     body: JSON.stringify({
       "token": refreshToken
     })
-  });
+  })
+  .then(checkResponse);
 };

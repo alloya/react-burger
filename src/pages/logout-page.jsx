@@ -4,7 +4,7 @@ import { Redirect } from "react-router";
 import { logout } from "../services/actions/auth";
 
 export const LogoutPage = () => {
-  const { isAuth, logoutSuccess, logoutFailed } = useSelector(store => store.auth);
+  const { logoutSuccess, logoutFailed } = useSelector(store => store.auth);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(logout())
