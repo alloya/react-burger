@@ -43,14 +43,10 @@ export const refreshAccessToken = (refreshToken) => async (dispatch) => {
         type: REFRESH_TOKEN_SUCCESS
       });
     }
-    else {
-      dispatch({
-        type: REFRESH_TOKEN_FAILED
-      });
-      throw ('Refresh access token failed');
-    }
+    else { return Promise.reject(`Ошибка: ${res.status} Refresh token failed`) }
   } catch (error) {
     console.log(error)
+    dispatch({ type: REFRESH_TOKEN_FAILED });
   }
 }
 
@@ -64,6 +60,7 @@ export const getUser = () => async (dispatch) => {
         payload: res.user
       });
     }
+    else { return Promise.reject(`Ошибка: ${res.status} Get user failed`) }
   } catch (error) {
     dispatch({ type: GET_USER_FAILED });
     console.log(error)
@@ -89,6 +86,7 @@ export const registration = (form) => (dispatch) => {
         dispatch(updateTokens(res.accessToken, res.refreshToken));
         dispatch(setAuth());
       }
+      else { return Promise.reject(`Ошибка: ${res.status} Registration failed`) }
     })
     .catch(err => {
       dispatch({ type: REGISTRATION_FAILED });
@@ -103,7 +101,7 @@ export const resetPassword = (email) => (dispatch) => {
       if (res && res.success) {
         dispatch({ type: PASSWORD_RESET_SUCCESS });
       }
-      else { dispatch({ type: PASSWORD_RESET_FAILED }) }
+      else { return Promise.reject(`Ошибка: ${res.status} Reset password failed`) }
     })
     .catch(err => {
       dispatch({ type: PASSWORD_RESET_FAILED });
@@ -118,7 +116,7 @@ export const setNewPassword = (form) => (dispatch) => {
       if (res && res.success) {
         dispatch({ type: SET_PASSWORD_SUCCESS });
       }
-      else { dispatch({ type: SET_PASSWORD_FAILED }) }
+      else { return Promise.reject(`Ошибка: ${res.status} Set new password failed`); }
     })
     .catch(err => {
       dispatch({ type: SET_PASSWORD_FAILED });
@@ -143,6 +141,7 @@ export const login = (form) => (dispatch) => {
         });
         dispatch({ type: AUTH_SUCCESS })
       }
+      else { return Promise.reject(`Ошибка: ${res.status} Login failed`) }
     })
     .catch(err => {
       dispatch({ type: LOGIN_FAILED });
@@ -172,7 +171,7 @@ export const updateUser = (form) => async (dispatch) => {
       });
       console.log('in update')
     }
-    else { dispatch({ type: UPDATE_USER_FAILED }) }
+    else { return Promise.reject(`Ошибка: ${res.status} Update user failed`); }
   } catch (error) {
     dispatch({ type: UPDATE_USER_FAILED });
     console.log(error);
@@ -188,7 +187,7 @@ export const logout = () => async (dispatch) => {
       deleteCookie('token');
       deleteRefreshToken();
     }
-    else { dispatch({ type: LOGOUT_FAILED }) }
+    else { return Promise.reject(`Ошибка: ${res.status} Logout failed`); }
   } catch (error) {
     dispatch({ type: LOGOUT_FAILED });
     console.log(error)

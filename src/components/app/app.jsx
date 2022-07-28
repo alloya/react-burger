@@ -1,13 +1,13 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrderInfoPage, OrdersPage } from '../../pages';
 import { IngredientPage } from '../../pages/ingredient-page';
 import { LogoutPage } from '../../pages/logout-page';
 import { NotFoundPage } from '../../pages/not-found';
-import { REMOVE_INGREDIENT_INFO_TO_MODAL } from '../../services/actions/ingredient-modal';
+import { REMOVE_INGREDIENT_INFO_TO_MODAL, SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/actions/ingredient-modal';
 import { CLOSE_ALL_POPUPS } from '../../services/actions/modal';
 import Header from '../app-header/app-header';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import MainPage from '../main/main';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
@@ -27,6 +27,12 @@ const App = () => {
     }
     dispatch({ type: CLOSE_ALL_POPUPS });
   }
+
+  useEffect(() => {
+    if (background) {
+      dispatch({ type: SHOW_INGREDIENT_DETAILS_POPUP })
+    }
+  }, [])
 
   return (
     <>
@@ -68,7 +74,7 @@ const App = () => {
       </Switch>
       {background &&
         <Route path="/ingredient/:id">
-          {ingredientModalOpened && <Modal closeModal={closeModal} ><IngredientDetails /></Modal>}
+          {ingredientModalOpened && <Modal closeModal={closeModal} ><IngredientPage /></Modal>}
         </Route>
       }
       {orderModalOpened && <Modal closeModal={closeModal} ><OrderDetails /></Modal>}
