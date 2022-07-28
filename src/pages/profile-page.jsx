@@ -5,26 +5,26 @@ import styles from '../utils/styles.module.css';
 import { SideMenu } from "../components/side-menu/side-menu";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, RESET_UPDATE_USER } from "../services/actions/auth";
+import { useForm } from "../services/hooks/useForm";
 
 export function ProfilePage() {
   const { user, getUserRequest, updateUserRequest, updateUserSuccess } = useSelector(store => store.auth);
   const dispatch = useDispatch();
-  const [form, setValue] = useState({ name: user.name || '', email: user.email || '', password: '' });
+  const {values, handleChange, setValues, changed, resetChange} = useForm({name: user.name, email: user.email, password: ''});
   const inputNameRef = useRef(null);
   const inputEmailRef = useRef(null);
-  const [changed, setChanged] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [nameError, setNameError] = useState(false);
 
   const reset = () => {
-    setChanged(false);
-    setValue({ ...form, name: user.name, email: user.email })
+    resetChange();
+    setValues({ ...values, name: user.name, email: user.email })
   }
 
   useEffect(
     () => {
       if (user.name && user.email) {
-        setValue({ ...form, name: user.name, email: user.email })
+        setValues({ ...values, name: user.name, email: user.email, password: '' })
       }
     }, [user.name, user.email]
   )
@@ -36,13 +36,9 @@ export function ProfilePage() {
     }
   }, [updateUserSuccess])
 
-  const onIconClick = () => {
-    setTimeout(() => inputNameRef.current.focus(), 0)
+  const onIconClick = (ref) => {
+    setTimeout(() => ref.current.focus(), 0)
   }
-  const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-    setChanged(true);
-  };
 
   const onFocus = () => {
     setNameError(false);
@@ -51,16 +47,16 @@ export function ProfilePage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!form.email.length || !form.name.length) {
-      if (!form.email.length) {
+    if (!values.email.length || !values.name.length) {
+      if (!values.email.length) {
         setEmailError(true);
       }
-      if (!form.name.length) {
+      if (!values.name.length) {
         setNameError(true)
       }
       return;
     }
-    await dispatch(updateUser(form));
+    await dispatch(updateUser(values));
   }
 
   return (
@@ -68,11 +64,11 @@ export function ProfilePage() {
       <div className={`${s.container} ${s.profile} ${s.left_side}`}>
         <SideMenu />
         {getUserRequest && 'Загрузка...'}
-        {!getUserRequest &&
+        {!getUserRequest && Object.keys(values).length && 
           <form className={`${styles.d_flex} ${styles.flex_column}`} onSubmit={(e) => onSubmit(e)}>
             <div className={`${s.input} pb-6`}>
-              <Input onChange={onChange}
-                value={form.name}
+              <Input onChange={handleChange}
+                value={values.name}
                 name={'name'}
                 placeholder={'Имя'}
                 type="text"
@@ -84,8 +80,8 @@ export function ProfilePage() {
                 onFocus={onFocus} />
             </div>
             <div className={`${s.input} pb-6`}>
-              <Input onChange={onChange}
-                value={form.email}
+              <Input onChange={handleChange}
+                value={values.email}
                 name={'email'}
                 placeholder={'E-mail'}
                 type="email"
@@ -97,8 +93,8 @@ export function ProfilePage() {
                 onFocus={onFocus} />
             </div>
             <div className={`${s.input} pb-6`}>
-              <PasswordInput onChange={onChange}
-                value={form.password}
+              <PasswordInput onChange={handleChange}
+                value={values.password}
                 name={'password'} />
             </div>
             {changed && <span className={`${styles.ml_auto} ${s.fade}`}>

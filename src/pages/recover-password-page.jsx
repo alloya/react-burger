@@ -4,12 +4,13 @@ import s from './page.module.css';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { setNewPassword } from "../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../services/hooks/useForm";
 
 export function RecoverPasswordPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isAuth, setPasswordRequest, setPasswordSuccess} = useSelector(store => store.auth);
-  const [form, setValue] = useState({ password: '', token: '' });
+  const {values, handleChange} = useForm({password: '', token: ''});
   const [tokenError, setTokenError] = useState(false);
   const location = useLocation();
   const referrer = location.state?.referrer;
@@ -17,10 +18,6 @@ export function RecoverPasswordPage() {
   useEffect(() => {
     redirectAfterReset()
   }, [setPasswordSuccess])
-
-  const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
 
   const redirectAfterReset = () => {
     setPasswordSuccess && history.push('/login');
@@ -32,11 +29,11 @@ export function RecoverPasswordPage() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!form.token.length) {
+    if (!values.token.length) {
       setTokenError(true);
       return;
     }
-    dispatch(setNewPassword(form))
+    dispatch(setNewPassword(values))
   }
 
   if (isAuth) {
@@ -49,18 +46,18 @@ export function RecoverPasswordPage() {
 
   return (
     <div className={`${s.container} ${s.centered}`}>
-      <form className={s.content} onSubmit={(e) => onSubmit(e)} >
+      {Object.keys(values).length && <form className={s.content} onSubmit={(e) => onSubmit(e)} >
         <div className="text text_type_main-medium pb-6">Восстановление пароля</div>
         <div className={`${s.input} pb-6`}>
-          <PasswordInput onChange={onChange}
-            value={form.password}
+          <PasswordInput onChange={handleChange}
+            value={values.password}
             name={'password'}
             placeholder={'Введите новый пароль'} />
         </div>
 
         <div className={`${s.input} pb-6`}>
-          <Input onChange={onChange}
-            value={form.token}
+          <Input onChange={handleChange}
+            value={values.token}
             name={'token'}
             placeholder={'Введите код из письма'}
             error={tokenError}
@@ -75,7 +72,7 @@ export function RecoverPasswordPage() {
           Сохранить
         </Button>
         <p className="text text_type_main-default text_color_inactive pt-20 pb-4">Вспомнили пароль? <Link to="/login" className={s.link}>Войти</Link></p>
-      </form>
+      </form>}
     </div>
   )
 }

@@ -4,20 +4,17 @@ import s from './page.module.css';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword, RESET_PASSWORD_RESET_STATE } from "../services/actions/auth";
+import { useForm } from "../services/hooks/useForm";
 
 export function ForgotPasswordPage() {
   const dispatch = useDispatch();
   const { isAuth, passwordResetSuccess, passwordResetFailed, passwordResetRequest } = useSelector(store => store.auth);
-  const [form, setValue] = useState({ email: '' });
+  const {values, handleChange} = useForm({email: ''});
   const [emailError, setEmailError] = useState(false);
 
   useEffect(() => {
-    dispatch({ type: RESET_PASSWORD_RESET_STATE })
+    dispatch({ type: RESET_PASSWORD_RESET_STATE });
   }, [])
-
-  const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
 
   const onFocus = () => {
     setEmailError(false);
@@ -26,13 +23,13 @@ export function ForgotPasswordPage() {
   const resetPasswordHandle = useCallback(
     (e) => {
       e.preventDefault();
-      if (!form.email.length) {
+      if (!values.email.length) {
         setEmailError(true);
         return;
       }
-      dispatch(resetPassword(form.email));
+      dispatch(resetPassword(values.email));
     },
-    [dispatch, form.email]
+    [dispatch, values.email]
   )
 
   if (isAuth) {
@@ -41,11 +38,11 @@ export function ForgotPasswordPage() {
 
   return (
     <div className={`${s.container} ${s.centered}`}>
-      <form className={s.content} onSubmit={(e) => resetPasswordHandle(e)} >
+      {Object.keys(values).length && <form className={s.content} onSubmit={(e) => resetPasswordHandle(e)} >
         <div className="text text_type_main-medium pb-6">Восстановление пароля</div>
         <div className={`${s.input} pb-6`}>
-          <Input onChange={onChange}
-            value={form.email}
+          <Input onChange={handleChange}
+            value={values.email}
             name={'email'}
             placeholder={'Укажите e-mail'}
             type="email"
@@ -73,7 +70,7 @@ export function ForgotPasswordPage() {
             }}
           />
         }
-      </form>
+      </form>}
     </div>
   )
 }

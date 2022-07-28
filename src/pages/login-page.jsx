@@ -4,31 +4,30 @@ import s from './page.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { login } from "../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../services/hooks/useForm";
 
 export function LoginPage() {
   const dispatch = useDispatch();
   const location = useLocation();
   const { isAuth, loginRequest } = useSelector(store => store.auth);
-  const [form, setValue] = useState({ email: '', password: '' });
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
   const path = location.state?.from.pathname;
-  const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+
+  const {values, handleChange} = useForm({email: '', password: ''});
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!form.email.length || !form.password.length) {
-      if (!form.email.length) {
+    if (!values.email.length || !values.password.length) {
+      if (!values.email.length) {
         setEmailError(true);
       }
-      if (!form.password.length) {
+      if (!values.password.length) {
         setPassError(true)
       }
       return;
     }
-    dispatch(login(form));
+    dispatch(login(values));
   }
 
   const onFocus = () => {
@@ -44,11 +43,11 @@ export function LoginPage() {
 
   return (
     <div className={`${s.container} ${s.centered}`}>
-      <form className={s.content} onSubmit={(e) => onSubmit(e)}>
+      {Object.keys(values).length && <form className={s.content} onSubmit={(e) => onSubmit(e)}>
         <div className="text text_type_main-medium pb-6">Вход</div>
         <div className={`${s.input} pb-6`}>
-          <Input onChange={onChange}
-            value={form.email}
+          <Input onChange={handleChange}
+            value={values.email}
             name={'email'}
             placeholder={'E-mail'}
             type="email"
@@ -57,8 +56,8 @@ export function LoginPage() {
             onFocus={onFocus} />
         </div>
         <div className={`${s.input} pb-6`}>
-          <PasswordInput onChange={onChange}
-            value={form.password}
+          <PasswordInput onChange={handleChange}
+            value={values.password}
             name={'password'}
             error={passError}
             errorText={"Поле не может быть пустым"}
@@ -77,7 +76,7 @@ export function LoginPage() {
         </p>
         <p className="text text_type_main-default text_color_inactive">Забыли пароль?
         <Link to="/forgot-password" className={s.link}>   Восстановить пароль</Link></p>
-      </form>
+      </form>}
     </div>
   )
 }
