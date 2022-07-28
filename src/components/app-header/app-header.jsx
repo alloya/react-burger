@@ -7,10 +7,10 @@ import {
 import s from "./app-header.module.css";
 import styles from "../../utils/styles.module.css";
 import NavItem from "./header-components/nav-item/nav-item";
-import { useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 
 const Header = () => {
-  let useIsMatch = (link, exact = false) => useRouteMatch({path: link, exact: exact});
+  let useIsMatch = (link, exact = false) => useRouteMatch({ path: link, exact: exact });
 
   return (
     <header className={`${s.header} mb-10`}>
@@ -24,7 +24,9 @@ const Header = () => {
           </NavItem>
         </div>
         <div className={styles.m_auto}>
-          <Logo />
+          <Link to='/' >
+            <Logo />
+          </Link>
         </div>
         <div className={styles.ml_auto}>
           <NavItem text="Личный кабинет" link="/profile" active={useIsMatch('/profile')}>
