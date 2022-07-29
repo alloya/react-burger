@@ -1,24 +1,23 @@
-import React from "react";
 import PropTypes from "prop-types";
 import s from "./nav-item.module.css";
+import { NavLink } from "react-router-dom";
 
-const NavItem = (props) => {
+const NavItem = ({link, text, active, children}) => {
   return (
-    <a href="#id" className={`${s.nav_item} p-5`}>
-      <span className="pr-2">{props.children}</span>
-      <p
-        className={`${
-          props.active ? "" : "text_color_inactive"
-        } text text_type_main-default`}
-      >
-        {props.text}
+    <NavLink to={link} 
+      className={`${s.nav_item} text text_type_main-default p-5 ` + (active ? `${s.active}` : 'text_color_inactive')}>
+      <span className="pr-2">{children}</span>
+      <p>
+        {text}
       </p>
-    </a>
+    </NavLink>
   );
 };
 
 NavItem.propTypes = {
   text: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+  active: PropTypes.object
 };
 
 export default NavItem;

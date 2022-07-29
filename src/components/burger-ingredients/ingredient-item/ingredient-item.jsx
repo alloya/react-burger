@@ -9,11 +9,14 @@ import { SHOW_INGREDIENT_DETAILS_POPUP } from "../../../services/actions/modal";
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
 import IngredientTypes from "../../../utils/models/ingredient-type-model";
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 
 const IngredientItem = ({ ingredient }) => {
   const { constructorItems } = useSelector(store => store.constructor);
   const dispatch = useDispatch();
-  const [{ opacity }, ref ] = useDrag({
+  const location = useLocation();
+  const [{ opacity }, ref] = useDrag({
     type: 'ingredient',
     item: { ingredient },
     collect: monitor => ({
@@ -31,15 +34,19 @@ const IngredientItem = ({ ingredient }) => {
   }, [constructorItems])
 
   return (
-    <li className={s.container} ref={ref} onClick={() => {
-      dispatch({type: ADD_INGREDIENT_INFO_TO_MODAL, ingredient});
-      dispatch({type: SHOW_INGREDIENT_DETAILS_POPUP})
-    }} style={{ opacity }}>
-      {counter !== 0 && <Counter count={counter} size="small" />}
-      <img className={`pb-2`} src={ingredient.image} alt={ingredient.name} ></img>
-      <Price price={ingredient.price} />
-      <p className="text text_type_main-default pt-2 pr-2 pl-2">{ingredient.name}</p>
-    </li>
+    <Link
+      to={{ pathname: `/ingredient/${ingredient._id}`, state: { background: location } }}
+      className={s.no_link} >
+      <li className={s.container} ref={ref} onClick={() => {
+        dispatch({ type: ADD_INGREDIENT_INFO_TO_MODAL, ingredient });
+        dispatch({ type: SHOW_INGREDIENT_DETAILS_POPUP })
+      }} style={{ opacity }}>
+        {counter !== 0 && <Counter count={counter} size="small" />}
+        <img className={`pb-2`} src={ingredient.image} alt={ingredient.name} ></img>
+        <Price price={ingredient.price} />
+        <p className="text text_type_main-default pt-2 pr-2 pl-2">{ingredient.name}</p>
+      </li>
+    </Link>
   );
 };
 

@@ -5,11 +5,9 @@ import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from "prop-types";
 
-
 const modalsContainer = document.querySelector('#modals');
 
 const Modal = ({ closeModal, children }) => {
-
   const handleEscKeydown = (event) => {
     event.key === "Escape" && closeModal();
   };

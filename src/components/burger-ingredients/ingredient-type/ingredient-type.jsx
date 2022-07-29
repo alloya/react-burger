@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import s from "./ingredient-type.module.css";
 import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 
 const IngredientType = ({ type, innerRef }) => {
   const { ingredients } = useSelector(store => store.ingredients);
+  const location = useLocation();
   const filter = (data, filterType) => {
     return data.filter((item) => item.type === filterType);
   }
@@ -23,13 +25,13 @@ const IngredientType = ({ type, innerRef }) => {
       <h2 className="text text_type_main-medium pb-6">{type.text}</h2>
       <ul className={s.ingredientList}>
         {arr.map((item) => (
-          <IngredientItem 
-            ingredient={item} 
+          <IngredientItem
+            ingredient={item}
             key={item._id}
           />
         ))}
       </ul>
-    </li>
+    </li >
   );
 }
 

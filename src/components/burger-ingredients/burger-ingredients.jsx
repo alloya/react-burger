@@ -18,7 +18,9 @@ const BurgerIngredients = () => {
 
   useEffect(
     () => {
-      dispatch(getIngredients())
+      if (ingredients.length == 0) {
+        dispatch(getIngredients())
+      }
     }, [dispatch]
   );
   const types = Object.keys(IngredientTypes);
