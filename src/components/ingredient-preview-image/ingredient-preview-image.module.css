@@ -1,0 +1,11 @@
+.ingrPreview {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border-image:
+    linear-gradient(to bottom,
+      red,
+      rgba(0, 0, 0, 0)) 1 100%;
+  background-color: #131316;
+  object-fit: cover;
+}

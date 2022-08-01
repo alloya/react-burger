@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import s from "./ingredient-type.module.css";
 import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
 
 const IngredientType = ({ type, innerRef }) => {
   const { ingredients } = useSelector(store => store.ingredients);
-  const location = useLocation();
   const filter = (data, filterType) => {
     return data.filter((item) => item.type === filterType);
   }

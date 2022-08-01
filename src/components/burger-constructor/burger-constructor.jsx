@@ -14,6 +14,7 @@ import { DraggableConstructorItem } from "./draggable-constructor-item/draggable
 import { orderCheckout } from "../../services/actions/checkout";
 import { useHistory } from "react-router";
 import { checkAuth } from "../../services/actions/auth";
+import { countBasket } from "../../utils/utils";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -39,19 +40,6 @@ const BurgerConstructor = () => {
     return [];
   }, [constructorItems]);
 
-  const countBasket = (ingredients) => {
-    if (ingredients && ingredients.length) {
-      return ingredients.reduce((sum, ingredient) => {
-        if (ingredient.type === IngredientTypes.bun.type) {
-          return sum + ingredient.price * 2;
-        }
-        return sum + ingredient.price
-      }, 0)
-    }
-    return 0;
-  }
-
-  
   const submitOrder = async () => {
     const auth = await dispatch(checkAuth())
     !auth 

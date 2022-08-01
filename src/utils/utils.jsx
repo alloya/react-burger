@@ -28,6 +28,18 @@ const  shuffleArray = (array) => {
   return array;
 }
 
+export const countBasket = (ingredients) => {
+  if (ingredients && ingredients.length) {
+    return ingredients.reduce((sum, ingredient) => {
+      if (ingredient.type === IngredientTypes.bun.type) {
+        return sum + ingredient.price * 2;
+      }
+      return sum + ingredient.price
+    }, 0)
+  }
+  return 0;
+}
+
 export function getCookie(name) {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')

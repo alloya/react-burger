@@ -1,0 +1,28 @@
+.order_list {
+  width: 49%;
+  max-height: calc(100vh - 220px);
+  padding-left: 0;
+  margin-right: 56px;
+}
+
+.order_list_item {
+  list-style: none;
+}
+
+.container {
+  padding-left: 160px;
+  padding-right: 160px;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.orders_statuses h1 {
+  text-shadow: rgb(51 51 255) 2px 0 15px;
+}
+
+.no_link {
+  text-decoration: none;
+  color: white;
+}

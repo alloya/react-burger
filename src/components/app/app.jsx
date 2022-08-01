@@ -1,10 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
-import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrderInfoPage, OrdersPage } from '../../pages';
-import { IngredientPage } from '../../pages/ingredient-page';
-import { LogoutPage } from '../../pages/logout-page';
-import { NotFoundPage } from '../../pages/not-found';
+import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrderInfoPage, OrdersPage, IngredientPage, LogoutPage, NotFoundPage, FeedPage, FeedDetailedPage } from '../../pages';
 import { REMOVE_INGREDIENT_INFO_TO_MODAL, SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/actions/ingredient-modal';
 import { CLOSE_ALL_POPUPS } from '../../services/actions/modal';
 import Header from '../app-header/app-header';
@@ -61,6 +58,12 @@ const App = () => {
         </ProtectedRoute>
         <Route path="/ingredient/:id" exact>
           <IngredientPage />
+        </Route>
+        <Route path="/feed" exact>
+          <FeedPage />
+        </Route>
+        <Route path="/feed/:id" exact>
+          <FeedDetailedPage />
         </Route>
         <Route path="/logout" exact>
           <LogoutPage />
