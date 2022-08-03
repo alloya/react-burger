@@ -1,5 +1,5 @@
-import { useMemo } from "react"
-import { useSelector } from "react-redux"
+import { useEffect, useMemo, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { FeedElementComponent } from "../../components/feed-element-component/feed-elemet-component";
 import Title from "../../components/title/title";
 import styles from "../../utils/styles.module.css";
@@ -7,24 +7,43 @@ import s from "./feed-page.module.css";
 import { createBurger } from "../../utils/utils";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
+import { wsConnectionClosed, wsConnectionStart, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../../services/actions/websocket";
+import { getIngredients } from "../../services/actions/ingredients";
 
 export const FeedPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
+  const dispatch = useDispatch();
   const location = useLocation();
-  const feed = useMemo(() => {
-    let burgerArray = [];
-    for (let i = 0; i < 5; i++) {
-      let ingrArray = []
-      const burger = createBurger(ingredients);
-      burger.map(el => {
-        ingrArray.push(el._id)
-      })
-      burgerArray.push(ingrArray);
+  const [feed, setFeed] = useState([]);
+  
+  const getFeed = () => {
+    if (!ingredients.length) {
+      dispatch(getIngredients());
     }
-    return burgerArray;
-  }, [ingredients]);
+    else {
+      let burgerArray = [];
+      for (let i = 0; i < 5; i++) {
+        let ingrArray = []
+        const burger = createBurger(ingredients);
+        burger.map(el => {
+          ingrArray.push(el._id)
+        })
+        burgerArray.push(ingrArray);
+      }
+      setFeed(burgerArray);
+    }
+  }
 
+  useEffect(() => {
+    dispatch(wsConnectionStart('wss://norma.nomoreparties.space/orders/all'));
+    return () => {
+      dispatch(wsConnectionClosed());
+    }
+  }, [dispatch]);
 
+  useEffect(() => {
+    getFeed();
+  }, [ingredients])
 
   return (
     <div className={s.container}>
@@ -32,11 +51,11 @@ export const FeedPage = () => {
       <div className={s.wrapper}>
         <ul className={styles.scrollable + ' ' + s.order_list + ' pr-1 mr-14'}>
           {feed.map((element, index) => (
-            <li className={`${s.order_list_item} pb-6`}>
-              <Link to={{ pathname: `/feed/1`, state: { background: location } }} className={s.no_link} >
+            <li className={`${s.order_list_item} pb-6`} key={index} >
+              <Link to={{ pathname: `/feed/1`, state: { background: location, data: element } }} className={s.no_link} >
                 <FeedElementComponent
                   burgerIngredients={element}
-                  key={index} />
+                />
               </Link>
             </li>
           ))}

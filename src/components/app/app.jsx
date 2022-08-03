@@ -20,9 +20,9 @@ const App = () => {
   const closeModal = () => {
     if (ingredientModalOpened) {
       dispatch({ type: REMOVE_INGREDIENT_INFO_TO_MODAL });
-      history.goBack();
     }
     dispatch({ type: CLOSE_ALL_POPUPS });
+    history.goBack();
   }
 
   useEffect(() => {
@@ -75,10 +75,14 @@ const App = () => {
           <NotFoundPage />
         </Route>
       </Switch>
-      {background &&
+      {background && (background.pathname == '/' &&
         <Route path="/ingredient/:id">
           {ingredientModalOpened && <Modal closeModal={closeModal} ><IngredientPage /></Modal>}
         </Route>
+        || background.pathname.includes('/feed') &&
+        <Route path="/feed/:id">
+          <Modal closeModal={closeModal}><FeedDetailedPage /></Modal>
+        </Route>)
       }
       {orderModalOpened && <Modal closeModal={closeModal} ><OrderDetails /></Modal>}
     </>

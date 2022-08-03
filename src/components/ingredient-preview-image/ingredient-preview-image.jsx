@@ -1,11 +1,9 @@
 import s from './ingredient-preview-image.module.css';
 
-export const IngredientPreviewImage = ({ url }) => {
-  debugger
-  console.log(url)
+export const IngredientPreviewImage = ({ image_mobile, marginRight = 0, name, ...rest }) => {
   return (
     <>
-      <img src={url } className={s.ingrPreview}></img>
+      <img src={image_mobile} className={s.ingrPreview} alt={name} style={{marginRight: marginRight}}></img>
     </>
   )
 }

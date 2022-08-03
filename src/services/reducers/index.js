@@ -5,6 +5,7 @@ import { constructorReducer } from './constructor';
 import { ingredientsReducer } from './ingredient';
 import { ingredientModalReducer } from './ingredient-modal';
 import { modalReducer } from './modal';
+import { websocketReducer } from './websocket';
 
 export const rootReducer = 
 combineReducers({
@@ -13,5 +14,6 @@ combineReducers({
   checkout: checkoutReducer,
   modal: modalReducer,
   ingredientModal: ingredientModalReducer,
-  auth: authReducer
+  auth: authReducer,
+  ws: websocketReducer
 });

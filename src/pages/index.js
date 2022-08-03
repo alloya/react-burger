@@ -5,7 +5,7 @@ import { RecoverPasswordPage } from "./recover-password-page";
 import { RegistrationPage } from "./registration-page";
 import { OrderInfoPage } from "./order-info-page";
 import { OrdersPage } from "./orders-page";
-import { FeedDetailedPage } from "./feed-detailed-page";
+import { FeedDetailedPage } from "./feed-detailed-page/feed-detailed-page";
 import { FeedPage } from "./feed-page/feed-page";
 import { IngredientPage } from "./ingredient-page";
 import { LogoutPage } from "./logout-page";

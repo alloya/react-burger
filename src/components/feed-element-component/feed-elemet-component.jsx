@@ -1,19 +1,32 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
 import styles from "../../utils/styles.module.css";
 import { countBasket } from "../../utils/utils";
+import { IngredientPreviewImage } from "../ingredient-preview-image/ingredient-preview-image";
 import Price from "../price/price";
 import s from "./feed-element-component.module.css";
 
 export const FeedElementComponent = ({ burgerIngredients }) => {
   const { ingredients } = useSelector(store => store.ingredients);
+  const dispatch = useDispatch();
   const [picArray, setPicArray] = useState([]);
+
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      dispatch(getIngredients());
+    }
+  }, [dispatch])
 
   useEffect(() => {
     const orderIngredients = [];
     burgerIngredients.forEach(element => {
       const item = ingredients.filter(elem => elem._id === element)
-      orderIngredients.push(item[0])
+      if (item) {
+        orderIngredients.push(item[0])
+      }
+
     })
     setPicArray(orderIngredients)
   }, [ingredients, burgerIngredients]);
@@ -28,8 +41,8 @@ export const FeedElementComponent = ({ burgerIngredients }) => {
       {/* {burgerIngredients.status && <span>{burgerIngredients.status}</span>} */}
       <div className={styles.d_flex + ' ' + styles.justify_between}>
         <div className={s.ingredients_wrapper}>
-          {picArray.map((el) => (
-            <img src={el.image_mobile} className={s.ingrPreview}></img>
+          {picArray.map((el, index) => (
+          <IngredientPreviewImage {...el} key={index} marginRight='-16px' />
           ))}
         </div>
         <Price price={useMemo(() => countBasket(picArray), [picArray])} ></Price>
