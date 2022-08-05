@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,7 +45,7 @@ export const FeedElementComponent = ({ order }) => {
     <div className={s.wrapper}>
       <div className={styles.d_flex + ' ' + styles.justify_between + ' pb-6'}>
         <span className="text text_type_main-default"># {number} </span>
-        <span className="text text_type_main-default text_color_inactive">{moment.utc(createdAt).utcOffset(Math.abs(offset)).calendar()}</span>
+        <span className="text text_type_main-default text_color_inactive">{moment.utc(createdAt).utcOffset(-(offset)).calendar()}</span>
       </div>
       <p className="text text_type_main-medium pb-6">{name}</p>
       <div className={styles.d_flex + ' ' + styles.justify_between}>
@@ -64,4 +65,8 @@ export const FeedElementComponent = ({ order }) => {
       </div>
     </div>
   )
+}
+
+FeedElementComponent.propTypes = {
+  order: PropTypes.object
 }

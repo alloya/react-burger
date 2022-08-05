@@ -1,4 +1,5 @@
 import s from './ingredient-preview-image.module.css';
+import PropTypes from "prop-types";
 
 export const IngredientPreviewImage = ({ image_mobile, marginRight = 0, name, number, faded = false, ...rest }) => {
   return (
@@ -12,5 +13,13 @@ export const IngredientPreviewImage = ({ image_mobile, marginRight = 0, name, nu
       }
     </>
   )
+}
+
+IngredientPreviewImage.propTypes = {
+  image_mobile: PropTypes.string.isRequired,
+  marginRight: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.number,
+  faded: PropTypes.bool
 }
 

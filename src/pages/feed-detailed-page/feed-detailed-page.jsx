@@ -106,7 +106,7 @@ export const FeedDetailedPage = () => {
           ))}
         </div>
         <span className={styles.d_flex + ' pt-10 ' + styles.justify_between + ' ' + styles.w_100}>
-          <p className="text text_type_main-default text_color_inactive">{moment(order.createdAt).utcOffset(Math.abs(offset)).calendar()}</p>
+          <p className="text text_type_main-default text_color_inactive">{moment(order.createdAt).utcOffset(-(offset)).calendar()}</p>
           <span><Price price={getOrderPrice()} /></span>
         </span>
       </div>}

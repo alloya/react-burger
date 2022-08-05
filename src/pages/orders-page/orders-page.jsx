@@ -28,7 +28,7 @@ export function OrdersPage() {
     <div className={pageStyles.container + ' ' + pageStyles.profile}>
       <SideMenu />
         <div className={s.orders}>
-          {feed && feed.orders && <OrderList feed={feed.orders} />}
+          {feed && feed.orders && (feed.orders.length > 0) && <OrderList feed={feed.orders} />}
         </div>
     </div>
   )

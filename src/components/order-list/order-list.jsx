@@ -1,10 +1,11 @@
+import PropTypes from "prop-types";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { FeedElementComponent } from "../feed-element-component/feed-elemet-component";
 import s from "./order-list.module.css";
 import styles from "../../utils/styles.module.css";
+import { IngredientPropTypes } from "../../utils/prop-types";
 
 export const OrderList = ({ feed }) => {
-  console.log(feed);
   const location = useLocation();
   const match = useRouteMatch();
   if (location.pathname.includes('orders')) {
@@ -24,4 +25,8 @@ export const OrderList = ({ feed }) => {
       ))}
     </ul>
   )
+}
+
+OrderList.propTypes = {
+  feed: PropTypes.array
 }

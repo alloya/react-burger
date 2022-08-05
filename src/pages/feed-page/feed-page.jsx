@@ -55,7 +55,7 @@ export const FeedPage = () => {
       <Title text="Лента заказов" />
       <div className={s.wrapper}>
         <div className={s.order_list}>
-          {feed && feed.orders && <OrderList feed={feed.orders} />}
+          {feed && feed.orders && feed.orders.length > 0 && <OrderList feed={feed.orders} />}
         </div>
         <div className={s.orders_statuses}>
           <div className={s.status_table + ' ' + styles.d_flex}>

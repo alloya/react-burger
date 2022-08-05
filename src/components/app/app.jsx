@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
-import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrderInfoPage, OrdersPage, IngredientPage, LogoutPage, NotFoundPage, FeedPage, FeedDetailedPage } from '../../pages';
+import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrdersPage, IngredientPage, LogoutPage, NotFoundPage, FeedPage, FeedDetailedPage } from '../../pages';
 import { REMOVE_INGREDIENT_INFO_TO_MODAL, SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/actions/ingredient-modal';
 import { CLOSE_ALL_POPUPS } from '../../services/actions/modal';
 import Header from '../app-header/app-header';

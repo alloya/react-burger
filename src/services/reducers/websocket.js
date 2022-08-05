@@ -23,7 +23,8 @@ export const websocketReducer = (state = initialState, action) => {
     case WS_CONNECTION_START: {
       return {
         ...state,
-        connecting: true
+        connecting: true,
+        messages: {}
       }
     }
     case WS_CONNECTION_ERROR:
