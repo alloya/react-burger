@@ -1,9 +1,13 @@
 .ingredients {
   max-height: calc(100vh - 400px);
+  width: 100%;
 }
 
 .container {
   width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper {

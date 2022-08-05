@@ -1,84 +1,96 @@
 import { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { FeedElementComponent } from "../../components/feed-element-component/feed-elemet-component";
 import Title from "../../components/title/title";
 import styles from "../../utils/styles.module.css";
 import s from "./feed-page.module.css";
-import { createBurger } from "../../utils/utils";
-import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
-import { wsConnectionClosed, wsConnectionStart, WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../../services/actions/websocket";
-import { getIngredients } from "../../services/actions/ingredients";
+import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/websocket";
+import { OrderList } from "../../components/order-list/order-list";
+import OrderStatus from "../../utils/models/order-status";
+import { ORDERS_ALL_URL } from "../../utils/const";
 
 export const FeedPage = () => {
-  const { ingredients } = useSelector(store => store.ingredients);
+  const { wsConnected, messages } = useSelector(store => store.ws);
   const dispatch = useDispatch();
-  const location = useLocation();
-  const [feed, setFeed] = useState([]);
-  
-  const getFeed = () => {
-    if (!ingredients.length) {
-      dispatch(getIngredients());
-    }
-    else {
-      let burgerArray = [];
-      for (let i = 0; i < 5; i++) {
-        let ingrArray = []
-        const burger = createBurger(ingredients);
-        burger.map(el => {
-          ingrArray.push(el._id)
-        })
-        burgerArray.push(ingrArray);
-      }
-      setFeed(burgerArray);
-    }
-  }
-
+  const [feed, setFeed] = useState({});
+  const [done, setDone] = useState([]);
+  const [pending, setPending] = useState([]);
   useEffect(() => {
-    dispatch(wsConnectionStart('wss://norma.nomoreparties.space/orders/all'));
+    dispatch(wsConnectionStart(ORDERS_ALL_URL));
     return () => {
       dispatch(wsConnectionClosed());
     }
   }, [dispatch]);
 
   useEffect(() => {
-    getFeed();
-  }, [ingredients])
+    setFeed(messages)
+  }, [wsConnected, messages, setFeed]);
+
+  const doneList = useMemo(() => {
+    return feed.orders && feed.orders.filter(el => el.status === OrderStatus.done.type)
+  }, [feed]);
+
+  const pendingList = useMemo(() => {
+    return feed.orders && feed.orders.filter(el => el.status !== OrderStatus.done.type)
+  }, [feed]);
+
+  const divide = (arr, callback) => {
+    let bigArr = [];
+    for (let k = 0; k < Math.ceil(arr.length / 10); k++) {
+      let smallArr = [];
+      for (let i = 0; i < 10; i++) {
+        smallArr.push(arr[i] && arr[i].number)
+      }
+      bigArr.push(smallArr)
+    }
+    callback(bigArr)
+  }
+
+  useEffect(() => {
+    doneList && divide(doneList, setDone);
+    pendingList && divide(pendingList, setPending);
+  }, [doneList, pendingList, setDone, setPending])
 
   return (
     <div className={s.container}>
       <Title text="Лента заказов" />
       <div className={s.wrapper}>
-        <ul className={styles.scrollable + ' ' + s.order_list + ' pr-1 mr-14'}>
-          {feed.map((element, index) => (
-            <li className={`${s.order_list_item} pb-6`} key={index} >
-              <Link to={{ pathname: `/feed/1`, state: { background: location, data: element } }} className={s.no_link} >
-                <FeedElementComponent
-                  burgerIngredients={element}
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className={s.order_list}>
+          {feed && feed.orders && <OrderList feed={feed.orders} />}
+        </div>
         <div className={s.orders_statuses}>
-          <div className={s.status_table + ' pb-10 ' + styles.d_flex}>
-            <div className={s.status_ready + ' pr-8'}>
+          <div className={s.status_table + ' ' + styles.d_flex}>
+            <div className='pr-8 mb-10'>
               <p className="text text_type_main-medium pb-6">Готовы:</p>
-              <div>
-
+              <div className={styles.d_flex + ' ' + s.status_ready}>
+                {!!done.length && done.map((el, index) => (
+                  <div key={index} className='pr-5'>
+                    {el.map((number, index) => (
+                      <span key={index} className={styles.d_block + ' text text_type_digits-default'}>{number}</span>)
+                    )}
+                  </div>)
+                )}
               </div>
             </div>
-            <div className={s.status_inprogress}>
+            <div className='mb-10'>
               <p className="text text_type_main-medium pb-6">В работе:</p>
+              <div className={styles.d_flex + ' ' + s.status_pending}>
+                {!!pending.length && pending.map((el, index) => (
+                  <div key={index} className='pr-5'>
+                    {el.map((number, index) => (
+                      <span key={index} className={styles.d_block + ' text text_type_digits-default'}>{number}</span>)
+                    )}
+                  </div>)
+                )}
+              </div>
             </div>
           </div>
           <div className="pb-10">
             <p className="text text_type_main-medium">Выполнено за все время:</p>
-            <h1 className='text text_type_digits-large'>28 747</h1>
+            <h1 className='text text_type_digits-large'>{feed.total}</h1>
           </div>
           <div>
             <p className="text text_type_main-medium">Выполнено за сегодня:</p>
-            <h1 className='text text_type_digits-large'>138</h1>
+            <h1 className='text text_type_digits-large'>{feed.totalToday}</h1>
           </div>
         </div>
       </div>

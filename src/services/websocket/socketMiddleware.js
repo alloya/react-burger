@@ -5,16 +5,14 @@ export const socketMiddleware = (wsActions) => {
     let socket = null;
 
     return next => action => {
-      const { dispatch, getState } = store;
+      const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
       if (type === wsInit) {
-        debugger
         socket = new WebSocket(payload);
       }
       if (socket) {
         socket.onopen = event => {
-          console.log('open')
           dispatch({ type: onOpen, payload: event });
         };
 
@@ -24,6 +22,7 @@ export const socketMiddleware = (wsActions) => {
         };
 
         socket.onmessage = event => {
+          console.log(event)
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;

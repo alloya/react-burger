@@ -1,3 +1,4 @@
+import moment from "moment";
 import IngredientTypes from "./models/ingredient-type-model";
 
 export function randomizeId() {
@@ -26,6 +27,10 @@ const  shuffleArray = (array) => {
       [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
+}
+
+export const sortIngredients = ingredients => {
+  return ingredients.sort((a, b) => a.type === IngredientTypes.bun.type ? -1 : 1)
 }
 
 export const countBasket = (ingredients) => {

@@ -8,3 +8,18 @@
   box-sizing: border-box;
   position: relative
 }
+
+.lowBrightness {
+  filter: brightness(0.7);
+}
+
+.faded {
+  position: relative;
+}
+
+.number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-35%, -50%);
+}

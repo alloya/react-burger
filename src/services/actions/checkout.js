@@ -15,7 +15,7 @@ export const orderCheckout = (order) => (dispatch) => {
       if (res && res.success) {
         dispatch({
           type: ORDER_CHECKOUT_SUCCESS,
-          order: res.order.number
+          order: res.order
         });
         dispatch({
           type: SHOW_ORDER_DETAILS_POPUP

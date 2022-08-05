@@ -9,7 +9,7 @@ import { rootReducer } from './services/reducers';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './components/app/app';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { socketMiddleware } from './services/websocket/socketMiddleware';
 import { wsActions } from './services/actions/websocket';
 

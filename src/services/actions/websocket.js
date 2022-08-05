@@ -15,7 +15,6 @@ export const wsActions = {
 };
 
 export const wsConnectionStart = (url) => {
-  debugger
   return {
     type: WS_CONNECTION_START,
     payload: url

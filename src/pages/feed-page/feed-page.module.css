@@ -5,10 +5,6 @@
   margin-right: 56px;
 }
 
-.order_list_item {
-  list-style: none;
-}
-
 .container {
   padding-left: 160px;
   padding-right: 160px;
@@ -22,7 +18,10 @@
   text-shadow: rgb(51 51 255) 2px 0 15px;
 }
 
-.no_link {
-  text-decoration: none;
-  color: white;
+.status_ready {
+  color: #00CCCC;
+}
+
+.status_table {
+  flex-wrap: wrap;
 }
