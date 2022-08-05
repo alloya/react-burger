@@ -37,11 +37,14 @@ export const FeedElementComponent = ({ order }) => {
     }
   }, [ingredients, burgerIngredients, sortIngredients]);
 
+  const date = new Date();
+  const offset = date.getTimezoneOffset();
+
   return (
     <div className={s.wrapper}>
       <div className={styles.d_flex + ' ' + styles.justify_between + ' pb-6'}>
         <span className="text text_type_main-default"># {number} </span>
-        <span className="text text_type_main-default text_color_inactive">{moment.utc(createdAt).calendar()}</span>
+        <span className="text text_type_main-default text_color_inactive">{moment.utc(createdAt).utcOffset(Math.abs(offset)).calendar()}</span>
       </div>
       <p className="text text_type_main-medium pb-6">{name}</p>
       <div className={styles.d_flex + ' ' + styles.justify_between}>

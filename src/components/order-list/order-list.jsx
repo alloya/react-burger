@@ -4,8 +4,13 @@ import s from "./order-list.module.css";
 import styles from "../../utils/styles.module.css";
 
 export const OrderList = ({ feed }) => {
+  console.log(feed);
   const location = useLocation();
   const match = useRouteMatch();
+  if (location.pathname.includes('orders')) {
+    feed = feed.reverse()
+  }
+
   return (
     <ul className={styles.scrollable + ' ' + s.order_list + ' pr-1 mr-14'}>
       {feed?.length && feed.map((element) => (

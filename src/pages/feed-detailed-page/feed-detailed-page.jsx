@@ -1,7 +1,7 @@
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation, useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { IngredientPreviewImage } from "../../components/ingredient-preview-image/ingredient-preview-image";
 import Price from "../../components/price/price";
 import { getIngredients } from "../../services/actions/ingredients";
@@ -10,7 +10,7 @@ import { ORDERS_ALL_URL, ORDERS_PERSONAL_URL } from "../../utils/const";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import OrderStatus from "../../utils/models/order-status";
 import styles from "../../utils/styles.module.css";
-import { countBasket, getCookie, getDate, sortIngredients } from "../../utils/utils";
+import { getCookie, sortIngredients } from "../../utils/utils";
 import { NotFoundPage } from "../not-found";
 import s from "./feed-detailed-page.module.css";
 
@@ -82,6 +82,10 @@ export const FeedDetailedPage = () => {
   if (messages.orders && ingredients && !order) {
     return <NotFoundPage />
   }
+
+  const date = new Date();
+  const offset = date.getTimezoneOffset();
+
   return (
     <>
       {order && <div className={s.container + ' text text_type_main-medium'}>
@@ -102,7 +106,7 @@ export const FeedDetailedPage = () => {
           ))}
         </div>
         <span className={styles.d_flex + ' pt-10 ' + styles.justify_between + ' ' + styles.w_100}>
-          <p className="text text_type_main-default text_color_inactive">{moment.utc(order.createdAt).calendar()}</p>
+          <p className="text text_type_main-default text_color_inactive">{moment(order.createdAt).utcOffset(Math.abs(offset)).calendar()}</p>
           <span><Price price={getOrderPrice()} /></span>
         </span>
       </div>}

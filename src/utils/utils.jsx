@@ -1,4 +1,3 @@
-import moment from "moment";
 import IngredientTypes from "./models/ingredient-type-model";
 
 export function randomizeId() {
