@@ -54,7 +54,7 @@ const App = () => {
           <OrdersPage />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders/:id" exact>
-          <OrderInfoPage />
+          <FeedDetailedPage />
         </ProtectedRoute>
         <Route path="/ingredient/:id" exact>
           <IngredientPage />
@@ -75,14 +75,20 @@ const App = () => {
           <NotFoundPage />
         </Route>
       </Switch>
-      {background && (background.pathname == '/' &&
-        <Route path="/ingredient/:id">
-          {ingredientModalOpened && <Modal closeModal={closeModal} ><IngredientPage /></Modal>}
-        </Route>
-        || background.pathname.includes('/feed') &&
-        <Route path="/feed/:id">
-          <Modal closeModal={closeModal}><FeedDetailedPage /></Modal>
-        </Route>)
+      {
+        background && (background.pathname == '/' &&
+          <Route path="/ingredient/:id">
+            {ingredientModalOpened && <Modal closeModal={closeModal} ><IngredientPage /></Modal>}
+          </Route>
+          || background.pathname.includes('/feed') &&
+          <Route path="/feed/:id">
+            <Modal closeModal={closeModal}><FeedDetailedPage /></Modal>
+          </Route>
+          || background.pathname.includes('/orders') &&
+          <ProtectedRoute path="/profile/orders/:id">
+            <Modal closeModal={closeModal}><FeedDetailedPage /></Modal>
+          </ProtectedRoute>
+        )
       }
       {orderModalOpened && <Modal closeModal={closeModal} ><OrderDetails /></Modal>}
     </>

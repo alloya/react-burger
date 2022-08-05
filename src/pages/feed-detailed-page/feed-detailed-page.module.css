@@ -3,11 +3,17 @@
   width: 100%;
 }
 
+.status_ready {
+  color: #00CCCC;
+}
+
 .container {
   width: 100%;
-  align-items: center;
+  align-items: start;
   display: flex;
   flex-direction: column;
+  max-width: 640px;
+  margin: auto;
 }
 
 .wrapper {

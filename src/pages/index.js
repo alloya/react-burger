@@ -4,7 +4,7 @@ import { ProfilePage } from "./profile-page";
 import { RecoverPasswordPage } from "./recover-password-page";
 import { RegistrationPage } from "./registration-page";
 import { OrderInfoPage } from "./order-info-page";
-import { OrdersPage } from "./orders-page";
+import { OrdersPage } from "./orders-page/orders-page";
 import { FeedDetailedPage } from "./feed-detailed-page/feed-detailed-page";
 import { FeedPage } from "./feed-page/feed-page";
 import { IngredientPage } from "./ingredient-page";

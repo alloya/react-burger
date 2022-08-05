@@ -169,7 +169,6 @@ export const updateUser = (form) => async (dispatch) => {
         type: UPDATE_USER_SUCCESS,
         payload: res.user
       });
-      console.log('in update')
     }
     else { return Promise.reject(`Ошибка: ${res.status} Update user failed`); }
   } catch (error) {
