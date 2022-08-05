@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
-import moment from "moment";
+import * as moment from 'moment';
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/ingredients";
+import { useSelector } from "react-redux";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import styles from "../../utils/styles.module.css";
 import { countBasket, sortIngredients } from "../../utils/utils";
@@ -13,14 +12,7 @@ import s from "./feed-element-component.module.css";
 export const FeedElementComponent = ({ order }) => {
   const { ingredients: burgerIngredients, name, number, status, createdAt, _id: id } = order;
   const { ingredients } = useSelector(store => store.ingredients);
-  const dispatch = useDispatch();
   const [picArray, setPicArray] = useState([]);
-
-  useEffect(() => {
-    if (!ingredients.length) {
-      dispatch(getIngredients());
-    }
-  }, [dispatch])
 
   useEffect(() => {
     if (burgerIngredients.length && ingredients.length) {
@@ -45,7 +37,7 @@ export const FeedElementComponent = ({ order }) => {
     <div className={s.wrapper}>
       <div className={styles.d_flex + ' ' + styles.justify_between + ' pb-6'}>
         <span className="text text_type_main-default"># {number} </span>
-        <span className="text text_type_main-default text_color_inactive">{moment.utc(createdAt).utcOffset(-(offset)).calendar()}</span>
+        <span className="text text_type_main-default text_color_inactive">{moment.utc(createdAt).utcOffset(-(offset)).locale('ru').calendar()} i-GTM+3</span>
       </div>
       <p className="text text_type_main-medium pb-6">{name}</p>
       <div className={styles.d_flex + ' ' + styles.justify_between}>

@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
+import 'moment/locale/ru';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrdersPage, IngredientPage, LogoutPage, NotFoundPage, FeedPage, FeedDetailedPage } from '../../pages';
 import { REMOVE_INGREDIENT_INFO_TO_MODAL, SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/actions/ingredient-modal';
+import { getIngredients } from '../../services/actions/ingredients';
 import { CLOSE_ALL_POPUPS } from '../../services/actions/modal';
 import Header from '../app-header/app-header';
 import MainPage from '../main/main';
@@ -14,6 +16,7 @@ const App = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { ingredients } = useSelector(store => store.ingredients);
   const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
   let background = location.state && location.state?.background;
 
@@ -24,6 +27,12 @@ const App = () => {
     dispatch({ type: CLOSE_ALL_POPUPS });
     history.goBack();
   }
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      dispatch(getIngredients());
+    }
+  }, [dispatch])
 
   useEffect(() => {
     if (background) {

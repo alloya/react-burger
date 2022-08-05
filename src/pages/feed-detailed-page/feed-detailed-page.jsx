@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { IngredientPreviewImage } from "../../components/ingredient-preview-image/ingredient-preview-image";
 import Price from "../../components/price/price";
-import { getIngredients } from "../../services/actions/ingredients";
 import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/websocket";
 import { ORDERS_ALL_URL, ORDERS_PERSONAL_URL } from "../../utils/const";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
@@ -29,14 +28,11 @@ export const FeedDetailedPage = () => {
         : ORDERS_ALL_URL));
     }
     return () => {
-      wsConnected && dispatch(wsConnectionClosed);
+      wsConnected && dispatch(wsConnectionClosed());
     }
   }, [wsConnected, dispatch])
 
   const getOrder = () => {
-    if (!ingredients.length) {
-      dispatch(getIngredients());
-    }
     if (!order) {
       const ord = messages.orders?.find(order => order._id === id);
       setOrder(ord)
@@ -91,7 +87,7 @@ export const FeedDetailedPage = () => {
       {order && <div className={s.container + ' text text_type_main-medium'}>
         <span className={styles.m_auto + " text text_type_digits-default mt-5"}># {order.number} </span>
         <p className="text text_type_main-medium pb-2 mt-10">{order.name}</p>
-        <p className={(order.status === OrderStatus.done.type ? s.status_ready : '') + " text text_type_main-default mb-15"}>{order.status}</p>
+        <p className={(order.status === OrderStatus.done.type ? s.status_ready : '') + " text text_type_main-default mb-15"}>{OrderStatus[order.status].text}</p>
         <p className="mb-6 mt-1">Состав:</p>
         <div className={styles.scrollable + ' ' + s.ingredients}>
           {data.map((el, index) => (

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 import { ADD_INGREDIENT_INFO_TO_MODAL } from "../services/actions/ingredient-modal";
-import { getIngredients } from "../services/actions/ingredients";
 
 export const IngredientPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
@@ -13,9 +12,6 @@ export const IngredientPage = () => {
   const { id } = useParams();
 
   const getItem = () => {
-    if (ingredients.length == 0) {
-      dispatch(getIngredients());
-    }
     if (Object.keys(ingredientDetails).length === 0) {
       const ingredient = ingredients.filter(el => el._id == id)[0];
       ingredient && dispatch({ type: ADD_INGREDIENT_INFO_TO_MODAL, ingredient });
