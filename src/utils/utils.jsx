@@ -28,6 +28,22 @@ const  shuffleArray = (array) => {
   return array;
 }
 
+export const sortIngredients = ingredients => {
+  return ingredients.sort((a, b) => a.type === IngredientTypes.bun.type ? -1 : 1)
+}
+
+export const countBasket = (ingredients) => {
+  if (ingredients && ingredients.length) {
+    return ingredients.reduce((sum, ingredient) => {
+      if (ingredient.type === IngredientTypes.bun.type) {
+        return sum + ingredient.price * 2;
+      }
+      return sum + ingredient.price
+    }, 0)
+  }
+  return 0;
+}
+
 export function getCookie(name) {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')

@@ -1,0 +1,13 @@
+.no_link {
+  text-decoration: none;
+  color: white;
+}
+
+.order_list_item {
+  list-style: none;
+}
+
+.order_list {
+  max-height: calc(100vh - 220px);
+  padding-left: 0;
+}

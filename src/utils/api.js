@@ -18,7 +18,8 @@ export const postOrder = (data) => {
   return fetch(`${appUrl}/orders`, {
     method: "POST",
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('token')
     },
     body: JSON.stringify({
       "ingredients": data

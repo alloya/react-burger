@@ -1,0 +1,28 @@
+.ingredients {
+  max-height: calc(100vh - 400px);
+  width: 100%;
+}
+
+.status_ready {
+  color: #00CCCC;
+}
+
+.container {
+  width: 100%;
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+  margin: auto;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.price_wrapper {
+  display: flex;
+  margin-left: auto;
+  margin-right: 25px;
+}
