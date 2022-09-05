@@ -15,18 +15,21 @@ import { wsActions } from './services/actions/websocket';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, socketMiddleware(wsActions))));
 
-const container = document.getElementById('root');
+const container = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(container);
 
 root.render(
   //<React.StrictMode>
-    <Router>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Router>
+  <Router>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Router>
   //</React.StrictMode>
 );
+
+export type TAppDispatch = typeof store.dispatch; // Here we export the store's dispatch type
+export type TRootState = ReturnType<typeof store.getState>; // Here we export the store's state
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
