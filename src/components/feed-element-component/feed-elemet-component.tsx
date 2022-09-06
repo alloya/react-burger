@@ -7,7 +7,7 @@ import { countBasket, sortIngredients } from "../../utils/utils";
 import { IngredientPreviewImage } from "../ingredient-preview-image/ingredient-preview-image";
 import Price from "../price/price";
 import s from "./feed-element-component.module.css";
-import { TIngredient, TOrder } from "../../utils/types";
+import { IIngredient, TOrder } from "../../utils/types";
 import { TRootState } from "../..";
 
 export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngredients,
@@ -21,10 +21,10 @@ export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngr
 
   useEffect(() => {
     if (burgerIngredients.length && ingredients.length) {
-      const orderIngredients: TIngredient[] = [];
+      const orderIngredients: IIngredient[] = [];
       burgerIngredients.forEach((element: string) => {
         const item = ingredients.filter(
-          (elem: TIngredient) => elem._id === element
+          (elem: IIngredient) => elem._id === element
         );
         if (item) {
           if (
@@ -55,7 +55,7 @@ export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngr
       <p className="text text_type_main-medium pb-6">{name}</p>
       <div className={styles.d_flex + " " + styles.justify_between}>
         <div className={s.ingredients_wrapper}>
-          {picArray.map((el: TIngredient, index) => {
+          {picArray.map((el: IIngredient, index) => {
             if (index < 5) {
               return (
                 <IngredientPreviewImage

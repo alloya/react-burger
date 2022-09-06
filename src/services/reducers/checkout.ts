@@ -1,16 +1,23 @@
+import { TCheckoutAction } from '../actions/checkout';
 import {
   ORDER_CHECKOUT_FAILED,
   ORDER_CHECKOUT_REQUEST,
   ORDER_CHECKOUT_SUCCESS
-} from '../actions/checkout';
+} from '../constants/checkout';
 
-const checkoutInitialState = {
+export interface ICheckoutState {
+  orderCheckoutFailed: boolean;
+  orderCheckoutRequest: boolean;
+  order: { "number": number } | undefined;
+}
+
+const checkoutInitialState: ICheckoutState = {
   orderCheckoutFailed: false,
-  order: null,
+  order: undefined,
   orderCheckoutRequest: false
 };
 
-export const checkoutReducer = (state = checkoutInitialState, action) => {
+export const checkoutReducer = (state = checkoutInitialState, action: TCheckoutAction): ICheckoutState => {
   switch (action.type) {
     case ORDER_CHECKOUT_REQUEST: {
       return {

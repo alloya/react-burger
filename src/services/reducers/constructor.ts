@@ -1,22 +1,26 @@
+import { IExtendedIngredient, TConstructorAction } from './../actions/constructor';
 import {
-  DELETE_ITEM,
   ADD_ITEM,
   CLEAR_CONSTRUCTOR,
   DELETE_ITEM_BY_INDEX,
   CHANGE_ITEMS_ORDER
-} from '../actions/constructor';
+} from '../constants/constructor';
 
-const constructorInitialState = {
+export interface IConstructorState {
+  constructorItems: ReadonlyArray<IExtendedIngredient>
+}
+
+const constructorInitialState: IConstructorState = {
   constructorItems: []
 }
 
-export const constructorReducer = (state = constructorInitialState, action) => {
+export const constructorReducer = (state = constructorInitialState, action: TConstructorAction): IConstructorState => {
   switch (action.type) {
     case ADD_ITEM: {
       if (state.constructorItems && state.constructorItems.length) {
-        if (action.payload.ingredient.type === 'bun') {
+        if (action.ingredient.type === 'bun') {
           const arr = state.constructorItems.filter(el => el.type !== 'bun');
-          arr.unshift(action.payload.ingredient);
+          arr.unshift(action.ingredient);
           return {
             ...state,
             constructorItems: [...arr]
@@ -24,20 +28,14 @@ export const constructorReducer = (state = constructorInitialState, action) => {
         }
         return {
           ...state,
-          constructorItems:  [...state.constructorItems, action.payload.ingredient]
+          constructorItems:  [...state.constructorItems, action.ingredient]
         }
       }
       else {
         return {
           ...state,
-          constructorItems:  [action.payload.ingredient]
+          constructorItems:  [action.ingredient]
         }
-      }
-    }
-    case DELETE_ITEM: {
-      return {
-        ...state,
-        constructorItems: [...state.constructorItems].filter(item => item._id !== action.payload)
       }
     }
     case CLEAR_CONSTRUCTOR: {

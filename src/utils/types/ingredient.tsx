@@ -1,4 +1,4 @@
-export type TIngredient = {
+export interface IIngredient {
   readonly calories: number
   readonly carbohydrates: number
   readonly fat: number

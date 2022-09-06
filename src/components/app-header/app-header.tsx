@@ -10,7 +10,7 @@ import NavItem from "./header-components/nav-item/nav-item";
 import { Link, useRouteMatch } from "react-router-dom";
 
 const Header = () => {
-  let useIsMatch = (link, exact = false) => useRouteMatch({ path: link, exact: exact });
+  let useIsMatch = (link: string, exact = false) => useRouteMatch({ path: link, exact: exact });
 
   return (
     <header className={`${s.header} mb-10`}>

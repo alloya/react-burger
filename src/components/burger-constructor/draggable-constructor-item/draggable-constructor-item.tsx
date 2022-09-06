@@ -5,10 +5,15 @@ import { useDispatch } from 'react-redux';
 import { changeItemOrder, deleteIngredientByIndex } from '../../../services/actions/constructor';
 import styles from "../../../utils/styles.module.css";
 import s from "./draggable-constructor-item.module.css";
-import PropTypes from "prop-types";
-import { IngredientPropTypes } from '../../../utils/prop-types';
+import { IIngredient } from '../../../utils/types';
 
-export const DraggableConstructorItem = ({ id, index, ingredient }) => {
+interface IDraggableConstructorItem {
+  id: number,
+  index: number,
+  ingredient: IIngredient
+}
+
+export const DraggableConstructorItem: React.FC<IDraggableConstructorItem> = ({ id, index, ingredient }) => {
   const ref = useRef(null);
   const dispatch = useDispatch();
   const [{ handlerId }, drop] = useDrop({
@@ -18,7 +23,7 @@ export const DraggableConstructorItem = ({ id, index, ingredient }) => {
         handlerId: monitor.getHandlerId()
       }
     },
-    hover(item, monitor) {
+    hover(item: { index: number }, monitor) {
       if (!ref.current) {
         return;
       }
@@ -52,8 +57,8 @@ export const DraggableConstructorItem = ({ id, index, ingredient }) => {
     }),
   })
 
-  const handleDelete = (index) => {
-    dispatch(deleteIngredientByIndex(index));
+  const handleDelete = (idx: number) => {
+    dispatch(deleteIngredientByIndex(idx));
   }
 
   drag(drop(ref));
@@ -61,9 +66,8 @@ export const DraggableConstructorItem = ({ id, index, ingredient }) => {
   return (
     <li className={`${styles.align_center} ${styles.d_flex}`}
       ref={ref}
-      index={index}
       data-handler-id={handlerId}
-      style = {{opacity}}>
+      style={{ opacity }}>
       <span className="mr-2"><DragIcon type="primary" /></span>
       <div className={s.item}>
         <ConstructorElement
@@ -76,9 +80,3 @@ export const DraggableConstructorItem = ({ id, index, ingredient }) => {
     </li>
   )
 }
-
-DraggableConstructorItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
-  ingredient: IngredientPropTypes.isRequired
-};

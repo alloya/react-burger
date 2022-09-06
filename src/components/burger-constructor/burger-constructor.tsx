@@ -15,16 +15,20 @@ import { orderCheckout } from "../../services/actions/checkout";
 import { useHistory } from "react-router";
 import { checkAuth } from "../../services/actions/auth";
 import { countBasket } from "../../utils/utils";
+import { TRootState } from "../..";
+import { IConstructorState } from "../../services/reducers/constructor";
+import { ICheckoutState } from "../../services/reducers/checkout";
+import { IIngredient } from "../../utils/types";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const { constructorItems } = useSelector(store => store.constructor);
-  const { orderCheckoutRequest } = useSelector(store => store.checkout);
+  const { constructorItems } = useSelector<TRootState, IConstructorState>((store) => store.constructor);
+  const { orderCheckoutRequest } = useSelector<TRootState, ICheckoutState>((store) => store.checkout);
   const history = useHistory();
 
   const [, dropTarget] = useDrop({
     accept: ['ingredient'],
-    drop(element) {
+    drop(element: IIngredient) {
       dispatch(addIngredient(element))
     }
   })
@@ -42,8 +46,8 @@ const BurgerConstructor = () => {
 
   const submitOrder = async () => {
     const auth = await dispatch(checkAuth())
-    !auth 
-      ? history.push('/login') 
+    !auth
+      ? history.push('/login')
       : dispatch(orderCheckout(constructorItems.map(el => el._id)))
   }
 
