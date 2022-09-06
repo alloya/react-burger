@@ -33,6 +33,7 @@ export type TConstructorAction =
 
 
 export const addIngredient = (constructorElement: IIngredient): IAddIngredient => {
+  debugger
   const ingredient: IExtendedIngredient = {
       ...constructorElement,
       innerId: uuidv4()

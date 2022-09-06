@@ -1,11 +1,16 @@
-import { ADD_INGREDIENT_INFO_TO_MODAL, REMOVE_INGREDIENT_INFO_TO_MODAL} from '../actions/ingredient-modal';
+import { IIngredient } from '../../utils/types';
+import { TIngredientModalActions } from '../actions/ingredient-modal';
+import { ADD_INGREDIENT_INFO_TO_MODAL, REMOVE_INGREDIENT_INFO_TO_MODAL} from '../constants/ingredient-modal';
 
+export interface IIngredientModalState {
+  ingredientDetails: IIngredient | null
+}
 
 const ingredientModalInitialState = {
-  ingredientDetails: {}
+  ingredientDetails: null
 };
 
-export const ingredientModalReducer = (state = ingredientModalInitialState, action) => {
+export const ingredientModalReducer = (state = ingredientModalInitialState, action: TIngredientModalActions): IIngredientModalState => {
   switch (action.type) {
     case ADD_INGREDIENT_INFO_TO_MODAL: {
       return {
@@ -16,7 +21,7 @@ export const ingredientModalReducer = (state = ingredientModalInitialState, acti
     case REMOVE_INGREDIENT_INFO_TO_MODAL: {
       return {
         ...state,
-        ingredientDetails: {}
+        ingredientDetails: null
       }
     }
     default:

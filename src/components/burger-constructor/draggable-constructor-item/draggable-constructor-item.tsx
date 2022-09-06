@@ -1,5 +1,5 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { useDispatch } from 'react-redux';
 import { changeItemOrder, deleteIngredientByIndex } from '../../../services/actions/constructor';
@@ -13,17 +13,25 @@ interface IDraggableConstructorItem {
   ingredient: IIngredient
 }
 
+interface IDragObject {
+  index: number
+}
+
+interface ICollectedProps {
+  handlerId: string | symbol | null
+}
+
 export const DraggableConstructorItem: React.FC<IDraggableConstructorItem> = ({ id, index, ingredient }) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<IDragObject, unknown, ICollectedProps>({
     accept: 'consctuctorItem',
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId()
       }
     },
-    hover(item: { index: number }, monitor) {
+    hover(item: IDragObject, monitor): void {
       if (!ref.current) {
         return;
       }
@@ -36,7 +44,7 @@ export const DraggableConstructorItem: React.FC<IDraggableConstructorItem> = ({ 
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }

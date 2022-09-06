@@ -10,6 +10,6 @@ export interface IRemoveIngredientInfoFromModal {
   readonly type: typeof REMOVE_INGREDIENT_INFO_TO_MODAL;
 }
 
-export type TIngredientModal = 
+export type TIngredientModalActions = 
   | IAddIngredientInfoToModal
   | IRemoveIngredientInfoFromModal

@@ -7,7 +7,7 @@ type TPrice = {
   size?: string
 }
 
-const Price = ({ price, size = "default" }: TPrice) => {
+const Price = ({ price = 0, size = "default" }: TPrice) => {
   return (
     <span
       className={`${styles.d_flex} ${styles.justify_center} ${styles.align_center

@@ -33,6 +33,7 @@ export const sortIngredients = ingredients => {
 }
 
 export const countBasket = (ingredients) => {
+  debugger
   if (ingredients && ingredients.length) {
     return ingredients.reduce((sum, ingredient) => {
       if (ingredient.type === IngredientTypes.bun.type) {
