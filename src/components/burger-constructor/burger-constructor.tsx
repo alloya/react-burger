@@ -28,7 +28,7 @@ const BurgerConstructor = () => {
 
   const [, dropTarget] = useDrop({
     accept: ['ingredient'],
-    drop(element: {ingredient: IIngredient} ) {
+    drop(element: { ingredient: IIngredient }) {
       dispatch(addIngredient(element.ingredient))
     }
   })

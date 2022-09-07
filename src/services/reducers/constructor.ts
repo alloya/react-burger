@@ -7,7 +7,7 @@ import {
 } from '../constants/constructor';
 
 export interface IConstructorState {
-  constructorItems: ReadonlyArray<IExtendedIngredient>
+  readonly constructorItems: ReadonlyArray<IExtendedIngredient>
 }
 
 const constructorInitialState: IConstructorState = {

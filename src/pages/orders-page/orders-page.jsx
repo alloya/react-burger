@@ -29,8 +29,6 @@ export function OrdersPage() {
     setFeed(messages);
   }, [wsConnected, messages, setFeed]);
 
-  console.log("3", typeof feed.orders);
-
   return (
     <div className={pageStyles.container + " " + pageStyles.profile}>
       <SideMenu />

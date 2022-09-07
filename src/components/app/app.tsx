@@ -3,21 +3,38 @@ import 'moment/locale/ru';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrdersPage, IngredientPage, LogoutPage, NotFoundPage, FeedPage, FeedDetailedPage } from '../../pages';
-import { REMOVE_INGREDIENT_INFO_TO_MODAL, SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/actions/ingredient-modal';
+import { REMOVE_INGREDIENT_INFO_TO_MODAL, SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/constants/ingredient-modal';
 import { getIngredients } from '../../services/actions/ingredients';
-import { CLOSE_ALL_POPUPS } from '../../services/actions/modal';
+import { CLOSE_ALL_POPUPS } from '../../services/constants/modal';
 import Header from '../app-header/app-header';
 import MainPage from '../main/main';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { ProtectedRoute } from '../protected-route/protected-route';
+import { IIngredientState } from '../../services/reducers/ingredient';
+import { TAppDispatch, TRootState } from '../..';
+import { IModalState } from '../../services/reducers/modal';
+
+interface ILocationsType {
+  key: string;
+  pathname: string;
+  search: string;
+  hash: string;
+
+  //state?: { [name: string]: boolean };
+}
+
+interface ILocationWithBackground extends ILocationsType {
+  state?: { background: ILocationsType };
+  background: ILocationsType
+}
 
 const App = () => {
-  const location = useLocation();
-  const dispatch = useDispatch();
+  const location = useLocation<ILocationWithBackground>();
+  const dispatch: TAppDispatch = useDispatch();
   const history = useHistory();
-  const { ingredients } = useSelector(store => store.ingredients);
-  const { ingredientModalOpened, orderModalOpened } = useSelector(store => store.modal);
+  const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
+  const { ingredientModalOpened, orderModalOpened } = useSelector<TRootState, IModalState>(store => store.modal);
   let background = location.state && location.state?.background;
 
   const closeModal = () => {

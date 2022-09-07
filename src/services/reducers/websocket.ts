@@ -1,19 +1,29 @@
+import { TOrder } from '../../utils/types';
+import { TFeedMessage } from '../../utils/types/wsMessage';
+import { TWSActions } from '../actions/websocket';
 import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
   WS_CONNECTION_START
-} from '../actions/websocket';
+} from '../constants/websocket';
 
-const initialState = {
+export interface IWSState {
+  readonly wsConnected: boolean;
+  readonly messages: TFeedMessage | null;
+  readonly error: string;
+  readonly connecting: boolean;
+}
+
+const initialState: IWSState = {
   wsConnected: false,
-  messages: {},
+  messages: null,
   error: '',
   connecting: false
 };
 
-export const websocketReducer = (state = initialState, action) => {
+export const websocketReducer = (state = initialState, action: TWSActions): IWSState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
@@ -21,10 +31,11 @@ export const websocketReducer = (state = initialState, action) => {
         wsConnected: true
       };
     case WS_CONNECTION_START: {
+      debugger
       return {
         ...state,
         connecting: true,
-        messages: {}
+        messages: null
       }
     }
     case WS_CONNECTION_ERROR:

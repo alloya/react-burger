@@ -9,6 +9,7 @@ export const socketMiddleware = (wsActions) => {
       const { type, payload } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
       if (type === wsInit) {
+        debugger
         socket = new WebSocket(payload);
       }
       if (socket) {

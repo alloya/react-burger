@@ -1,15 +1,21 @@
+import { TModalActions } from './../actions/modal';
 import { 
   SHOW_INGREDIENT_DETAILS_POPUP, 
   SHOW_ORDER_DETAILS_POPUP, 
   CLOSE_ALL_POPUPS
-} from "../actions/modal";
+} from "../constants/modal";
 
-const modalInitialState = {
+export interface IModalState {
+  readonly ingredientModalOpened: boolean,
+  readonly orderModalOpened: boolean
+}
+
+const modalInitialState: IModalState = {
   ingredientModalOpened: false,
   orderModalOpened: false
 }
 
-export const modalReducer = (state = modalInitialState, action) => {
+export const modalReducer = (state = modalInitialState, action: TModalActions): IModalState => {
   switch (action.type) {
     case SHOW_INGREDIENT_DETAILS_POPUP: {
       return {

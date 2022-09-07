@@ -6,48 +6,68 @@ export function randomizeId() {
 
 export const createBurger = (data) => {
   const burger = [];
-  burger.push(...chooseRandom(data.filter(el => el.type === IngredientTypes.bun.type), 1));
-  burger.push(...chooseRandom(data.filter(el => el.type === IngredientTypes.sauce.type), 2));
-  burger.push(...chooseRandom(data.filter(el => el.type === IngredientTypes.main.type), 3));
+  burger.push(
+    ...chooseRandom(
+      data.filter((el) => el.type === IngredientTypes.bun.type),
+      1
+    )
+  );
+  burger.push(
+    ...chooseRandom(
+      data.filter((el) => el.type === IngredientTypes.sauce.type),
+      2
+    )
+  );
+  burger.push(
+    ...chooseRandom(
+      data.filter((el) => el.type === IngredientTypes.main.type),
+      3
+    )
+  );
   return shuffleArray(burger);
-}
+};
 
 const chooseRandom = (array, requiredNumber) => {
   const randomElements = [];
   for (let index = 0; index < requiredNumber; index++) {
-    randomElements.push(array[Math.floor(Math.random() * array.length)]); 
+    randomElements.push(array[Math.floor(Math.random() * array.length)]);
   }
   return randomElements;
-}
+};
 
-const  shuffleArray = (array) => {
+const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
-}
+};
 
-export const sortIngredients = ingredients => {
-  return ingredients.sort((a, b) => a.type === IngredientTypes.bun.type ? -1 : 1)
-}
+export const sortIngredients = (ingredients) => {
+  return ingredients.sort((a, b) =>
+    a.type === IngredientTypes.bun.type ? -1 : 1
+  );
+};
 
 export const countBasket = (ingredients) => {
-  debugger
   if (ingredients && ingredients.length) {
     return ingredients.reduce((sum, ingredient) => {
       if (ingredient.type === IngredientTypes.bun.type) {
         return sum + ingredient.price * 2;
       }
-      return sum + ingredient.price
-    }, 0)
+      return sum + ingredient.price;
+    }, 0);
   }
   return 0;
-}
+};
 
 export function getCookie(name) {
   const matches = document.cookie.match(
-    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
+    new RegExp(
+      "(?:^|; )" +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+        "=([^;]*)"
+    )
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
@@ -55,7 +75,7 @@ export function getCookie(name) {
 export function setCookie(name, value, props) {
   props = props || {};
   let exp = props.expires;
-  if (typeof exp == 'number' && exp) {
+  if (typeof exp == "number" && exp) {
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
     exp = props.expires = d;
@@ -63,21 +83,21 @@ export function setCookie(name, value, props) {
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
-  value = value.split('Bearer ')[1];
+  value = value.split("Bearer ")[1];
   value = encodeURIComponent(value);
-  let updatedCookie = name + '=' + value;
+  let updatedCookie = name + "=" + value;
   for (const propName in props) {
-    updatedCookie += '; ' + propName;
+    updatedCookie += "; " + propName;
     const propValue = props[propName];
     if (propValue !== true) {
-      updatedCookie += '=' + propValue;
+      updatedCookie += "=" + propValue;
     }
   }
   document.cookie = updatedCookie;
 }
 
 export function deleteCookie(name) {
-  setCookie(name, '', { expires: -1 });
+  setCookie(name, "", { expires: -1 });
 }
 
 export function setRefreshToken(name, value) {
@@ -85,9 +105,9 @@ export function setRefreshToken(name, value) {
 }
 
 export function getRefreshToken() {
-  return localStorage.getItem('refreshToken');
+  return localStorage.getItem("refreshToken");
 }
 
 export function deleteRefreshToken() {
-  localStorage.removeItem('refreshToken');
+  localStorage.removeItem("refreshToken");
 }

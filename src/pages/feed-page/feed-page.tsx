@@ -12,12 +12,7 @@ import OrderStatus from "../../utils/models/order-status";
 import { ORDERS_ALL_URL } from "../../utils/const";
 import { TRootState } from "../..";
 import { TOrder } from "../../utils/types";
-
-type TFeedMessage = {
-  orders: TOrder[],
-  total: number,
-  totalToday: number
-}
+import { TFeedMessage } from "../../utils/types/wsMessage";
 
 export const FeedPage = () => {
   const { wsConnected, messages } = useSelector((store: TRootState) => store.ws);
@@ -34,7 +29,7 @@ export const FeedPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setFeed(messages);
+    messages && setFeed(messages);
   }, [wsConnected, messages, setFeed]);
 
   const doneList = useMemo(() => {
