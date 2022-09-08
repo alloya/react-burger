@@ -1,4 +1,6 @@
+import { TAppDispatch } from "../..";
 import { createUser, getUserRequest, loginRequest, logoutRequest, patchUserRequest, refreshTokenRequest, resetPasswordRequest, setNewPasswordRequest } from "../../utils/api";
+import { TForm } from "../../utils/types/form";
 import { deleteCookie, getCookie, getRefreshToken, setCookie, setRefreshToken, deleteRefreshToken } from "../../utils/utils";
 import {
   REFRESH_TOKEN_REQUEST,
@@ -33,7 +35,7 @@ import {
 } from '../constants/auth';
 
 
-export const refreshAccessToken = (refreshToken) => async (dispatch) => {
+export const refreshAccessToken = (refreshToken: string) => async (dispatch: TAppDispatch) => {
   dispatch({
     type: REFRESH_TOKEN_REQUEST
   });
@@ -52,7 +54,7 @@ export const refreshAccessToken = (refreshToken) => async (dispatch) => {
   }
 }
 
-export const getUser = () => async (dispatch) => {
+export const getUser = () => async (dispatch: TAppDispatch) => {
   dispatch({ type: GET_USER_REQUEST });
   try {
     let res = await getUserRequest();
@@ -69,7 +71,7 @@ export const getUser = () => async (dispatch) => {
   }
 }
 
-export const updateTokens = (accessToken, refreshToken) => {
+export const updateTokens = (accessToken: string, refreshToken: string) => {
   setCookie('token', accessToken, { expires: 1200 });
   setRefreshToken('refreshToken', refreshToken);
   return {
@@ -79,7 +81,7 @@ export const updateTokens = (accessToken, refreshToken) => {
   }
 }
 
-export const registration = (form) => (dispatch) => {
+export const registration = (form: TForm) => (dispatch: TAppDispatch) => {
   dispatch({ type: REGISTRATION_REQUEST });
   createUser(form)
     .then(res => {
@@ -96,7 +98,7 @@ export const registration = (form) => (dispatch) => {
     })
 }
 
-export const resetPassword = (email) => (dispatch) => {
+export const resetPassword = (email: string) => (dispatch: TAppDispatch) => {
   dispatch({ type: PASSWORD_RESET_REQUEST });
   resetPasswordRequest(email)
     .then(res => {
@@ -111,9 +113,9 @@ export const resetPassword = (email) => (dispatch) => {
     })
 }
 
-export const setNewPassword = (form) => (dispatch) => {
+export const setNewPassword = (form: TForm) => (dispatch: TAppDispatch) => {
   dispatch({ type: SET_PASSWORD_REQUEST });
-  setNewPasswordRequest(form.password, form.token)
+  setNewPasswordRequest(form.password!, form.token!)
     .then(res => {
       if (res && res.success) {
         dispatch({ type: SET_PASSWORD_SUCCESS });
@@ -126,7 +128,7 @@ export const setNewPassword = (form) => (dispatch) => {
     })
 }
 
-export const login = (form) => (dispatch) => {
+export const login = (form: TForm) => (dispatch: TAppDispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   loginRequest(form)
     .then(res => {
@@ -159,7 +161,7 @@ export const setAuth = () => {
   return { type: AUTH_FAILED }
 }
 
-export const updateUser = (form) => async (dispatch) => {
+export const updateUser = (form: TForm) => async (dispatch: TAppDispatch) => {
   try {
     if (!getCookie('token').length) {
       await refreshAccessToken(getRefreshToken());
@@ -179,7 +181,7 @@ export const updateUser = (form) => async (dispatch) => {
   }
 }
 
-export const logout = () => async (dispatch) => {
+export const logout = () => async (dispatch: TAppDispatch) => {
   dispatch({ type: LOGOUT_REQUEST });
   try {
     const res = await logoutRequest(getRefreshToken())
@@ -195,7 +197,7 @@ export const logout = () => async (dispatch) => {
   }
 }
 
-export const checkAuth = () => async (dispatch) => {
+export const checkAuth = () => async (dispatch: TAppDispatch) => {
   let accessToken = getCookie('token');
   let refreshToken = getRefreshToken();
   if (accessToken && refreshToken) {

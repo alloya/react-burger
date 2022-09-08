@@ -1,8 +1,9 @@
+import { TForm } from "./types/form";
 import { getCookie } from "./utils";
 
 const appUrl = 'https://norma.nomoreparties.space/api';
 
-function checkResponse(res) {
+function checkResponse(res: Response) {
   if (!res.ok) {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
@@ -14,7 +15,7 @@ export const getIngredientsData = () => {
     .then(checkResponse)
 }
 
-export const postOrder = (data) => {
+export const postOrder = (data: ReadonlyArray<string>) => {
   return fetch(`${appUrl}/orders`, {
     method: "POST",
     headers: {
@@ -28,7 +29,7 @@ export const postOrder = (data) => {
   .then(checkResponse)
 }
 
-export const createUser = ({name, email, password}) => {
+export const createUser = ({name, email, password}: TForm) => {
   return fetch(`${appUrl}/auth/register`, {
     method: "POST",
     headers: {
@@ -43,7 +44,7 @@ export const createUser = ({name, email, password}) => {
   .then(checkResponse)
 }
 
-export const resetPasswordRequest = (email) => {
+export const resetPasswordRequest = (email:string) => {
   return fetch(`${appUrl}/password-reset`, {
     method: "POST",
     headers: {
@@ -56,7 +57,7 @@ export const resetPasswordRequest = (email) => {
   .then(checkResponse)
 }
 
-export const setNewPasswordRequest = (password, token) => {
+export const setNewPasswordRequest = (password: string, token: string) => {
   return fetch(`${appUrl}/password-reset/reset`, {
     method: "POST",
     headers: {
@@ -70,7 +71,7 @@ export const setNewPasswordRequest = (password, token) => {
   .then(checkResponse);
 }
 
-export const refreshTokenRequest = (token) => {
+export const refreshTokenRequest = (token: string) => {
   return fetch(`${appUrl}/auth/token`, {
     method: "POST",
     headers: {
@@ -94,7 +95,7 @@ export const getUserRequest = async () => {
   .then(checkResponse);
 }
 
-export const patchUserRequest = async ({name, email, password = null}) => {
+export const patchUserRequest = async ({name, email, password = undefined}: TForm) => {
   return await fetch(`${appUrl}/auth/user`, {
     method: "PATCH",
     headers: {
@@ -110,7 +111,7 @@ export const patchUserRequest = async ({name, email, password = null}) => {
   .then(checkResponse);
 }
 
-export const loginRequest = async form => {
+export const loginRequest = async (form: TForm)=> {
   return await fetch(`${appUrl}/auth/login`, {
     method: 'POST',
     headers: {
@@ -121,7 +122,7 @@ export const loginRequest = async form => {
   .then(checkResponse);
 };
 
-export const logoutRequest = async (refreshToken) => {
+export const logoutRequest = async (refreshToken: string) => {
   return await fetch(`${appUrl}/auth/logout`, {
     method: 'POST',
     headers: {
