@@ -25,7 +25,7 @@ const BurgerIngredients = () => {
       dispatch(getIngredients());
     }
   }, [dispatch]);
-  const types = Object.keys(IngredientTypes);
+  const types = Object.keys(IngredientTypes) as TTabType[];
   //console.log(types[0]);
   const ty = types[0].toString()
 

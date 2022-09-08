@@ -14,20 +14,14 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import { IIngredientState } from '../../services/reducers/ingredient';
 import { TAppDispatch, TRootState } from '../..';
 import { IModalState } from '../../services/reducers/modal';
+import { Location } from 'history';
 
-interface IStateType {
-  pathname: string
-}
-
-interface ILocationsType {
-  state?: { background: IStateType };
-  background: IStateType
-  //background?: ILocationsType
-  //state?: { [name: string]: boolean };
+interface ILocationStateType {
+  background: Location<ILocationStateType>
 }
 
 const App = () => {
-  const location = useLocation<ILocationsType>();
+  const location = useLocation<ILocationStateType>();
   const dispatch: TAppDispatch = useDispatch();
   const history = useHistory();
   const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
