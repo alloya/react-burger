@@ -15,22 +15,19 @@ import { IIngredientState } from '../../services/reducers/ingredient';
 import { TAppDispatch, TRootState } from '../..';
 import { IModalState } from '../../services/reducers/modal';
 
-interface ILocationsType {
-  key: string;
-  pathname: string;
-  search: string;
-  hash: string;
+interface IStateType {
+  pathname: string
+}
 
+interface ILocationsType {
+  state?: { background: IStateType };
+  background: IStateType
+  //background?: ILocationsType
   //state?: { [name: string]: boolean };
 }
 
-interface ILocationWithBackground extends ILocationsType {
-  state?: { background: ILocationsType };
-  background: ILocationsType
-}
-
 const App = () => {
-  const location = useLocation<ILocationWithBackground>();
+  const location = useLocation<ILocationsType>();
   const dispatch: TAppDispatch = useDispatch();
   const history = useHistory();
   const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);

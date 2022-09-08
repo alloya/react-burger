@@ -47,10 +47,6 @@ export const wsActions = {
 };
 
 export const wsConnectionStart = (url: string): IWSConnectionStart => {
-  console.log(url);
-  console.log(typeof url);
-  
-  debugger
   return {
     type: WS_CONNECTION_START,
     payload: url

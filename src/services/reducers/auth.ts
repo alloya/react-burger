@@ -29,7 +29,7 @@ import {
   SET_PASSWORD_REQUEST,
   SET_PASSWORD_SUCCESS,
   SET_PASSWORD_FAILED,
-} from '../actions/auth';
+} from '../constants/auth';
 
 const authInitianState = {
   user: {},
