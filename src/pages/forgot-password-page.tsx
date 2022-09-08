@@ -1,14 +1,17 @@
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import s from './page.module.css';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { resetPassword, RESET_PASSWORD_RESET_STATE } from "../services/actions/auth";
+import { resetPassword } from "../services/actions/auth";
+import { RESET_PASSWORD_RESET_STATE } from "../services/constants/auth";
 import { useForm } from "../services/hooks/useForm";
+import { TAppDispatch, TRootState } from "..";
+import { IAuthState } from "../services/reducers/auth";
 
 export function ForgotPasswordPage() {
-  const dispatch = useDispatch();
-  const { isAuth, passwordResetSuccess, passwordResetFailed, passwordResetRequest } = useSelector(store => store.auth);
+  const dispatch: TAppDispatch = useDispatch();
+  const { isAuth, passwordResetSuccess, passwordResetFailed, passwordResetRequest } = useSelector<TRootState, IAuthState>(store => store.auth);
   const {values, handleChange} = useForm({email: ''});
   const [emailError, setEmailError] = useState(false);
 
@@ -21,7 +24,7 @@ export function ForgotPasswordPage() {
   }
 
   const resetPasswordHandle = useCallback(
-    (e) => {
+    (e: FormEvent) => {
       e.preventDefault();
       if (!values.email.length) {
         setEmailError(true);

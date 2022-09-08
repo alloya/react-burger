@@ -26,11 +26,6 @@ const BurgerIngredients = () => {
     }
   }, [dispatch]);
   const types = Object.keys(IngredientTypes) as TTabType[];
-  //console.log(types[0]);
-  const ty = types[0].toString()
-
-  //console.log(IngredientTypes[ty]);
-
 
   return (
     <>

@@ -1,19 +1,22 @@
 import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import s from './page.module.css';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { setNewPassword } from "../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../services/hooks/useForm";
+import { TAppDispatch, TRootState } from "..";
+import { ILocationStateType } from "../components/app/app";
+import { IAuthState } from "../services/reducers/auth";
 
 export function RecoverPasswordPage() {
-  const dispatch = useDispatch();
+  const dispatch: TAppDispatch = useDispatch();
   const history = useHistory();
-  const { isAuth, setPasswordRequest, setPasswordSuccess} = useSelector(store => store.auth);
+  const { isAuth, setPasswordRequest, setPasswordSuccess} = useSelector<TRootState, IAuthState>(store => store.auth);
   const {values, handleChange} = useForm({password: '', token: ''});
   const [tokenError, setTokenError] = useState(false);
-  const location = useLocation();
-  const referrer = location.state?.referrer;
+  const location = useLocation<ILocationStateType>();
+  const referrer = location.state?.from;
 
   useEffect(() => {
     redirectAfterReset()
@@ -27,7 +30,7 @@ export function RecoverPasswordPage() {
     setTokenError(false);
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!values.token.length) {
       setTokenError(true);
@@ -51,8 +54,7 @@ export function RecoverPasswordPage() {
         <div className={`${s.input} pb-6`}>
           <PasswordInput onChange={handleChange}
             value={values.password}
-            name={'password'}
-            placeholder={'Введите новый пароль'} />
+            name={'password'} />
         </div>
 
         <div className={`${s.input} pb-6`}>

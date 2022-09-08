@@ -31,8 +31,38 @@ import {
   SET_PASSWORD_FAILED,
 } from '../constants/auth';
 
-const authInitianState = {
-  user: {},
+export interface IAuthState {
+  user: {email: string, name: string},
+  accessToken: string,
+  refreshToken: string,
+  getUserRequest: boolean,
+  getUserFailed: boolean,
+  refreshTokenRequest: boolean,
+  refreshTokenFailed: boolean,
+  refreshTokenSuccess: boolean,
+  registrationRequest: boolean,
+  registrationFailed: boolean,
+  registrationSuccess: boolean,
+  loginRequest: boolean,
+  loginFailed: boolean,
+  logoutRequest: boolean,
+  logoutFailed: boolean,
+  logoutSuccess: boolean,
+  updateUserRequest: boolean,
+  updateUserFailed: boolean,
+  updateUserSuccess: boolean,
+  passwordResetRequest: boolean,
+  passwordResetSuccess: boolean,
+  passwordResetFailed: boolean,
+  setPasswordRequest: boolean,
+  setPasswordSuccess: boolean,
+  setPasswordFailed: boolean,
+  token: string | undefined,
+  isAuth: boolean
+}
+
+const authInitianState: IAuthState = {
+  user: {name: '', email: ''},
   accessToken: '',
   refreshToken: '',
   getUserRequest: false,
@@ -61,7 +91,7 @@ const authInitianState = {
   isAuth: Boolean(getCookie('token'))
 };
 
-export const authReducer = (state = authInitianState, action) => {
+export const authReducer = (state = authInitianState, action: TAuth) => {
   switch (action.type) {
     case GET_USER_REQUEST: {
       return {

@@ -1,18 +1,21 @@
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, RefObject, useEffect, useRef, useState } from "react";
 import s from './page.module.css';
 import styles from '../utils/styles.module.css';
 import { SideMenu } from "../components/side-menu/side-menu";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser, RESET_UPDATE_USER } from "../services/actions/auth";
+import { updateUser } from "../services/actions/auth";
+import { RESET_UPDATE_USER } from "../services/constants/auth";
 import { useForm } from "../services/hooks/useForm";
+import { TRootState, TAppDispatch } from "..";
+import { IAuthState } from "../services/reducers/auth";
 
 export function ProfilePage() {
-  const { user, getUserRequest, updateUserRequest, updateUserSuccess } = useSelector(store => store.auth);
-  const dispatch = useDispatch();
+  const { user, getUserRequest, updateUserRequest, updateUserSuccess } = useSelector<TRootState, IAuthState>(store => store.auth);
+  const dispatch: TAppDispatch = useDispatch();
   const {values, handleChange, setValues, changed, resetChange} = useForm({name: user.name, email: user.email, password: ''});
-  const inputNameRef = useRef(null);
-  const inputEmailRef = useRef(null);
+  const inputNameRef = useRef<HTMLInputElement>(null);
+  const inputEmailRef = useRef<HTMLInputElement>(null);
   const [emailError, setEmailError] = useState(false);
   const [nameError, setNameError] = useState(false);
 
@@ -36,8 +39,8 @@ export function ProfilePage() {
     }
   }, [updateUserSuccess])
 
-  const onIconClick = (ref) => {
-    setTimeout(() => ref.current.focus(), 0)
+  const onIconClick = (ref: RefObject<HTMLInputElement>) => {
+    setTimeout(() => ref.current!.focus(), 0)
   }
 
   const onFocus = () => {
@@ -45,7 +48,7 @@ export function ProfilePage() {
     setEmailError(false);
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!values.email.length || !values.name.length) {
       if (!values.email.length) {

@@ -11,14 +11,14 @@ import {
 
 export interface IWSState {
   readonly wsConnected: boolean;
-  readonly messages: TFeedMessage | null;
+  readonly messages: TFeedMessage | undefined;
   readonly error: string;
   readonly connecting: boolean;
 }
 
 const initialState: IWSState = {
   wsConnected: false,
-  messages: null,
+  messages: undefined,
   error: '',
   connecting: false
 };
@@ -35,7 +35,7 @@ export const websocketReducer = (state = initialState, action: TWSActions): IWSS
       return {
         ...state,
         connecting: true,
-        messages: null
+        messages: undefined
       }
     }
     case WS_CONNECTION_ERROR:

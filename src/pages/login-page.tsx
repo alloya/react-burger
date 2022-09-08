@@ -1,22 +1,25 @@
 import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import s from './page.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { login } from "../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../services/hooks/useForm";
+import { TAppDispatch, TRootState } from "..";
+import { IAuthState } from "../services/reducers/auth";
+import { ILocationStateType } from "../components/app/app";
 
 export function LoginPage() {
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const { isAuth, loginRequest } = useSelector(store => store.auth);
+  const dispatch: TAppDispatch = useDispatch();
+  const location = useLocation<ILocationStateType>();
+  const { isAuth, loginRequest } = useSelector<TRootState, IAuthState>(store => store.auth);
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
-  const path = location.state?.from.pathname;
+  const path = location.state?.from?.pathname;
 
   const {values, handleChange} = useForm({email: '', password: ''});
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!values.email.length || !values.password.length) {
       if (!values.email.length) {
@@ -59,8 +62,6 @@ export function LoginPage() {
           <PasswordInput onChange={handleChange}
             value={values.password}
             name={'password'}
-            error={passError}
-            errorText={"Поле не может быть пустым"}
           />
           {/* {passError && <span className={`${s.error} text text_type_main-default`}>Поле не может быть пустым</span>} */}
         </div>

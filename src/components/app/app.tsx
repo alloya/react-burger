@@ -15,9 +15,11 @@ import { IIngredientState } from '../../services/reducers/ingredient';
 import { TAppDispatch, TRootState } from '../..';
 import { IModalState } from '../../services/reducers/modal';
 import { Location } from 'history';
+import { TOrder } from '../../utils/types';
 
-interface ILocationStateType {
-  background: Location<ILocationStateType>
+export interface ILocationStateType {
+  from?: Location<ILocationStateType>,
+  order?: TOrder
 }
 
 const App = () => {
@@ -26,7 +28,7 @@ const App = () => {
   const history = useHistory();
   const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
   const { ingredientModalOpened, orderModalOpened } = useSelector<TRootState, IModalState>(store => store.modal);
-  let background = location.state && location.state?.background;
+  let background = location.state && location.state?.from;
 
   const closeModal = () => {
     if (ingredientModalOpened) {

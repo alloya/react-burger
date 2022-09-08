@@ -163,8 +163,8 @@ export const setAuth = () => {
 
 export const updateUser = (form: TForm) => async (dispatch: TAppDispatch) => {
   try {
-    if (!getCookie('token').length) {
-      await refreshAccessToken(getRefreshToken());
+    if (getCookie('token') === undefined) {
+      await refreshAccessToken(getRefreshToken()!);
     }
     dispatch({ type: UPDATE_USER_REQUEST });
     const res = await patchUserRequest(form);
@@ -184,7 +184,7 @@ export const updateUser = (form: TForm) => async (dispatch: TAppDispatch) => {
 export const logout = () => async (dispatch: TAppDispatch) => {
   dispatch({ type: LOGOUT_REQUEST });
   try {
-    const res = await logoutRequest(getRefreshToken())
+    const res = await logoutRequest(getRefreshToken()!)
     if (res && res.success) {
       dispatch({ type: LOGOUT_SUCCESS });
       deleteCookie('token');
