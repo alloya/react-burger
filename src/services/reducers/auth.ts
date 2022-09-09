@@ -1,4 +1,6 @@
+import { IUser } from '../../utils/types/user';
 import { getCookie } from '../../utils/utils';
+import { TAuthActions } from '../actions/auth';
 import {
   REFRESH_TOKEN_REQUEST,
   REFRESH_TOKEN_SUCCESS,
@@ -32,7 +34,7 @@ import {
 } from '../constants/auth';
 
 export interface IAuthState {
-  user: {email: string, name: string},
+  user: IUser,
   accessToken: string,
   refreshToken: string,
   getUserRequest: boolean,
@@ -61,7 +63,7 @@ export interface IAuthState {
   isAuth: boolean
 }
 
-const authInitianState: IAuthState = {
+const authInitialState: IAuthState = {
   user: {name: '', email: ''},
   accessToken: '',
   refreshToken: '',
@@ -91,7 +93,7 @@ const authInitianState: IAuthState = {
   isAuth: Boolean(getCookie('token'))
 };
 
-export const authReducer = (state = authInitianState, action: TAuth) => {
+export const authReducer = (state = authInitialState, action: TAuthActions) => {
   switch (action.type) {
     case GET_USER_REQUEST: {
       return {
@@ -164,8 +166,6 @@ export const authReducer = (state = authInitianState, action: TAuth) => {
       return {
         ...state,
         user: action.user,
-        accessToken: action.accessToken,
-        refreshToken: action.refreshToken,
         loginRequest: false
       }
     }

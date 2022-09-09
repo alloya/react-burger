@@ -1,6 +1,7 @@
 import { TAppDispatch } from "../..";
 import { createUser, getUserRequest, loginRequest, logoutRequest, patchUserRequest, refreshTokenRequest, resetPasswordRequest, setNewPasswordRequest } from "../../utils/api";
 import { TForm } from "../../utils/types/form";
+import { IUser } from "../../utils/types/user";
 import { deleteCookie, getCookie, getRefreshToken, setCookie, setRefreshToken, deleteRefreshToken } from "../../utils/utils";
 import {
   REFRESH_TOKEN_REQUEST,
@@ -32,8 +33,138 @@ import {
   SET_PASSWORD_REQUEST,
   SET_PASSWORD_SUCCESS,
   SET_PASSWORD_FAILED,
+
 } from '../constants/auth';
 
+export interface IRefreshTokenRequest {
+  readonly type: typeof REFRESH_TOKEN_REQUEST
+}
+
+export interface IRefreshTokenSuccess {
+  readonly type: typeof REFRESH_TOKEN_SUCCESS
+}
+
+export interface IRefreshTokenFailed {
+  readonly type: typeof REFRESH_TOKEN_FAILED
+}
+
+export interface IGetUserRequest {
+  readonly type: typeof GET_USER_REQUEST
+}
+
+export interface IGetUserSuccess {
+  readonly type: typeof GET_USER_SUCCESS,
+  readonly payload: boolean
+}
+
+export interface IGetUserFailed {
+  readonly type: typeof GET_USER_FAILED
+}
+
+export interface IRegistrationRequest {
+  readonly type: typeof REGISTRATION_REQUEST
+}
+
+export interface IRegistrationSuccess {
+  readonly type: typeof REGISTRATION_SUCCESS
+}
+
+export interface IRegistrationFailed {
+  readonly type: typeof REGISTRATION_FAILED
+}
+
+export interface ILoginRequest {
+  readonly type: typeof LOGIN_REQUEST
+}
+
+export interface ILoginSuccess {
+  readonly type: typeof LOGIN_SUCCESS,
+  readonly user: IUser,
+}
+
+export interface ILoginFailed {
+  readonly type: typeof LOGIN_FAILED
+}
+
+export interface IUpdateUserRequest {
+  readonly type: typeof UPDATE_USER_REQUEST
+}
+
+export interface IUpdateUserSuccess {
+  readonly type: typeof UPDATE_USER_SUCCESS,
+  readonly payload: IUser
+}
+
+export interface IUpdateUserFailed {
+  readonly type: typeof UPDATE_USER_FAILED
+}
+
+export interface IAuthSuccess {
+  readonly type: typeof AUTH_SUCCESS
+}
+
+export interface IAuthFailed {
+  readonly type: typeof AUTH_FAILED
+}
+
+export interface ILogoutRequest {
+  readonly type: typeof LOGOUT_REQUEST
+}
+
+export interface ILogoutSuccess {
+  readonly type: typeof LOGOUT_SUCCESS
+}
+
+export interface ILogoutFailed {
+  readonly type: typeof LOGOUT_FAILED
+}
+
+export interface IPasswordResetRequest {
+  readonly type: typeof PASSWORD_RESET_REQUEST
+}
+
+export interface IPasswordResetSuccess {
+  readonly type: typeof PASSWORD_RESET_SUCCESS
+}
+
+export interface IPasswordResetFailed {
+  readonly type: typeof PASSWORD_RESET_FAILED
+}
+
+export interface ISetPasswordRequest {
+  readonly type: typeof SET_PASSWORD_REQUEST
+}
+
+export interface ISetPasswordSuccess {
+  readonly type: typeof SET_PASSWORD_SUCCESS
+}
+
+export interface ISetPasswordFailed {
+  readonly type: typeof SET_PASSWORD_FAILED
+}
+
+export interface IResetUpdateUser {
+  readonly type: typeof RESET_UPDATE_USER
+}
+
+export interface IUpdateTokens {
+  readonly type: typeof UPDATE_TOKENS,
+  readonly accessToken: string,
+  readonly refreshToken: string
+}
+
+export interface IResetPasswordResetState {
+  readonly type: typeof RESET_PASSWORD_RESET_STATE,
+  readonly passwordResetRequest: boolean,
+  readonly passwordResetFailed: boolean,
+  readonly passwordResetSuccess: boolean,
+  readonly setPasswordRequest: boolean,
+  readonly setPasswordFailed: boolean,
+  readonly setPasswordSuccess: boolean
+}
+
+export type TAuthActions =
+ISetPasswordFailed | ISetPasswordSuccess | ISetPasswordRequest | IPasswordResetFailed | IPasswordResetSuccess | IPasswordResetRequest | ILoginRequest | ILoginSuccess | ILoginFailed | ILogoutFailed | ILogoutSuccess | ILogoutRequest | IAuthFailed | IAuthSuccess | IUpdateUserFailed | IUpdateUserSuccess | IUpdateUserRequest | IRegistrationFailed | IRegistrationSuccess | IRegistrationRequest | IGetUserFailed | IGetUserSuccess | IGetUserRequest | IRefreshTokenFailed | IRefreshTokenSuccess | IRefreshTokenRequest | IResetUpdateUser | IUpdateTokens | IResetPasswordResetState
 
 export const refreshAccessToken = (refreshToken: string) => async (dispatch: TAppDispatch) => {
   dispatch({
@@ -43,9 +174,7 @@ export const refreshAccessToken = (refreshToken: string) => async (dispatch: TAp
     let res = await refreshTokenRequest(refreshToken)
     if (res && res.success) {
       updateTokens(res.accessToken, res.refreshToken)
-      dispatch({
-        type: REFRESH_TOKEN_SUCCESS
-      });
+      dispatch({ type: REFRESH_TOKEN_SUCCESS });
     }
     else { return Promise.reject(`Ошибка: ${res.status} Refresh token failed`) }
   } catch (error) {
