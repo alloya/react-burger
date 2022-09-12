@@ -5,14 +5,14 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { registration } from "../services/actions/auth";
 import { useForm } from "../services/hooks/useForm";
-import { TAppDispatch, TRootState } from "..";
+import { TAppDispatch, TRootState, useAppDispatch } from "..";
 import { IAuthState } from "../services/reducers/auth";
 
 export function RegistrationPage() {
-  const dispatch: TAppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { state } = useLocation();
   const { isAuth } = useSelector<TRootState, IAuthState>(store => store.auth);
-  const {values, handleChange, setValues} = useForm({name: '', email: '', password: ''});
+  const { values, handleChange, setValues } = useForm({ name: '', email: '', password: '' });
   const [emailError, setEmailError] = useState(false);
   const [nameError, setNameError] = useState(false);
 
@@ -20,7 +20,7 @@ export function RegistrationPage() {
     setNameError(false);
     setEmailError(false);
   }
-  
+
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!values.email.length || !values.name.length) {

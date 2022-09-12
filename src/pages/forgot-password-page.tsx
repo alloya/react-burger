@@ -3,20 +3,19 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import s from './page.module.css';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { resetPassword } from "../services/actions/auth";
-import { RESET_PASSWORD_RESET_STATE } from "../services/constants/auth";
+import { resetPassword, resetPasswordResetState } from "../services/actions/auth";
 import { useForm } from "../services/hooks/useForm";
-import { TAppDispatch, TRootState } from "..";
+import { TRootState, useAppDispatch } from "..";
 import { IAuthState } from "../services/reducers/auth";
 
 export function ForgotPasswordPage() {
-  const dispatch: TAppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isAuth, passwordResetSuccess, passwordResetFailed, passwordResetRequest } = useSelector<TRootState, IAuthState>(store => store.auth);
-  const {values, handleChange} = useForm({email: ''});
+  const { values, handleChange } = useForm({ email: '' });
   const [emailError, setEmailError] = useState(false);
 
   useEffect(() => {
-    dispatch({ type: RESET_PASSWORD_RESET_STATE });
+    dispatch(resetPasswordResetState());
   }, [])
 
   const onFocus = () => {

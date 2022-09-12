@@ -1,4 +1,4 @@
-import { TAppDispatch } from "../..";
+import { TAppDispatch, TAppThunk } from "../..";
 import { createUser, getUserRequest, loginRequest, logoutRequest, patchUserRequest, refreshTokenRequest, resetPasswordRequest, setNewPasswordRequest } from "../../utils/api";
 import { TForm } from "../../utils/types/form";
 import { IUser } from "../../utils/types/user";
@@ -166,20 +166,77 @@ export interface IResetPasswordResetState {
 export type TAuthActions =
 ISetPasswordFailed | ISetPasswordSuccess | ISetPasswordRequest | IPasswordResetFailed | IPasswordResetSuccess | IPasswordResetRequest | ILoginRequest | ILoginSuccess | ILoginFailed | ILogoutFailed | ILogoutSuccess | ILogoutRequest | IAuthFailed | IAuthSuccess | IUpdateUserFailed | IUpdateUserSuccess | IUpdateUserRequest | IRegistrationFailed | IRegistrationSuccess | IRegistrationRequest | IGetUserFailed | IGetUserSuccess | IGetUserRequest | IRefreshTokenFailed | IRefreshTokenSuccess | IRefreshTokenRequest | IResetUpdateUser | IUpdateTokens | IResetPasswordResetState
 
+export const resetPasswordResetState = (): IResetPasswordResetState => {
+  return { 
+    type: RESET_PASSWORD_RESET_STATE,
+    passwordResetRequest: false,
+    passwordResetFailed: false, 
+    passwordResetSuccess: false,
+    setPasswordRequest: false,
+    setPasswordFailed: false,
+    setPasswordSuccess: false
+  }
+}
+
+const logInRequest = (): ILoginRequest => {
+  return { type: LOGIN_REQUEST }
+}
+
+const loginSuccess = (user: IUser): ILoginSuccess => {
+  return { 
+    type: LOGIN_SUCCESS,
+    user 
+  }
+}
+
+const loginFailed = (): ILoginFailed => {
+  return { type: LOGIN_FAILED }
+}
+
+const passwordResetRequest = (): IPasswordResetRequest => {
+  return { type: PASSWORD_RESET_REQUEST }
+}
+
+const passwordResetSuccess = (): IPasswordResetSuccess => {
+  return { type: PASSWORD_RESET_SUCCESS }
+}
+
+const passwordResetFailed = (): IPasswordResetFailed => {
+  return { type: PASSWORD_RESET_FAILED }
+}
+
+const authSuccess = (): IAuthSuccess => {
+  return { type: AUTH_SUCCESS }
+}
+
+const authFailed = (): IAuthFailed => {
+  return { type: AUTH_FAILED }
+}
+
+const refreshAccessTokenRequest = (): IRefreshTokenRequest => {
+  return { type: REFRESH_TOKEN_REQUEST }
+}
+
+const refreshAccessTokenSuccess = (): IRefreshTokenSuccess => {
+  return { type: REFRESH_TOKEN_SUCCESS }
+}
+
+const refreshAccessTokenFailed = (): IRefreshTokenFailed => {
+  return { type: REFRESH_TOKEN_FAILED }
+}
+
 export const refreshAccessToken = (refreshToken: string) => async (dispatch: TAppDispatch) => {
-  dispatch({
-    type: REFRESH_TOKEN_REQUEST
-  });
+  dispatch(refreshAccessTokenRequest());
   try {
     let res = await refreshTokenRequest(refreshToken)
     if (res && res.success) {
       updateTokens(res.accessToken, res.refreshToken)
-      dispatch({ type: REFRESH_TOKEN_SUCCESS });
+      dispatch(refreshAccessTokenSuccess());
     }
     else { return Promise.reject(`Ошибка: ${res.status} Refresh token failed`) }
   } catch (error) {
     console.log(error)
-    dispatch({ type: REFRESH_TOKEN_FAILED });
+    dispatch(refreshAccessTokenFailed());
   }
 }
 
@@ -200,7 +257,7 @@ export const getUser = () => async (dispatch: TAppDispatch) => {
   }
 }
 
-export const updateTokens = (accessToken: string, refreshToken: string) => {
+export const updateTokens = (accessToken: string, refreshToken: string): IUpdateTokens => {
   setCookie('token', accessToken, { expires: 1200 });
   setRefreshToken('refreshToken', refreshToken);
   return {
@@ -210,14 +267,14 @@ export const updateTokens = (accessToken: string, refreshToken: string) => {
   }
 }
 
-export const registration = (form: TForm) => (dispatch: TAppDispatch) => {
+export const registration: TAppThunk = (form: TForm) => (dispatch: TAppDispatch) => {
   dispatch({ type: REGISTRATION_REQUEST });
   createUser(form)
     .then(res => {
       if (res && res.success) {
         dispatch({ type: REGISTRATION_SUCCESS });
         dispatch(updateTokens(res.accessToken, res.refreshToken));
-        dispatch(setAuth());
+        dispatch(authSuccess());
       }
       else { return Promise.reject(`Ошибка: ${res.status} Registration failed`) }
     })
@@ -228,16 +285,16 @@ export const registration = (form: TForm) => (dispatch: TAppDispatch) => {
 }
 
 export const resetPassword = (email: string) => (dispatch: TAppDispatch) => {
-  dispatch({ type: PASSWORD_RESET_REQUEST });
+  dispatch(passwordResetRequest());
   resetPasswordRequest(email)
     .then(res => {
       if (res && res.success) {
-        dispatch({ type: PASSWORD_RESET_SUCCESS });
+        dispatch(passwordResetSuccess());
       }
       else { return Promise.reject(`Ошибка: ${res.status} Reset password failed`) }
     })
     .catch(err => {
-      dispatch({ type: PASSWORD_RESET_FAILED });
+      dispatch(passwordResetFailed());
       console.log(err)
     })
 }
@@ -258,7 +315,7 @@ export const setNewPassword = (form: TForm) => (dispatch: TAppDispatch) => {
 }
 
 export const login = (form: TForm) => (dispatch: TAppDispatch) => {
-  dispatch({ type: LOGIN_REQUEST });
+  dispatch(logInRequest());
   loginRequest(form)
     .then(res => {
       if (res && res.success) {
@@ -268,26 +325,23 @@ export const login = (form: TForm) => (dispatch: TAppDispatch) => {
         if (res.refreshToken) {
           setRefreshToken('refreshToken', res.refreshToken);
         }
-        dispatch({
-          type: LOGIN_SUCCESS,
-          user: res.user
-        });
-        dispatch({ type: AUTH_SUCCESS })
+        dispatch(loginSuccess(res.user));
+        dispatch(authSuccess())
       }
       else { return Promise.reject(`Ошибка: ${res.status} Login failed`) }
     })
     .catch(err => {
-      dispatch({ type: LOGIN_FAILED });
+      dispatch(loginFailed());
       console.log(err)
     })
 }
 
-export const setAuth = () => {
+export const setAuth = () => (dispatch: TAppDispatch) => {
   const token = getCookie('token');
   if (token) {
-    return { type: AUTH_SUCCESS }
+    dispatch(authSuccess())
   }
-  return { type: AUTH_FAILED }
+  dispatch(authFailed())
 }
 
 export const updateUser = (form: TForm) => async (dispatch: TAppDispatch) => {
@@ -336,7 +390,7 @@ export const checkAuth = () => async (dispatch: TAppDispatch) => {
     return false;
   }
   if (!accessToken && refreshToken) {
-    await dispatch(refreshAccessToken(refreshToken));
+    await refreshAccessToken(refreshToken);
     return true;
   }
   else {

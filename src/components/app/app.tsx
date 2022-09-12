@@ -12,7 +12,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { IIngredientState } from '../../services/reducers/ingredient';
-import { TAppDispatch, TRootState } from '../..';
+import { TAppDispatch, TRootState, useAppDispatch } from '../..';
 import { IModalState } from '../../services/reducers/modal';
 import { Location } from 'history';
 import { TOrder } from '../../utils/types';
@@ -24,11 +24,13 @@ export interface ILocationStateType {
 
 const App = () => {
   const location = useLocation<ILocationStateType>();
-  const dispatch: TAppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
   const { ingredientModalOpened, orderModalOpened } = useSelector<TRootState, IModalState>(store => store.modal);
+  debugger
   let background = location.state && location.state?.from;
+  console.log(background);
 
   const closeModal = () => {
     if (ingredientModalOpened) {
@@ -66,13 +68,13 @@ const App = () => {
         <Route path="/forgot-password">
           <ForgotPasswordPage />
         </Route>
-        <ProtectedRoute path="/profile" exact>
+        <ProtectedRoute path="/profile">
           <ProfilePage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders" exact>
+        <ProtectedRoute path="/profile/orders">
           <OrdersPage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders/:id" exact>
+        <ProtectedRoute path="/profile/orders/:id">
           <FeedDetailedPage />
         </ProtectedRoute>
         <Route path="/ingredient/:id" exact>

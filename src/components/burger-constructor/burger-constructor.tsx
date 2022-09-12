@@ -15,13 +15,13 @@ import { orderCheckout } from "../../services/actions/checkout";
 import { useHistory } from "react-router";
 import { checkAuth } from "../../services/actions/auth";
 import { countBasket } from "../../utils/utils";
-import { TAppDispatch, TRootState } from "../..";
+import { TAppDispatch, TRootState, useAppDispatch } from "../..";
 import { IConstructorState } from "../../services/reducers/constructor";
 import { ICheckoutState } from "../../services/reducers/checkout";
 import { IIngredient } from "../../utils/types";
 
 const BurgerConstructor = () => {
-  const dispatch: TAppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { constructorItems } = useSelector<TRootState, IConstructorState>((store) => store.constructor);
   const { orderCheckoutRequest } = useSelector<TRootState, ICheckoutState>((store) => store.checkout);
   const history = useHistory();

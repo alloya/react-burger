@@ -17,7 +17,7 @@ export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngr
   createdAt,
   _id: id, }) => {
   const { ingredients } = useSelector((store: TRootState) => store.ingredients);
-  const [picArray, setPicArray] = useState([]);
+  const [picArray, setPicArray] = useState<IIngredient[]>([]);
 
   useEffect(() => {
     if (burgerIngredients.length && ingredients.length) {

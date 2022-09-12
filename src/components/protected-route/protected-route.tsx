@@ -1,16 +1,23 @@
 import { Redirect, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { ReactNode, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { checkAuth, getUser, setAuth } from '../../services/actions/auth';
+import { IAuthState } from '../../services/reducers/auth';
+import { TRootState, useAppDispatch } from '../..';
 
-export const ProtectedRoute = ({ children, ...rest }) => {
-  const dispatch = useDispatch();
-  const { isAuth } = useSelector(store => store.auth);
-  const [ isUserLoaded, setUserLoaded ] = useState(false);
+interface IProtectedRoute {
+  children?: ReactNode
+  path?: string
+}
+
+export const ProtectedRoute: React.FC<IProtectedRoute> = ({ children, ...rest }) => {
+  const dispatch = useAppDispatch();
+  const { isAuth } = useSelector<TRootState, IAuthState>(store => store.auth);
+  const [isUserLoaded, setUserLoaded] = useState(false);
 
   const init = async () => {
     const auth = await dispatch(checkAuth());
-    if (auth) {
+    if (!auth) {
       await dispatch(getUser());
     }
     setUserLoaded(true);
@@ -29,7 +36,7 @@ export const ProtectedRoute = ({ children, ...rest }) => {
     <Route
       {...rest}
       render={({ location }) =>
-      isAuth ? (
+        isAuth ? (
           children
         ) : (
           <Redirect

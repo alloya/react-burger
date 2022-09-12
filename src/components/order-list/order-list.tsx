@@ -15,7 +15,7 @@ export const OrderList = ({ feed }: { feed: TOrder[] }) => {
     <ul className={styles.scrollable + ' ' + s.order_list + ' pr-1 mr-14'}>
       {feed?.length && feed.map((element: TOrder) => (
         <li className={`${s.order_list_item} pb-6`} key={element._id} >
-          <Link to={{ pathname: `${match.url}/${element._id}`, state: { background: location, data: element } }} className={s.no_link} >
+          <Link to={{ pathname: `${match.url}/${element._id}`, state: { from: location, data: element } }} className={s.no_link} >
             <FeedElementComponent {...element} />
           </Link>
         </li>

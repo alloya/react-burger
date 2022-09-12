@@ -3,17 +3,17 @@ import { useState, useEffect, FormEvent } from "react";
 import s from './page.module.css';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { setNewPassword } from "../services/actions/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useForm } from "../services/hooks/useForm";
-import { TAppDispatch, TRootState } from "..";
+import { TRootState, useAppDispatch } from "..";
 import { ILocationStateType } from "../components/app/app";
 import { IAuthState } from "../services/reducers/auth";
 
 export function RecoverPasswordPage() {
-  const dispatch: TAppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
-  const { isAuth, setPasswordRequest, setPasswordSuccess} = useSelector<TRootState, IAuthState>(store => store.auth);
-  const {values, handleChange} = useForm({password: '', token: ''});
+  const { isAuth, setPasswordRequest, setPasswordSuccess } = useSelector<TRootState, IAuthState>(store => store.auth);
+  const { values, handleChange } = useForm({ password: '', token: '' });
   const [tokenError, setTokenError] = useState(false);
   const location = useLocation<ILocationStateType>();
   const referrer = location.state?.from;

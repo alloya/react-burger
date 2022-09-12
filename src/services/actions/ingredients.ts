@@ -24,6 +24,25 @@ export interface ITabSwitch {
   readonly tab: string
 }
 
+const getIngredientsRequest = (): IGetItemsRequest => {
+  return {
+    type: GET_ITEMS_REQUEST
+  }
+}
+
+const getIngredientsSuccess = (data: IIngredient[]): IGetItemsSuccess => {
+  return {
+    type: GET_ITEMS_SUCCESS,
+    data
+  }
+}
+
+const getIngredientsFailed = (): IGetItemsFailed => {
+  return {
+    type: GET_ITEMS_FAILED
+  }
+}
+
 export type TIngredientsActions =
   | IGetItemsRequest
   | IGetItemsSuccess
@@ -31,19 +50,12 @@ export type TIngredientsActions =
   | ITabSwitch
 
 export const getIngredients = () => async (dispatch: TAppDispatch) => {
-  dispatch({
-    type: GET_ITEMS_REQUEST
-  });
+    dispatch(getIngredientsRequest());
   try {
     const data = await getIngredientsData();
-    dispatch({
-      type: GET_ITEMS_SUCCESS,
-      data: data.data
-    })
+    dispatch(getIngredientsSuccess(data.data))
   } catch (error) {
-    dispatch({
-      type: GET_ITEMS_FAILED
-    });
+    dispatch(getIngredientsFailed());
     console.log(error)
   }
 }

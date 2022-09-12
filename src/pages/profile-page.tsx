@@ -7,13 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../services/actions/auth";
 import { RESET_UPDATE_USER } from "../services/constants/auth";
 import { useForm } from "../services/hooks/useForm";
-import { TRootState, TAppDispatch } from "..";
+import { TRootState, TAppDispatch, useAppDispatch } from "..";
 import { IAuthState } from "../services/reducers/auth";
 
 export function ProfilePage() {
   const { user, getUserRequest, updateUserRequest, updateUserSuccess } = useSelector<TRootState, IAuthState>(store => store.auth);
-  const dispatch: TAppDispatch = useDispatch();
-  const {values, handleChange, setValues, changed, resetChange} = useForm({name: user.name, email: user.email, password: ''});
+  const dispatch = useAppDispatch();
+  const { values, handleChange, setValues, changed, resetChange } = useForm({ name: user.name, email: user.email, password: '' });
   const inputNameRef = useRef<HTMLInputElement>(null);
   const inputEmailRef = useRef<HTMLInputElement>(null);
   const [emailError, setEmailError] = useState(false);
@@ -67,7 +67,7 @@ export function ProfilePage() {
       <div className={`${s.container} ${s.profile} ${s.left_side}`}>
         <SideMenu />
         {getUserRequest && 'Загрузка...'}
-        {!getUserRequest && Object.keys(values).length && 
+        {!getUserRequest && Object.keys(values).length &&
           <form className={`${styles.d_flex} ${styles.flex_column}`} onSubmit={(e) => onSubmit(e)}>
             <div className={`${s.input} pb-6`}>
               <Input onChange={handleChange}

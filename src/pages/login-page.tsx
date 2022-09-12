@@ -5,19 +5,19 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import { login } from "../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../services/hooks/useForm";
-import { TAppDispatch, TRootState } from "..";
+import { TAppDispatch, TRootState, useAppDispatch } from "..";
 import { IAuthState } from "../services/reducers/auth";
 import { ILocationStateType } from "../components/app/app";
 
 export function LoginPage() {
-  const dispatch: TAppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation<ILocationStateType>();
   const { isAuth, loginRequest } = useSelector<TRootState, IAuthState>(store => store.auth);
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
   const path = location.state?.from?.pathname;
 
-  const {values, handleChange} = useForm({email: '', password: ''});
+  const { values, handleChange } = useForm({ email: '', password: '' });
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ export function LoginPage() {
           <Link to="/register" className={s.link}> Зарегистрироваться</Link>
         </p>
         <p className="text text_type_main-default text_color_inactive">Забыли пароль?
-        <Link to="/forgot-password" className={s.link}>   Восстановить пароль</Link></p>
+          <Link to="/forgot-password" className={s.link}>   Восстановить пароль</Link></p>
       </form>}
     </div>
   )
