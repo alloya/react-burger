@@ -1,9 +1,8 @@
 import { NavLink, useRouteMatch } from "react-router-dom";
 import s from './side-menu.module.css';
 
-export function SideMenu() {
-  let match = useRouteMatch();
-  let useIsMatch = (link, exact = false) => useRouteMatch({ path: link, exact: exact });
+export const SideMenu = () => {
+  let useIsMatch = (link: string, exact = false) => useRouteMatch({ path: link, exact: exact });
 
   return (
     <div className={`${s.side_menu} mr-15`}>

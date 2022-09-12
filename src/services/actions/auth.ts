@@ -1,5 +1,6 @@
 import { TAppDispatch, TAppThunk } from "../..";
 import { createUser, getUserRequest, loginRequest, logoutRequest, patchUserRequest, refreshTokenRequest, resetPasswordRequest, setNewPasswordRequest } from "../../utils/api";
+import { TOKEN_EXPIRATION_TIME } from "../../utils/const";
 import { TForm } from "../../utils/types/form";
 import { IUser } from "../../utils/types/user";
 import { deleteCookie, getCookie, getRefreshToken, setCookie, setRefreshToken, deleteRefreshToken } from "../../utils/utils";
@@ -258,7 +259,7 @@ export const getUser = () => async (dispatch: TAppDispatch) => {
 }
 
 export const updateTokens = (accessToken: string, refreshToken: string): IUpdateTokens => {
-  setCookie('token', accessToken, { expires: 1200 });
+  setCookie('token', accessToken, { expires: TOKEN_EXPIRATION_TIME });
   setRefreshToken('refreshToken', refreshToken);
   return {
     type: UPDATE_TOKENS,
@@ -320,7 +321,7 @@ export const login = (form: TForm) => (dispatch: TAppDispatch) => {
     .then(res => {
       if (res && res.success) {
         if (res.accessToken) {
-          setCookie('token', res.accessToken, { expires: 1200 });
+          setCookie('token', res.accessToken, { expires: TOKEN_EXPIRATION_TIME });
         }
         if (res.refreshToken) {
           setRefreshToken('refreshToken', res.refreshToken);

@@ -1,19 +1,24 @@
-import PropTypes from "prop-types";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import Price from "../../price/price";
 import s from "./ingredient-item.module.css";
-import { IngredientPropTypes } from "../../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_INGREDIENT_INFO_TO_MODAL } from "../../../services/constants/ingredient-modal";
 import { SHOW_INGREDIENT_DETAILS_POPUP } from "../../../services/constants/modal";
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
 import IngredientTypes from "../../../utils/models/ingredient-type-model";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
+import { IIngredient } from "../../../utils/types";
+import { TRootState } from "../../..";
+import { IConstructorState } from "../../../services/reducers/constructor";
+import { addIngredientInfoToModal } from "../../../services/actions/ingredient-modal";
 
-const IngredientItem = ({ ingredient }) => {
-  const { constructorItems } = useSelector((store) => store.constructor);
+type TIngredientItem = {
+  ingredient: IIngredient
+}
+
+const IngredientItem: React.FC<TIngredientItem> = ({ ingredient }) => {
+  const { constructorItems } = useSelector<TRootState, IConstructorState>((store) => store.constructor);
   const dispatch = useDispatch();
   const location = useLocation();
   const [{ opacity }, ref] = useDrag({
@@ -48,7 +53,7 @@ const IngredientItem = ({ ingredient }) => {
         className={s.container}
         ref={ref}
         onClick={() => {
-          dispatch({ type: ADD_INGREDIENT_INFO_TO_MODAL, ingredient });
+          dispatch(addIngredientInfoToModal(ingredient));
           dispatch({ type: SHOW_INGREDIENT_DETAILS_POPUP });
         }}
         style={{ opacity }}
@@ -66,11 +71,6 @@ const IngredientItem = ({ ingredient }) => {
       </li>
     </Link>
   );
-};
-
-IngredientItem.propTypes = {
-  ingredient: IngredientPropTypes.isRequired,
-  counter: PropTypes.number,
 };
 
 export default IngredientItem;

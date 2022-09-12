@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router";
 import { TRootState } from "..";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
-import { ADD_INGREDIENT_INFO_TO_MODAL } from "../services/constants/ingredient-modal";
+import { addIngredientInfoToModal } from "../services/actions/ingredient-modal";
 import { IIngredientState } from "../services/reducers/ingredient";
 import { IIngredientModalState } from "../services/reducers/ingredient-modal";
 
@@ -21,7 +21,7 @@ export const IngredientPage = () => {
   const getItem = () => {
     if (ingredientDetails && Object.keys(ingredientDetails).length === 0) {
       const ingredient = ingredients.filter(el => el._id == id)[0];
-      ingredient && dispatch({ type: ADD_INGREDIENT_INFO_TO_MODAL, ingredient });
+      ingredient && dispatch(addIngredientInfoToModal(ingredient));
     }
   }
 

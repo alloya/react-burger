@@ -1,9 +1,13 @@
 import s from './ingredient-details.module.css';
 import styles from '../../utils/styles.module.css';
 import { useSelector } from 'react-redux';
+import { IIngredientModalState } from '../../services/reducers/ingredient-modal';
+import { TRootState } from '../..';
 
 const IngredientDetails = () => {
-  const { name, calories, proteins, fat, carbohydrates, image_large } = useSelector(store => store.ingredientModal.ingredientDetails);
+  const { ingredientDetails } = useSelector<TRootState, IIngredientModalState>(store => store.ingredientModal);
+  const { name, calories, proteins, fat, carbohydrates, image_large } = ingredientDetails!;
+
   return (
     <div className={s.ingredientDetails}>
       <h2 className={`${styles.m_auto} text text_type_main-large`}>Детали ингредиента</h2>

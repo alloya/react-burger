@@ -13,3 +13,14 @@ export interface IRemoveIngredientInfoFromModal {
 export type TIngredientModalActions = 
   | IAddIngredientInfoToModal
   | IRemoveIngredientInfoFromModal
+
+export const addIngredientInfoToModal = (ingredient : IIngredient): IAddIngredientInfoToModal => {
+  return {
+    type: ADD_INGREDIENT_INFO_TO_MODAL,
+    ingredient
+  }
+}
+
+export const removeIngredientInfoFromModal = (): IRemoveIngredientInfoFromModal => {
+  return { type: REMOVE_INGREDIENT_INFO_TO_MODAL }
+}

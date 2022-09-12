@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import 'moment/locale/ru';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrdersPage, IngredientPage, LogoutPage, NotFoundPage, FeedPage, FeedDetailedPage } from '../../pages';
-import { REMOVE_INGREDIENT_INFO_TO_MODAL, SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/constants/ingredient-modal';
+import { SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/constants/ingredient-modal';
 import { getIngredients } from '../../services/actions/ingredients';
 import { CLOSE_ALL_POPUPS } from '../../services/constants/modal';
 import Header from '../app-header/app-header';
@@ -12,10 +12,11 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { IIngredientState } from '../../services/reducers/ingredient';
-import { TAppDispatch, TRootState, useAppDispatch } from '../..';
+import { TRootState, useAppDispatch } from '../..';
 import { IModalState } from '../../services/reducers/modal';
 import { Location } from 'history';
 import { TOrder } from '../../utils/types';
+import { removeIngredientInfoFromModal } from '../../services/actions/ingredient-modal';
 
 export interface ILocationStateType {
   from?: Location<ILocationStateType>,
@@ -28,13 +29,12 @@ const App = () => {
   const history = useHistory();
   const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
   const { ingredientModalOpened, orderModalOpened } = useSelector<TRootState, IModalState>(store => store.modal);
-  debugger
   let background = location.state && location.state?.from;
   console.log(background);
 
   const closeModal = () => {
     if (ingredientModalOpened) {
-      dispatch({ type: REMOVE_INGREDIENT_INFO_TO_MODAL });
+      dispatch(removeIngredientInfoFromModal());
     }
     dispatch({ type: CLOSE_ALL_POPUPS });
     history.goBack();
