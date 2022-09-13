@@ -16,7 +16,6 @@ export interface IWSConnectionClosed {
 
 export interface IWSConnectionError {
   readonly type: typeof WS_CONNECTION_ERROR;
-  readonly payload: string;
 }
 
 export interface IWSGetMessage {
@@ -37,16 +36,11 @@ export type TWSActions =
   | IWSGetMessage
   | IWSSendMessage
 
-export const wsActions = {
-  wsInit: WS_CONNECTION_START,
-  wsSendMessage: WS_SEND_MESSAGE,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_MESSAGE
-};
+
+
 
 export const wsConnectionStart = (url: string): IWSConnectionStart => {
+  debugger
   return {
     type: WS_CONNECTION_START,
     payload: url
@@ -59,10 +53,9 @@ export const wsConnectionSuccess = (): IWSConnectionSuccess => {
   };
 };
 
-export const wsConnectionError = (error: string): IWSConnectionError => {
+export const wsConnectionError = (): IWSConnectionError => {
   return {
-    type: WS_CONNECTION_ERROR,
-    payload: error
+    type: WS_CONNECTION_ERROR
   };
 };
 

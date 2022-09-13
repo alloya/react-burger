@@ -17,6 +17,7 @@ export function OrdersPage() {
   const [feed, setFeed] = useState({});
 
   useEffect(() => {
+    debugger;
     dispatch(
       wsConnectionStart(`${ORDERS_PERSONAL_URL}?token=${getCookie("token")}`)
     );

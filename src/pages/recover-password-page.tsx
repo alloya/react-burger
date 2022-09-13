@@ -5,9 +5,9 @@ import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { setNewPassword } from "../services/actions/auth";
 import { useSelector } from "react-redux";
 import { useForm } from "../services/hooks/useForm";
-import { TRootState, useAppDispatch } from "..";
 import { ILocationStateType } from "../components/app/app";
 import { IAuthState } from "../services/reducers/auth";
+import { useAppDispatch, TRootState } from "../services/store/store";
 
 export function RecoverPasswordPage() {
   const dispatch = useAppDispatch();

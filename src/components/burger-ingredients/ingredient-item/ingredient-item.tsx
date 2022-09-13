@@ -9,9 +9,9 @@ import IngredientTypes from "../../../utils/models/ingredient-type-model";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { IIngredient } from "../../../utils/types";
-import { TRootState } from "../../..";
 import { IConstructorState } from "../../../services/reducers/constructor";
 import { addIngredientInfoToModal } from "../../../services/actions/ingredient-modal";
+import { TRootState } from "../../../services/store/store";
 
 type TIngredientItem = {
   ingredient: IIngredient

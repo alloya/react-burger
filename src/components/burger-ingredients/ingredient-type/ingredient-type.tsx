@@ -3,8 +3,8 @@ import IngredientItem from "../ingredient-item/ingredient-item";
 import s from "./ingredient-type.module.css";
 import { useSelector } from "react-redux";
 import { IIngredientState } from "../../../services/reducers/ingredient";
-import { TRootState } from "../../..";
 import { IIngredient } from "../../../utils/types";
+import { TRootState } from "../../../services/store/store";
 
 interface IIngredientType {
   type: { type: string, text: string },

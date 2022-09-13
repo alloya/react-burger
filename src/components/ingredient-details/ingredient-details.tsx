@@ -2,7 +2,7 @@ import s from './ingredient-details.module.css';
 import styles from '../../utils/styles.module.css';
 import { useSelector } from 'react-redux';
 import { IIngredientModalState } from '../../services/reducers/ingredient-modal';
-import { TRootState } from '../..';
+import { TRootState } from '../../services/store/store';
 
 const IngredientDetails = () => {
   const { ingredientDetails } = useSelector<TRootState, IIngredientModalState>(store => store.ingredientModal);

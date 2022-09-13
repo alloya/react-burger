@@ -1,10 +1,13 @@
 import { getCookie } from "../../utils/utils";
+import { Middleware, MiddlewareAPI } from 'redux';
+import { TAppDispatch, TRootState } from "../store/store";
+import { TWSMiddleware } from "../../utils/types/wsMiddleware";
 
-export const socketMiddleware = (wsActions) => {
-  return store => {
-    let socket = null;
+export const socketMiddleware = (wsActions: TWSMiddleware): Middleware => {
+  return (store: MiddlewareAPI<TAppDispatch, TRootState>) => {
+    let socket: WebSocket | null = null;
 
-    return next => action => {
+    return (next: any) => (action: any) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
@@ -13,12 +16,13 @@ export const socketMiddleware = (wsActions) => {
         socket = new WebSocket(payload);
       }
       if (socket) {
+        debugger
         socket.onopen = event => {
           dispatch({ type: onOpen, payload: event });
         };
 
         socket.onerror = event => {
-          console.log(`Ошибка ${event.message}`)
+          console.log(`Ошибка ${event}`)
           dispatch({ type: onError, payload: event });
         };
 
@@ -32,6 +36,7 @@ export const socketMiddleware = (wsActions) => {
 
         socket.onclose = event => {
           dispatch({ type: onClose, payload: event });
+          socket?.close();
           console.log(`Код закрытия - ${event.code}`);
           console.log(`Причина закрытия - ${event.reason}`)
         };

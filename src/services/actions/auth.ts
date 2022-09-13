@@ -1,4 +1,3 @@
-import { TAppDispatch, TAppThunk } from "../..";
 import { createUser, getUserRequest, loginRequest, logoutRequest, patchUserRequest, refreshTokenRequest, resetPasswordRequest, setNewPasswordRequest } from "../../utils/api";
 import { TOKEN_EXPIRATION_TIME } from "../../utils/const";
 import { TForm } from "../../utils/types/form";
@@ -36,6 +35,7 @@ import {
   SET_PASSWORD_FAILED,
 
 } from '../constants/auth';
+import { TAppDispatch, TAppThunk } from "../store/store";
 
 export interface IRefreshTokenRequest {
   readonly type: typeof REFRESH_TOKEN_REQUEST

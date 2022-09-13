@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import styles from "../../../utils/styles.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { switchTab } from "../../../services/actions/ingredients";
-import { TAppDispatch, TRootState } from "../../..";
 import { IIngredientState } from "../../../services/reducers/ingredient";
+import { TRootState, TAppDispatch } from "../../../services/store/store";
 
 interface IIngredientTab {
   bunInView: boolean,

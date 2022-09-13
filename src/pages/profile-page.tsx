@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../services/actions/auth";
 import { RESET_UPDATE_USER } from "../services/constants/auth";
 import { useForm } from "../services/hooks/useForm";
-import { TRootState, TAppDispatch, useAppDispatch } from "..";
 import { IAuthState } from "../services/reducers/auth";
+import { TRootState, useAppDispatch } from "../services/store/store";
 
 export function ProfilePage() {
   const { user, getUserRequest, updateUserRequest, updateUserSuccess } = useSelector<TRootState, IAuthState>(store => store.auth);

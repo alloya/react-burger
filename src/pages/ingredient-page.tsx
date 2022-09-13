@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router";
-import { TRootState } from "..";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 import { addIngredientInfoToModal } from "../services/actions/ingredient-modal";
 import { IIngredientState } from "../services/reducers/ingredient";
 import { IIngredientModalState } from "../services/reducers/ingredient-modal";
+import { TRootState } from "../services/store/store";
 
 interface IParams {
   id: string

@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword, resetPasswordResetState } from "../services/actions/auth";
 import { useForm } from "../services/hooks/useForm";
-import { TRootState, useAppDispatch } from "..";
+import { TRootState, useAppDispatch } from "../services/store/store";
 import { IAuthState } from "../services/reducers/auth";
 
 export function ForgotPasswordPage() {

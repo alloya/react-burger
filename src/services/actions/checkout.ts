@@ -1,4 +1,4 @@
-import { TAppDispatch } from './../../index';
+import { TAppDispatch } from './../store/store';
 import { postOrder } from "../../utils/api";
 import { clearConstructor } from "./constructor";
 import { SHOW_ORDER_DETAILS_POPUP } from '../constants/modal';

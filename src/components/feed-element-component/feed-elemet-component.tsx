@@ -8,7 +8,7 @@ import { IngredientPreviewImage } from "../ingredient-preview-image/ingredient-p
 import Price from "../price/price";
 import s from "./feed-element-component.module.css";
 import { IIngredient, TOrder } from "../../utils/types";
-import { TRootState } from "../..";
+import { TRootState } from "../../services/store/store";
 
 export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngredients,
   name,

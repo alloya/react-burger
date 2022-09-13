@@ -5,8 +5,8 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { registration } from "../services/actions/auth";
 import { useForm } from "../services/hooks/useForm";
-import { TAppDispatch, TRootState, useAppDispatch } from "..";
 import { IAuthState } from "../services/reducers/auth";
+import { useAppDispatch, TRootState } from "../services/store/store";
 
 export function RegistrationPage() {
   const dispatch = useAppDispatch();

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { TTabType } from "../../services/actions/ingredients";
 import { useInView } from "react-intersection-observer";
 import { IIngredientState } from "../../services/reducers/ingredient";
-import { TRootState } from "../..";
+import { TRootState } from "../../services/store/store";
 
 const BurgerIngredients = () => {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector<TRootState, IIngredientState>((store) => store.ingredients);

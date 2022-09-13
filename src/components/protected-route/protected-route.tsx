@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { checkAuth, getUser, setAuth } from '../../services/actions/auth';
 import { IAuthState } from '../../services/reducers/auth';
-import { TRootState, useAppDispatch } from '../..';
+import { TRootState, useAppDispatch } from '../../services/store/store';
 
 interface IProtectedRoute {
   children?: ReactNode

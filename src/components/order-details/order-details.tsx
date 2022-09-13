@@ -1,8 +1,8 @@
 import s from './order-details.module.css';
 import checkMark from '../../img/check.svg';
 import { useSelector } from 'react-redux';
-import { TRootState } from '../..';
 import { ICheckoutState } from '../../services/reducers/checkout';
+import { TRootState } from '../../services/store/store';
 
 const OrderDetails = () => {
   const { order } = useSelector<TRootState, ICheckoutState>(store => store.checkout);

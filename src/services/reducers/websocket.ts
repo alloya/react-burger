@@ -42,7 +42,6 @@ export const websocketReducer = (state = initialState, action: TWSActions): IWSS
       return {
         ...state,
         wsConnected: false,
-        error: action.payload
       };
 
     case WS_CONNECTION_CLOSED:

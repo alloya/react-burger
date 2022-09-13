@@ -5,7 +5,7 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import { login } from "../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../services/hooks/useForm";
-import { TAppDispatch, TRootState, useAppDispatch } from "..";
+import { TAppDispatch, TRootState, useAppDispatch } from "../services/store/store";
 import { IAuthState } from "../services/reducers/auth";
 import { ILocationStateType } from "../components/app/app";
 

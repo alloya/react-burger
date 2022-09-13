@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Title from "../../components/title/title";
+import { Title } from "../../components/title/title";
 import styles from "../../utils/styles.module.css";
 import s from "./feed-page.module.css";
 import {
@@ -10,9 +10,9 @@ import {
 import { OrderList } from "../../components/order-list/order-list";
 import OrderStatus from "../../utils/models/order-status";
 import { ORDERS_ALL_URL } from "../../utils/const";
-import { TRootState } from "../..";
 import { TOrder } from "../../utils/types";
 import { TFeedMessage } from "../../utils/types/wsMessage";
+import { TRootState } from "../../services/store/store";
 
 export const FeedPage = () => {
   const { wsConnected, messages } = useSelector((store: TRootState) => store.ws);

@@ -12,11 +12,11 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { IIngredientState } from '../../services/reducers/ingredient';
-import { TRootState, useAppDispatch } from '../..';
 import { IModalState } from '../../services/reducers/modal';
 import { Location } from 'history';
 import { TOrder } from '../../utils/types';
 import { removeIngredientInfoFromModal } from '../../services/actions/ingredient-modal';
+import { useAppDispatch, TRootState } from '../../services/store/store';
 
 export interface ILocationStateType {
   from?: Location<ILocationStateType>,
