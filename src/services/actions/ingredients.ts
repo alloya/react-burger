@@ -2,7 +2,7 @@ import { getIngredientsData } from "../../utils/api";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { IIngredient } from "../../utils/types";
 import { TAB_SWITCH, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED } from "../constants/ingredients";
-import { TAppDispatch } from "../store/store";
+import { TAppDispatch, TAppThunk } from "../store/store";
 
 export type TTabType = keyof typeof IngredientTypes;
 
@@ -49,7 +49,7 @@ export type TIngredientsActions =
   | IGetItemsFailed
   | ITabSwitch
 
-export const getIngredients = () => async (dispatch: TAppDispatch) => {
+export const getIngredients: TAppThunk = () => async (dispatch: TAppDispatch) => {
     dispatch(getIngredientsRequest());
   try {
     const data = await getIngredientsData();

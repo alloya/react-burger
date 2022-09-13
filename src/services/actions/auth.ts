@@ -226,7 +226,7 @@ const refreshAccessTokenFailed = (): IRefreshTokenFailed => {
   return { type: REFRESH_TOKEN_FAILED }
 }
 
-export const refreshAccessToken = (refreshToken: string) => async (dispatch: TAppDispatch) => {
+export const refreshAccessToken: TAppThunk = (refreshToken: string) => async (dispatch: TAppDispatch) => {
   dispatch(refreshAccessTokenRequest());
   try {
     let res = await refreshTokenRequest(refreshToken)
@@ -241,7 +241,7 @@ export const refreshAccessToken = (refreshToken: string) => async (dispatch: TAp
   }
 }
 
-export const getUser = () => async (dispatch: TAppDispatch) => {
+export const getUser: TAppThunk = () => async (dispatch: TAppDispatch) => {
   dispatch({ type: GET_USER_REQUEST });
   try {
     let res = await getUserRequest();
@@ -285,7 +285,7 @@ export const registration: TAppThunk = (form: TForm) => (dispatch: TAppDispatch)
     })
 }
 
-export const resetPassword = (email: string) => (dispatch: TAppDispatch) => {
+export const resetPassword: TAppThunk = (email: string) => (dispatch: TAppDispatch) => {
   dispatch(passwordResetRequest());
   resetPasswordRequest(email)
     .then(res => {
@@ -300,7 +300,7 @@ export const resetPassword = (email: string) => (dispatch: TAppDispatch) => {
     })
 }
 
-export const setNewPassword = (form: TForm) => (dispatch: TAppDispatch) => {
+export const setNewPassword: TAppThunk = (form: TForm) => (dispatch: TAppDispatch) => {
   dispatch({ type: SET_PASSWORD_REQUEST });
   setNewPasswordRequest(form.password!, form.token!)
     .then(res => {
@@ -315,7 +315,7 @@ export const setNewPassword = (form: TForm) => (dispatch: TAppDispatch) => {
     })
 }
 
-export const login = (form: TForm) => (dispatch: TAppDispatch) => {
+export const login: TAppThunk = (form: TForm) => (dispatch: TAppDispatch) => {
   dispatch(logInRequest());
   loginRequest(form)
     .then(res => {
@@ -337,7 +337,7 @@ export const login = (form: TForm) => (dispatch: TAppDispatch) => {
     })
 }
 
-export const setAuth = () => (dispatch: TAppDispatch) => {
+export const setAuth: TAppThunk = () => (dispatch: TAppDispatch) => {
   const token = getCookie('token');
   if (token) {
     dispatch(authSuccess());
@@ -346,7 +346,7 @@ export const setAuth = () => (dispatch: TAppDispatch) => {
   dispatch(authFailed())
 }
 
-export const updateUser = (form: TForm) => async (dispatch: TAppDispatch) => {
+export const updateUser: TAppThunk = (form: TForm) => async (dispatch: TAppDispatch) => {
   try {
     if (getCookie('token') === undefined) {
       await refreshAccessToken(getRefreshToken()!);
@@ -366,7 +366,7 @@ export const updateUser = (form: TForm) => async (dispatch: TAppDispatch) => {
   }
 }
 
-export const logout = () => async (dispatch: TAppDispatch) => {
+export const logout: TAppThunk = () => async (dispatch: TAppDispatch) => {
   dispatch({ type: LOGOUT_REQUEST });
   try {
     const res = await logoutRequest(getRefreshToken()!)

@@ -24,7 +24,7 @@ export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngr
       const orderIngredients: IIngredient[] = [];
       burgerIngredients.forEach((element: string) => {
         const item = ingredients.filter(
-          (elem: IIngredient) => elem._id === element
+          (elem) => elem._id === element
         );
         if (item) {
           if (
@@ -55,7 +55,7 @@ export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngr
       <p className="text text_type_main-medium pb-6">{name}</p>
       <div className={styles.d_flex + " " + styles.justify_between}>
         <div className={s.ingredients_wrapper}>
-          {picArray.map((el: IIngredient, index) => {
+          {picArray.map((el, index) => {
             if (index < 5) {
               return (
                 <IngredientPreviewImage

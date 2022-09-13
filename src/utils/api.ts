@@ -10,13 +10,16 @@ function checkResponse(res: Response) {
   return res.json();
 }
 
+function request(url: string, options: object) {
+  return fetch(url, options).then(checkResponse)
+}
+
 export const getIngredientsData = () => {
-  return fetch(`${appUrl}/ingredients`)
-    .then(checkResponse)
+  return request(`${appUrl}/ingredients`, {});
 }
 
 export const postOrder = (data: ReadonlyArray<string>) => {
-  return fetch(`${appUrl}/orders`, {
+  return request(`${appUrl}/orders`, {
     method: "POST",
     headers: {
       'Content-type': 'application/json',
@@ -26,11 +29,10 @@ export const postOrder = (data: ReadonlyArray<string>) => {
       "ingredients": data
     })
   })
-  .then(checkResponse)
 }
 
 export const createUser = ({name, email, password}: TForm) => {
-  return fetch(`${appUrl}/auth/register`, {
+  return request(`${appUrl}/auth/register`, {
     method: "POST",
     headers: {
       'Content-type': 'application/json'
@@ -41,11 +43,10 @@ export const createUser = ({name, email, password}: TForm) => {
       "password": password
     })
   })
-  .then(checkResponse)
 }
 
 export const resetPasswordRequest = (email:string) => {
-  return fetch(`${appUrl}/password-reset`, {
+  return request(`${appUrl}/password-reset`, {
     method: "POST",
     headers: {
       'Content-type': 'application/json'
@@ -54,11 +55,10 @@ export const resetPasswordRequest = (email:string) => {
       "email": email
     })
   })
-  .then(checkResponse)
 }
 
 export const setNewPasswordRequest = (password: string, token: string) => {
-  return fetch(`${appUrl}/password-reset/reset`, {
+  return request(`${appUrl}/password-reset/reset`, {
     method: "POST",
     headers: {
       'Content-type': 'application/json'
@@ -68,11 +68,10 @@ export const setNewPasswordRequest = (password: string, token: string) => {
       "token": token
     })
   })
-  .then(checkResponse);
 }
 
 export const refreshTokenRequest = (token: string) => {
-  return fetch(`${appUrl}/auth/token`, {
+  return request(`${appUrl}/auth/token`, {
     method: "POST",
     headers: {
       'Content-type': 'application/json'
@@ -81,22 +80,20 @@ export const refreshTokenRequest = (token: string) => {
       "token": token
     })
   })
-  .then(checkResponse);
 }
 
 export const getUserRequest = async () => {
-  return await fetch(`${appUrl}/auth/user`, {
+  return await request(`${appUrl}/auth/user`, {
     method: "GET",
     headers: {
       'Content-type': 'application/json',
       Authorization: 'Bearer ' + getCookie('token')
     }
   })
-  .then(checkResponse);
 }
 
 export const patchUserRequest = async ({name, email, password = undefined}: TForm) => {
-  return await fetch(`${appUrl}/auth/user`, {
+  return await request(`${appUrl}/auth/user`, {
     method: "PATCH",
     headers: {
       'Content-type': 'application/json',
@@ -108,22 +105,20 @@ export const patchUserRequest = async ({name, email, password = undefined}: TFor
       "password": password
     })
   })
-  .then(checkResponse);
 }
 
 export const loginRequest = async (form: TForm)=> {
-  return await fetch(`${appUrl}/auth/login`, {
+  return await request(`${appUrl}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(form)
   })
-  .then(checkResponse);
 };
 
 export const logoutRequest = async (refreshToken: string) => {
-  return await fetch(`${appUrl}/auth/logout`, {
+  return await request(`${appUrl}/auth/logout`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -132,5 +127,4 @@ export const logoutRequest = async (refreshToken: string) => {
       "token": refreshToken
     })
   })
-  .then(checkResponse);
 };

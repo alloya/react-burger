@@ -1,4 +1,4 @@
-import { TAppDispatch } from './../store/store';
+import { TAppDispatch, TAppThunk } from './../store/store';
 import { postOrder } from "../../utils/api";
 import { clearConstructor } from "./constructor";
 import { SHOW_ORDER_DETAILS_POPUP } from '../constants/modal';
@@ -22,7 +22,7 @@ export type TCheckoutAction =
   | IOrderCheckoutSuccess 
   | IOrderCheckoutFailed
 
-export const orderCheckout = (order: string[]) => (dispatch: TAppDispatch) => {
+export const orderCheckout: TAppThunk = (order: string[]) => (dispatch: TAppDispatch) => {
   dispatch({
     type: ORDER_CHECKOUT_REQUEST
   });

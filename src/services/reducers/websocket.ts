@@ -1,4 +1,3 @@
-import { TOrder } from '../../utils/types';
 import { TFeedMessage } from '../../utils/types/wsMessage';
 import { TWSActions } from '../actions/websocket';
 import {
