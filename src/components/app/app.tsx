@@ -30,7 +30,6 @@ const App = () => {
   const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
   const { ingredientModalOpened, orderModalOpened } = useSelector<TRootState, IModalState>(store => store.modal);
   let background = location.state && location.state?.from;
-  console.log(background);
 
   const closeModal = () => {
     if (ingredientModalOpened) {
@@ -68,14 +67,14 @@ const App = () => {
         <Route path="/forgot-password">
           <ForgotPasswordPage />
         </Route>
-        <ProtectedRoute path="/profile">
-          <ProfilePage />
+        <ProtectedRoute path="/profile/orders/:id">
+          <FeedDetailedPage />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders">
           <OrdersPage />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders/:id">
-          <FeedDetailedPage />
+        <ProtectedRoute path="/profile">
+          <ProfilePage />
         </ProtectedRoute>
         <Route path="/ingredient/:id" exact>
           <IngredientPage />

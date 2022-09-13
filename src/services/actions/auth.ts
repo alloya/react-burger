@@ -340,7 +340,8 @@ export const login = (form: TForm) => (dispatch: TAppDispatch) => {
 export const setAuth = () => (dispatch: TAppDispatch) => {
   const token = getCookie('token');
   if (token) {
-    dispatch(authSuccess())
+    dispatch(authSuccess());
+    return;
   }
   dispatch(authFailed())
 }
@@ -381,7 +382,7 @@ export const logout = () => async (dispatch: TAppDispatch) => {
   }
 }
 
-export const checkAuth = () => async (dispatch: TAppDispatch) => {
+export const checkAuth = (): string | boolean=> {
   let accessToken = getCookie('token');
   let refreshToken = getRefreshToken();
   if (accessToken && refreshToken) {
@@ -391,10 +392,7 @@ export const checkAuth = () => async (dispatch: TAppDispatch) => {
     return false;
   }
   if (!accessToken && refreshToken) {
-    await refreshAccessToken(refreshToken);
-    return true;
+    return 'refresh';
   }
-  else {
-    return false;
-  }
+  return false
 }

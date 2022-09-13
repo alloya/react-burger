@@ -13,8 +13,8 @@ import { useDrop } from "react-dnd";
 import { DraggableConstructorItem } from "./draggable-constructor-item/draggable-constructor-item";
 import { orderCheckout } from "../../services/actions/checkout";
 import { useHistory } from "react-router";
-import { checkAuth } from "../../services/actions/auth";
-import { countBasket } from "../../utils/utils";
+import { checkAuth, refreshAccessToken } from "../../services/actions/auth";
+import { countBasket, getRefreshToken } from "../../utils/utils";
 import { IConstructorState } from "../../services/reducers/constructor";
 import { ICheckoutState } from "../../services/reducers/checkout";
 import { IIngredient } from "../../utils/types";
@@ -45,7 +45,10 @@ const BurgerConstructor = () => {
   }, [constructorItems]);
 
   const submitOrder = async () => {
-    const auth = await dispatch(checkAuth())
+    const auth = checkAuth();
+    if (auth == 'refresh') {
+      await dispatch(refreshAccessToken(getRefreshToken()!))
+    }
     !auth
       ? history.push('/login')
       : dispatch(orderCheckout(constructorItems.map(el => el._id)))

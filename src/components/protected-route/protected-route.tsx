@@ -1,9 +1,11 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { checkAuth, getUser, setAuth } from '../../services/actions/auth';
+import { checkAuth, getUser, refreshAccessToken, setAuth } from '../../services/actions/auth';
 import { IAuthState } from '../../services/reducers/auth';
 import { TRootState, useAppDispatch } from '../../services/store/store';
+import { getCookie, getRefreshToken } from '../../utils/utils';
+import { ILocationStateType } from '../app/app';
 
 interface IProtectedRoute {
   children?: ReactNode
@@ -12,30 +14,35 @@ interface IProtectedRoute {
 
 export const ProtectedRoute: React.FC<IProtectedRoute> = ({ children, ...rest }) => {
   const dispatch = useAppDispatch();
+  const token = getCookie('token');
+  const location = useLocation<ILocationStateType>();
+  const [isAuthChecked, setAuthChecked] = useState(false);
   const { isAuth } = useSelector<TRootState, IAuthState>(store => store.auth);
-  const [isUserLoaded, setUserLoaded] = useState(false);
 
   const init = async () => {
-    const auth = await dispatch(checkAuth());
-    if (!auth) {
-      await dispatch(getUser());
+    const auth = checkAuth();
+    if (auth == 'refresh') {
+      await dispatch(refreshAccessToken(getRefreshToken()!))
     }
-    setUserLoaded(true);
+    if (auth) {
+      await dispatch(getUser())
+    }
+    setAuthChecked(true);
     dispatch(setAuth());
-  };
+  }
 
   useEffect(() => {
     init();
-  }, []);
+  }, [])
 
-  if (!isUserLoaded) {
-    return null;
+  if (!isAuthChecked) {
+    return null
   }
 
   return (
     <Route
       {...rest}
-      render={({ location }) =>
+      render={() =>
         isAuth ? (
           children
         ) : (
@@ -48,5 +55,6 @@ export const ProtectedRoute: React.FC<IProtectedRoute> = ({ children, ...rest })
         )
       }
     />
+
   );
 }

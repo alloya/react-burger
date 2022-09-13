@@ -31,7 +31,6 @@ export const websocketReducer = (state = initialState, action: TWSActions): IWSS
         wsConnected: true
       };
     case WS_CONNECTION_START: {
-      debugger
       return {
         ...state,
         connecting: true,

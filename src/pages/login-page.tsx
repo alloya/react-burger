@@ -9,7 +9,7 @@ import { TAppDispatch, TRootState, useAppDispatch } from "../services/store/stor
 import { IAuthState } from "../services/reducers/auth";
 import { ILocationStateType } from "../components/app/app";
 
-export function LoginPage() {
+export const LoginPage = () => {
   const dispatch = useAppDispatch();
   const location = useLocation<ILocationStateType>();
   const { isAuth, loginRequest } = useSelector<TRootState, IAuthState>(store => store.auth);

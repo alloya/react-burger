@@ -40,7 +40,6 @@ export type TWSActions =
 
 
 export const wsConnectionStart = (url: string): IWSConnectionStart => {
-  debugger
   return {
     type: WS_CONNECTION_START,
     payload: url
