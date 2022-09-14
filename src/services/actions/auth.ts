@@ -55,7 +55,7 @@ export interface IGetUserRequest {
 
 export interface IGetUserSuccess {
   readonly type: typeof GET_USER_SUCCESS,
-  readonly payload: boolean
+  readonly payload: IUser
 }
 
 export interface IGetUserFailed {

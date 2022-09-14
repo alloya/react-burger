@@ -1,11 +1,12 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { ILocationStateType } from "../../components/app/app";
 import { IngredientPreviewImage } from "../../components/ingredient-preview-image/ingredient-preview-image";
 import Price from "../../components/price/price";
 import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/websocket";
+import { useAppSelector } from "../../services/hooks/appHooks";
 import { IIngredientState } from "../../services/reducers/ingredient";
 import { IWSState } from "../../services/reducers/websocket";
 import { TRootState } from "../../services/store/store";
@@ -29,9 +30,9 @@ interface IIngredientWithQuantity extends IIngredient {
 export const FeedDetailedPage = () => {
   const dispatch = useDispatch();
   const location = useLocation<ILocationStateType>();
-  const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
+  const { ingredients } = useAppSelector(store => store.ingredients);
   const [data, setData] = useState<IIngredientWithQuantity[]>([]);
-  const { wsConnected, messages } = useSelector<TRootState, IWSState>(store => store.ws);
+  const { wsConnected, messages } = useAppSelector(store => store.ws);
   const [order, setOrder] = useState<TOrder | undefined>(location.state?.order);
   const { id } = useParams<IParams>();
   useEffect(() => {

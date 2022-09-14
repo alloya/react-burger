@@ -3,16 +3,14 @@ import { useState, useEffect, FormEvent } from "react";
 import s from './page.module.css';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { setNewPassword } from "../services/actions/auth";
-import { useSelector } from "react-redux";
 import { useForm } from "../services/hooks/useForm";
 import { ILocationStateType } from "../components/app/app";
-import { IAuthState } from "../services/reducers/auth";
-import { useAppDispatch, TRootState } from "../services/store/store";
+import { useAppDispatch, useAppSelector } from "../services/hooks/appHooks";
 
 export function RecoverPasswordPage() {
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const { isAuth, setPasswordRequest, setPasswordSuccess } = useSelector<TRootState, IAuthState>(store => store.auth);
+  const { isAuth, setPasswordRequest, setPasswordSuccess } = useAppSelector(store => store.auth);
   const { values, handleChange } = useForm({ password: '', token: '' });
   const [tokenError, setTokenError] = useState(false);
   const location = useLocation<ILocationStateType>();

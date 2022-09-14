@@ -1,10 +1,11 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect } from "react";
 import styles from "../../../utils/styles.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { switchTab } from "../../../services/actions/ingredients";
 import { IIngredientState } from "../../../services/reducers/ingredient";
 import { TRootState, TAppDispatch } from "../../../services/store/store";
+import { useAppSelector } from "../../../services/hooks/appHooks";
 
 interface IIngredientTab {
   bunInView: boolean,
@@ -14,7 +15,7 @@ interface IIngredientTab {
 }
 
 const IngredientsTab: React.FC<IIngredientTab> = ({ bunInView, sauceInView, mainIinView, typesList }) => {
-  const { currentTab } = useSelector<TRootState, IIngredientState>((store) => store.ingredients);
+  const { currentTab } = useAppSelector((store) => store.ingredients);
   const dispatch: TAppDispatch = useDispatch();
 
   useEffect(() => {

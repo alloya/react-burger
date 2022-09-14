@@ -6,7 +6,7 @@ export interface IIngredientModalState {
   ingredientDetails: IIngredient | null
 }
 
-const ingredientModalInitialState = {
+const ingredientModalInitialState: IIngredientModalState = {
   ingredientDetails: null
 };
 

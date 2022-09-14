@@ -2,15 +2,13 @@ import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-component
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import s from './page.module.css';
 import { Link, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import { resetPassword, resetPasswordResetState } from "../services/actions/auth";
 import { useForm } from "../services/hooks/useForm";
-import { TRootState, useAppDispatch } from "../services/store/store";
-import { IAuthState } from "../services/reducers/auth";
+import { useAppDispatch, useAppSelector } from "../services/hooks/appHooks";
 
 export function ForgotPasswordPage() {
   const dispatch = useAppDispatch();
-  const { isAuth, passwordResetSuccess, passwordResetFailed, passwordResetRequest } = useSelector<TRootState, IAuthState>(store => store.auth);
+  const { isAuth, passwordResetSuccess, passwordResetFailed, passwordResetRequest } = useAppSelector(store => store.auth);
   const { values, handleChange } = useForm({ email: '' });
   const [emailError, setEmailError] = useState(false);
 

@@ -3,15 +3,13 @@ import { FormEvent, RefObject, useEffect, useRef, useState } from "react";
 import s from './page.module.css';
 import styles from '../utils/styles.module.css';
 import { SideMenu } from "../components/side-menu/side-menu";
-import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../services/actions/auth";
 import { RESET_UPDATE_USER } from "../services/constants/auth";
 import { useForm } from "../services/hooks/useForm";
-import { IAuthState } from "../services/reducers/auth";
-import { TRootState, useAppDispatch } from "../services/store/store";
+import { useAppDispatch, useAppSelector } from "../services/hooks/appHooks";
 
 export function ProfilePage() {
-  const { user, getUserRequest, updateUserRequest, updateUserSuccess } = useSelector<TRootState, IAuthState>(store => store.auth);
+  const { user, getUserRequest, updateUserRequest, updateUserSuccess } = useAppSelector(store => store.auth);
   const dispatch = useAppDispatch();
   const { values, handleChange, setValues, changed, resetChange } = useForm({ name: user.name, email: user.email, password: '' });
   const inputNameRef = useRef<HTMLInputElement>(null);

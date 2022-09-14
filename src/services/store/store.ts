@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 import { Action, ActionCreator, applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk, { ThunkAction } from "redux-thunk";
@@ -23,10 +23,9 @@ const wsActions: TWSMiddleware = {
   onMessage: WS_GET_MESSAGE
 };
 
-
-export const useAppDispatch = () => useDispatch<TAppDispatch & TAppThunk>();
+//export const useAppDispatch: () => TAppDispatch = useDispatch
 export type TAppDispatch = typeof store.dispatch;
-export type TRootState = ReturnType<typeof store.getState>;
+export type TRootState = ReturnType<typeof rootReducer>;
 
 type TApplicationActions = TAuthActions | TCheckoutAction | TConstructorAction | TIngredientsActions | TIngredientModalActions | TModalActions | TWSActions;
 
@@ -34,4 +33,11 @@ export type TAppThunk<ReturnType = void> = ActionCreator<
   ThunkAction<ReturnType, Action, TRootState, TApplicationActions>
 >;
 
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, socketMiddleware(wsActions))));
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false })
+      .concat(socketMiddleware(wsActions))
+});
+
+// export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, socketMiddleware(wsActions))));

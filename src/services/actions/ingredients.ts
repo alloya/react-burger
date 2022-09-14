@@ -49,7 +49,7 @@ export type TIngredientsActions =
   | IGetItemsFailed
   | ITabSwitch
 
-export const getIngredients: TAppThunk = () => async (dispatch: TAppDispatch) => {
+export const getIngredients: TAppThunk = () => async (dispatch) => {
     dispatch(getIngredientsRequest());
   try {
     const data = await getIngredientsData();

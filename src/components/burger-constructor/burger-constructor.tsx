@@ -7,7 +7,7 @@ import Price from "../price/price";
 import styles from "../../utils/styles.module.css";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addIngredient } from "../../services/actions/constructor";
 import { useDrop } from "react-dnd";
 import { DraggableConstructorItem } from "./draggable-constructor-item/draggable-constructor-item";
@@ -18,12 +18,12 @@ import { countBasket, getRefreshToken } from "../../utils/utils";
 import { IConstructorState } from "../../services/reducers/constructor";
 import { ICheckoutState } from "../../services/reducers/checkout";
 import { IIngredient } from "../../utils/types";
-import { useAppDispatch, TRootState } from "../../services/store/store";
+import { useAppDispatch, useAppSelector } from "../../services/hooks/appHooks";
 
 const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
-  const { constructorItems } = useSelector<TRootState, IConstructorState>((store) => store.constructor);
-  const { orderCheckoutRequest } = useSelector<TRootState, ICheckoutState>((store) => store.checkout);
+  const { constructorItems } = useAppSelector((store) => store.constructor);
+  const { orderCheckoutRequest } = useAppSelector((store) => store.checkout);
   const history = useHistory();
 
   const [, dropTarget] = useDrop({

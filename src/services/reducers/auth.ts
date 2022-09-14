@@ -93,7 +93,7 @@ const authInitialState: IAuthState = {
   isAuth: Boolean(getCookie('token'))
 };
 
-export const authReducer = (state = authInitialState, action: TAuthActions) => {
+export const authReducer = (state = authInitialState, action: TAuthActions): IAuthState => {
   switch (action.type) {
     case GET_USER_REQUEST: {
       return {
@@ -104,7 +104,7 @@ export const authReducer = (state = authInitialState, action: TAuthActions) => {
     }
     case GET_USER_FAILED: {
       return {
-        state,
+        ...state,
         getUserRequest: false,
         getUserFailed: true
       }

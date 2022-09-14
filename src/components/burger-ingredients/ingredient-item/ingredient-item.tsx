@@ -1,7 +1,7 @@
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import Price from "../../price/price";
 import s from "./ingredient-item.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SHOW_INGREDIENT_DETAILS_POPUP } from "../../../services/constants/modal";
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
@@ -12,13 +12,14 @@ import { IIngredient } from "../../../utils/types";
 import { IConstructorState } from "../../../services/reducers/constructor";
 import { addIngredientInfoToModal } from "../../../services/actions/ingredient-modal";
 import { TRootState } from "../../../services/store/store";
+import { useAppSelector } from "../../../services/hooks/appHooks";
 
 type TIngredientItem = {
   ingredient: IIngredient
 }
 
 const IngredientItem: React.FC<TIngredientItem> = ({ ingredient }) => {
-  const { constructorItems } = useSelector<TRootState, IConstructorState>((store) => store.constructor);
+  const { constructorItems } = useAppSelector((store) => store.constructor);
   const dispatch = useDispatch();
   const location = useLocation();
   const [{ opacity }, ref] = useDrag({
