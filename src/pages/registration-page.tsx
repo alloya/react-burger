@@ -2,10 +2,8 @@ import { Input, PasswordInput, Button } from "@ya.praktikum/react-developer-burg
 import { FormEvent, useState } from "react";
 import s from './page.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-import { useDispatch } from "react-redux";
 import { registration } from "../services/actions/auth";
 import { useForm } from "../services/hooks/useForm";
-import { IAuthState } from "../services/reducers/auth";
 import { useAppDispatch, useAppSelector } from "../services/hooks/appHooks";
 
 export function RegistrationPage() {

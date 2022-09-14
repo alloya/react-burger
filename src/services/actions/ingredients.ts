@@ -2,7 +2,7 @@ import { getIngredientsData } from "../../utils/api";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { IIngredient } from "../../utils/types";
 import { TAB_SWITCH, GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED } from "../constants/ingredients";
-import { TAppDispatch, TAppThunk } from "../store/store";
+import { TAppThunk } from "../store/store";
 
 export type TTabType = keyof typeof IngredientTypes;
 

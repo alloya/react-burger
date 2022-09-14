@@ -1,20 +1,17 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 import { addIngredientInfoToModal } from "../services/actions/ingredient-modal";
-import { IIngredientState } from "../services/reducers/ingredient";
-import { IIngredientModalState } from "../services/reducers/ingredient-modal";
-import { TRootState } from "../services/store/store";
+import { useAppDispatch, useAppSelector } from "../services/hooks/appHooks";
 
 interface IParams {
   id: string
 }
 
 export const IngredientPage = () => {
-  const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
-  const { ingredientDetails } = useSelector<TRootState, IIngredientModalState>(store => store.ingredientModal);
-  const dispatch = useDispatch();
+  const { ingredients } = useAppSelector(store => store.ingredients);
+  const { ingredientDetails } = useAppSelector(store => store.ingredientModal);
+  const dispatch = useAppDispatch();
 
   const { id } = useParams<IParams>();
 

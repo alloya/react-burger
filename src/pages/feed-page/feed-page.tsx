@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Title } from "../../components/title/title";
 import styles from "../../utils/styles.module.css";
 import s from "./feed-page.module.css";
@@ -12,11 +11,11 @@ import OrderStatus from "../../utils/models/order-status";
 import { ORDERS_ALL_URL } from "../../utils/const";
 import { TOrder } from "../../utils/types";
 import { TFeedMessage } from "../../utils/types/wsMessage";
-import { useAppSelector } from "../../services/hooks/appHooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks/appHooks";
 
 export const FeedPage = () => {
   const { wsConnected, messages } = useAppSelector(store => store.ws);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [feed, setFeed] = useState<TFeedMessage>({ orders: [], total: 0, totalToday: 0 });
   const [done, setDone] = useState<string[][]>([]);
   const [pending, setPending] = useState<string[][]>([]);

@@ -1,11 +1,11 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { useDispatch } from 'react-redux';
 import { changeItemOrder, deleteIngredientByIndex } from '../../../services/actions/constructor';
 import styles from "../../../utils/styles.module.css";
 import s from "./draggable-constructor-item.module.css";
 import { IIngredient } from '../../../utils/types';
+import { useAppDispatch } from '../../../services/hooks/appHooks';
 
 interface IDraggableConstructorItem {
   id: number,
@@ -23,7 +23,7 @@ interface ICollectedProps {
 
 export const DraggableConstructorItem: React.FC<IDraggableConstructorItem> = ({ id, index, ingredient }) => {
   const ref = useRef<HTMLLIElement>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [{ handlerId }, drop] = useDrop<IDragObject, unknown, ICollectedProps>({
     accept: 'consctuctorItem',
     collect(monitor) {

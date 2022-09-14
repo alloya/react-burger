@@ -3,9 +3,9 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { checkAuth, getUser, refreshAccessToken, setAuth } from '../../services/actions/auth';
 import { IAuthState } from '../../services/reducers/auth';
-import { TRootState, useAppDispatch } from '../../services/store/store';
 import { getCookie, getRefreshToken } from '../../utils/utils';
 import { ILocationStateType } from '../app/app';
+import { useAppDispatch, useAppSelector } from '../../services/hooks/appHooks';
 
 interface IProtectedRoute {
   children?: ReactNode
@@ -17,7 +17,7 @@ export const ProtectedRoute: React.FC<IProtectedRoute> = ({ children, ...rest })
   const token = getCookie('token');
   const location = useLocation<ILocationStateType>();
   const [isAuthChecked, setAuthChecked] = useState(false);
-  const { isAuth } = useSelector<TRootState, IAuthState>(store => store.auth);
+  const { isAuth } = useAppSelector(store => store.auth);
 
   const init = async () => {
     const auth = checkAuth();

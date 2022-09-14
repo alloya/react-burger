@@ -7,7 +7,6 @@ import Price from "../price/price";
 import styles from "../../utils/styles.module.css";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import { useMemo } from "react";
-import { useDispatch } from "react-redux";
 import { addIngredient } from "../../services/actions/constructor";
 import { useDrop } from "react-dnd";
 import { DraggableConstructorItem } from "./draggable-constructor-item/draggable-constructor-item";
@@ -15,8 +14,6 @@ import { orderCheckout } from "../../services/actions/checkout";
 import { useHistory } from "react-router";
 import { checkAuth, refreshAccessToken } from "../../services/actions/auth";
 import { countBasket, getRefreshToken } from "../../utils/utils";
-import { IConstructorState } from "../../services/reducers/constructor";
-import { ICheckoutState } from "../../services/reducers/checkout";
 import { IIngredient } from "../../utils/types";
 import { useAppDispatch, useAppSelector } from "../../services/hooks/appHooks";
 

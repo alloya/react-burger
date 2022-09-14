@@ -1,7 +1,6 @@
 import s from "./orders-page.module.css";
 import pageStyles from "../page.module.css";
 import { SideMenu } from "../../components/side-menu/side-menu";
-import { useDispatch, useSelector } from "react-redux";
 import {
   wsConnectionStart,
   wsConnectionClosed,
@@ -10,11 +9,13 @@ import { useEffect, useState } from "react";
 import { ORDERS_PERSONAL_URL } from "../../utils/const";
 import { OrderList } from "../../components/order-list/order-list";
 import { getCookie } from "../../utils/utils";
+import { useAppSelector, useAppDispatch } from "../../services/hooks/appHooks";
+import { TFeedMessage } from "../../utils/types/wsMessage";
 
-export function OrdersPage() {
-  const { wsConnected, messages } = useSelector((store) => store.ws);
-  const dispatch = useDispatch();
-  const [feed, setFeed] = useState({});
+export const OrdersPage = () => {
+  const { wsConnected, messages } = useAppSelector((store) => store.ws);
+  const dispatch = useAppDispatch();
+  const [feed, setFeed] = useState<TFeedMessage | undefined>(undefined);
 
   useEffect(() => {
     dispatch(

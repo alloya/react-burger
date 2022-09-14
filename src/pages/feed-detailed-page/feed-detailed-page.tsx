@@ -1,15 +1,11 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { ILocationStateType } from "../../components/app/app";
 import { IngredientPreviewImage } from "../../components/ingredient-preview-image/ingredient-preview-image";
 import Price from "../../components/price/price";
 import { wsConnectionClosed, wsConnectionStart } from "../../services/actions/websocket";
-import { useAppSelector } from "../../services/hooks/appHooks";
-import { IIngredientState } from "../../services/reducers/ingredient";
-import { IWSState } from "../../services/reducers/websocket";
-import { TRootState } from "../../services/store/store";
+import { useAppDispatch, useAppSelector } from "../../services/hooks/appHooks";
 import { ORDERS_ALL_URL, ORDERS_PERSONAL_URL } from "../../utils/const";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import OrderStatus from "../../utils/models/order-status";
@@ -28,7 +24,7 @@ interface IIngredientWithQuantity extends IIngredient {
 }
 
 export const FeedDetailedPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation<ILocationStateType>();
   const { ingredients } = useAppSelector(store => store.ingredients);
   const [data, setData] = useState<IIngredientWithQuantity[]>([]);

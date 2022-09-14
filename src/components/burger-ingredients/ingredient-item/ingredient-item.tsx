@@ -1,7 +1,6 @@
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import Price from "../../price/price";
 import s from "./ingredient-item.module.css";
-import { useDispatch } from "react-redux";
 import { SHOW_INGREDIENT_DETAILS_POPUP } from "../../../services/constants/modal";
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
@@ -9,10 +8,8 @@ import IngredientTypes from "../../../utils/models/ingredient-type-model";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { IIngredient } from "../../../utils/types";
-import { IConstructorState } from "../../../services/reducers/constructor";
 import { addIngredientInfoToModal } from "../../../services/actions/ingredient-modal";
-import { TRootState } from "../../../services/store/store";
-import { useAppSelector } from "../../../services/hooks/appHooks";
+import { useAppDispatch, useAppSelector } from "../../../services/hooks/appHooks";
 
 type TIngredientItem = {
   ingredient: IIngredient
@@ -20,7 +17,7 @@ type TIngredientItem = {
 
 const IngredientItem: React.FC<TIngredientItem> = ({ ingredient }) => {
   const { constructorItems } = useAppSelector((store) => store.constructor);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const [{ opacity }, ref] = useDrag({
     type: "ingredient",

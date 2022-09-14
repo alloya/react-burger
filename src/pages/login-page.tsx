@@ -3,16 +3,15 @@ import { FormEvent, useState } from "react";
 import s from './page.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { login } from "../services/actions/auth";
-import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../services/hooks/useForm";
-import { TAppDispatch, TRootState, useAppDispatch } from "../services/store/store";
 import { IAuthState } from "../services/reducers/auth";
 import { ILocationStateType } from "../components/app/app";
+import { useAppDispatch, useAppSelector } from "../services/hooks/appHooks";
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
   const location = useLocation<ILocationStateType>();
-  const { isAuth, loginRequest } = useSelector<TRootState, IAuthState>(store => store.auth);
+  const { isAuth, loginRequest } = useAppSelector(store => store.auth);
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
   const path = location.state?.from?.pathname;
