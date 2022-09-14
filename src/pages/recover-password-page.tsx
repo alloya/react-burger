@@ -30,7 +30,7 @@ export function RecoverPasswordPage() {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!values.token.length) {
+    if (!values.token) {
       setTokenError(true);
       return;
     }
@@ -51,13 +51,13 @@ export function RecoverPasswordPage() {
         <div className="text text_type_main-medium pb-6">Восстановление пароля</div>
         <div className={`${s.input} pb-6`}>
           <PasswordInput onChange={handleChange}
-            value={values.password}
+            value={values.password!}
             name={'password'} />
         </div>
 
         <div className={`${s.input} pb-6`}>
           <Input onChange={handleChange}
-            value={values.token}
+            value={values.token!}
             name={'token'}
             placeholder={'Введите код из письма'}
             error={tokenError}

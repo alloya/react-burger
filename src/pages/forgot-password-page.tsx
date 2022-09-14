@@ -23,7 +23,7 @@ export function ForgotPasswordPage() {
   const resetPasswordHandle = useCallback(
     (e: FormEvent) => {
       e.preventDefault();
-      if (!values.email.length) {
+      if (!values.email) {
         setEmailError(true);
         return;
       }
@@ -42,7 +42,7 @@ export function ForgotPasswordPage() {
         <div className="text text_type_main-medium pb-6">Восстановление пароля</div>
         <div className={`${s.input} pb-6`}>
           <Input onChange={handleChange}
-            value={values.email}
+            value={values.email!}
             name={'email'}
             placeholder={'Укажите e-mail'}
             type="email"

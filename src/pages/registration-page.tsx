@@ -21,11 +21,11 @@ export function RegistrationPage() {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!values.email.length || !values.name.length) {
-      if (!values.email.length) {
+    if (!values.email || !values.name) {
+      if (!values.email) {
         setEmailError(true);
       }
-      if (!values.name.length) {
+      if (!values.name) {
         setNameError(true)
       }
       return;
@@ -45,7 +45,7 @@ export function RegistrationPage() {
         <div className="text text_type_main-medium pb-6">Регистрация</div>
         <div className={`${s.input} pb-6`}>
           <Input onChange={handleChange}
-            value={values.name}
+            value={values.name!}
             name={'name'}
             placeholder={'Имя'}
             type="text"
@@ -55,7 +55,7 @@ export function RegistrationPage() {
         </div>
         <div className={`${s.input} pb-6`}>
           <Input onChange={handleChange}
-            value={values.email}
+            value={values.email!}
             name={'email'}
             placeholder={'E-mail'}
             type="email"
@@ -65,7 +65,7 @@ export function RegistrationPage() {
         </div>
         <div className={`${s.input} pb-6`}>
           <PasswordInput onChange={handleChange}
-            value={values.password}
+            value={values.password!}
             name={'password'} />
         </div>
 

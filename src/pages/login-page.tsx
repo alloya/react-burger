@@ -4,7 +4,6 @@ import s from './page.module.css';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { login } from "../services/actions/auth";
 import { useForm } from "../services/hooks/useForm";
-import { IAuthState } from "../services/reducers/auth";
 import { ILocationStateType } from "../components/app/app";
 import { useAppDispatch, useAppSelector } from "../services/hooks/appHooks";
 
@@ -20,11 +19,11 @@ export const LoginPage = () => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!values.email.length || !values.password.length) {
-      if (!values.email.length) {
+    if (!values.email || !values.password) {
+      if (!values.email) {
         setEmailError(true);
       }
-      if (!values.password.length) {
+      if (!values.password) {
         setPassError(true)
       }
       return;
@@ -49,7 +48,7 @@ export const LoginPage = () => {
         <div className="text text_type_main-medium pb-6">Вход</div>
         <div className={`${s.input} pb-6`}>
           <Input onChange={handleChange}
-            value={values.email}
+            value={values.email!}
             name={'email'}
             placeholder={'E-mail'}
             type="email"
@@ -59,7 +58,7 @@ export const LoginPage = () => {
         </div>
         <div className={`${s.input} pb-6`}>
           <PasswordInput onChange={handleChange}
-            value={values.password}
+            value={values.password!}
             name={'password'}
           />
           {/* {passError && <span className={`${s.error} text text_type_main-default`}>Поле не может быть пустым</span>} */}

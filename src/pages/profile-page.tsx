@@ -48,11 +48,11 @@ export function ProfilePage() {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!values.email.length || !values.name.length) {
-      if (!values.email.length) {
+    if (!values.email || !values.name) {
+      if (!values.email) {
         setEmailError(true);
       }
-      if (!values.name.length) {
+      if (!values.name) {
         setNameError(true)
       }
       return;
@@ -69,7 +69,7 @@ export function ProfilePage() {
           <form className={`${styles.d_flex} ${styles.flex_column}`} onSubmit={(e) => onSubmit(e)}>
             <div className={`${s.input} pb-6`}>
               <Input onChange={handleChange}
-                value={values.name}
+                value={values.name!}
                 name={'name'}
                 placeholder={'Имя'}
                 type="text"
@@ -82,7 +82,7 @@ export function ProfilePage() {
             </div>
             <div className={`${s.input} pb-6`}>
               <Input onChange={handleChange}
-                value={values.email}
+                value={values.email!}
                 name={'email'}
                 placeholder={'E-mail'}
                 type="email"
@@ -95,7 +95,7 @@ export function ProfilePage() {
             </div>
             <div className={`${s.input} pb-6`}>
               <PasswordInput onChange={handleChange}
-                value={values.password}
+                value={values.password!}
                 name={'password'} />
             </div>
             {changed && <span className={`${styles.ml_auto} ${s.fade}`}>
