@@ -1,10 +1,8 @@
 import { useMemo } from "react";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import s from "./ingredient-type.module.css";
-import { useSelector } from "react-redux";
-import { IIngredientState } from "../../../services/reducers/ingredient";
 import { IIngredient } from "../../../utils/types";
-import { TRootState } from "../../../services/store/store";
+import { useAppSelector } from "../../../services/hooks/appHooks";
 
 interface IIngredientType {
   type: { type: string, text: string },
@@ -12,7 +10,7 @@ interface IIngredientType {
 }
 
 const IngredientType: React.FC<IIngredientType> = ({ type, innerRef }) => {
-  const { ingredients } = useSelector<TRootState, IIngredientState>(store => store.ingredients);
+  const { ingredients } = useAppSelector(store => store.ingredients);
   const filter = (data: IIngredient[], filterType: string) => {
     return data.filter((item) => item.type === filterType);
   }

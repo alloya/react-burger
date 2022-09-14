@@ -12,11 +12,11 @@ export const IngredientPage = () => {
   const { ingredients } = useAppSelector(store => store.ingredients);
   const { ingredientDetails } = useAppSelector(store => store.ingredientModal);
   const dispatch = useAppDispatch();
-
+  debugger
   const { id } = useParams<IParams>();
 
   const getItem = () => {
-    if (ingredientDetails && Object.keys(ingredientDetails).length === 0) {
+    if (!ingredientDetails) {
       const ingredient = ingredients.filter(el => el._id == id)[0];
       ingredient && dispatch(addIngredientInfoToModal(ingredient));
     }
@@ -26,9 +26,12 @@ export const IngredientPage = () => {
     getItem()
   }, [ingredients])
 
+
   return (
-    <div className="ingredient-page">
-      {ingredients && <IngredientDetails />}
-    </div>
+    <>
+      {ingredientDetails && <div className="ingredient-page">
+        <IngredientDetails />
+      </div>}
+    </>
   )
 }

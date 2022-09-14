@@ -3,14 +3,12 @@ import s from "./burger-ingredients.module.css";
 import styles from "../../utils/styles.module.css";
 import IngredientType from "./ingredient-type/ingredient-type";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
-import { useSelector } from "react-redux";
 import { TTabType } from "../../services/actions/ingredients";
 import { useInView } from "react-intersection-observer";
-import { IIngredientState } from "../../services/reducers/ingredient";
-import { TRootState } from "../../services/store/store";
+import { useAppSelector } from "../../services/hooks/appHooks";
 
 const BurgerIngredients = () => {
-  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector<TRootState, IIngredientState>((store) => store.ingredients);
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useAppSelector((store) => store.ingredients);
 
   const [bunRef, bunInView, bunEntry] = useInView({ threshold: 0.5 });
   const [sauceRef, sauceInView, sauceEntry] = useInView({ threshold: 0.3 });

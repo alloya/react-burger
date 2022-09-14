@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import 'moment/locale/ru';
-import { useSelector } from 'react-redux';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { ForgotPasswordPage, LoginPage, ProfilePage, RecoverPasswordPage, RegistrationPage, OrdersPage, IngredientPage, LogoutPage, NotFoundPage, FeedPage, FeedDetailedPage } from '../../pages';
 import { SHOW_INGREDIENT_DETAILS_POPUP } from '../../services/constants/ingredient-modal';
@@ -11,8 +10,6 @@ import MainPage from '../main/main';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { ProtectedRoute } from '../protected-route/protected-route';
-import { IIngredientState } from '../../services/reducers/ingredient';
-import { IModalState } from '../../services/reducers/modal';
 import { Location } from 'history';
 import { TOrder } from '../../utils/types';
 import { removeIngredientInfoFromModal } from '../../services/actions/ingredient-modal';

@@ -1,6 +1,5 @@
 import * as moment from "moment";
 import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import IngredientTypes from "../../utils/models/ingredient-type-model";
 import styles from "../../utils/styles.module.css";
 import { countBasket, sortIngredients } from "../../utils/utils";
@@ -8,7 +7,7 @@ import { IngredientPreviewImage } from "../ingredient-preview-image/ingredient-p
 import Price from "../price/price";
 import s from "./feed-element-component.module.css";
 import { IIngredient, TOrder } from "../../utils/types";
-import { TRootState } from "../../services/store/store";
+import { useAppSelector } from "../../services/hooks/appHooks";
 
 export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngredients,
   name,
@@ -16,7 +15,7 @@ export const FeedElementComponent: React.FC<TOrder> = ({ ingredients: burgerIngr
   status,
   createdAt,
   _id: id, }) => {
-  const { ingredients } = useSelector((store: TRootState) => store.ingredients);
+  const { ingredients } = useAppSelector(store => store.ingredients);
   const [picArray, setPicArray] = useState<IIngredient[]>([]);
 
   useEffect(() => {

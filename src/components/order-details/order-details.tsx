@@ -1,11 +1,9 @@
 import s from './order-details.module.css';
 import checkMark from '../../img/check.svg';
-import { useSelector } from 'react-redux';
-import { ICheckoutState } from '../../services/reducers/checkout';
-import { TRootState } from '../../services/store/store';
+import { useAppSelector } from '../../services/hooks/appHooks';
 
 const OrderDetails = () => {
-  const { order } = useSelector<TRootState, ICheckoutState>(store => store.checkout);
+  const { order } = useAppSelector(store => store.checkout);
   return (
     <div className={s.orderDetails}>
       <h1 className='text text_type_digits-large pb-8'>{order && order.number}</h1>

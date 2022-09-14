@@ -1,11 +1,9 @@
 import s from './ingredient-details.module.css';
 import styles from '../../utils/styles.module.css';
-import { useSelector } from 'react-redux';
-import { IIngredientModalState } from '../../services/reducers/ingredient-modal';
-import { TRootState } from '../../services/store/store';
+import { useAppSelector } from '../../services/hooks/appHooks';
 
 const IngredientDetails = () => {
-  const { ingredientDetails } = useSelector<TRootState, IIngredientModalState>(store => store.ingredientModal);
+  const { ingredientDetails } = useAppSelector(store => store.ingredientModal);
   const { name, calories, proteins, fat, carbohydrates, image_large } = ingredientDetails!;
 
   return (

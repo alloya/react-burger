@@ -1,8 +1,6 @@
 import { Redirect, Route, useLocation } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { checkAuth, getUser, refreshAccessToken, setAuth } from '../../services/actions/auth';
-import { IAuthState } from '../../services/reducers/auth';
 import { getCookie, getRefreshToken } from '../../utils/utils';
 import { ILocationStateType } from '../app/app';
 import { useAppDispatch, useAppSelector } from '../../services/hooks/appHooks';
