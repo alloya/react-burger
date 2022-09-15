@@ -14,7 +14,6 @@ import { Location } from 'history';
 import { TOrder } from '../../utils/types';
 import { removeIngredientInfoFromModal } from '../../services/actions/ingredient-modal';
 import { useAppDispatch, useAppSelector } from '../../services/hooks/appHooks';
-import { TAppDispatch } from '../../services/store/store';
 
 export interface ILocationStateType {
   from?: Location<ILocationStateType>,
@@ -23,7 +22,7 @@ export interface ILocationStateType {
 
 const App = () => {
   const location = useLocation<ILocationStateType>();
-  const dispatch: TAppDispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const { ingredients } = useAppSelector(store => store.ingredients);
   const { ingredientModalOpened, orderModalOpened } = useAppSelector(store => store.modal);
