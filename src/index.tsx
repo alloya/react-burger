@@ -3,28 +3,22 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { rootReducer } from './services/reducers';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './components/app/app';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { socketMiddleware } from './services/websocket/socketMiddleware';
-import { wsActions } from './services/actions/websocket';
+import { store } from './services/store/store';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, socketMiddleware(wsActions))));
 
-const container = document.getElementById('root');
+const container = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(container);
 
 root.render(
   //<React.StrictMode>
-    <Router>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Router>
+  <Router>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Router>
   //</React.StrictMode>
 );
 
