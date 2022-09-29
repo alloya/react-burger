@@ -14,6 +14,9 @@ export const socketMiddleware = (wsActions: TWSMiddleware): Middleware<{}, TRoot
       if (type === wsInit) {
         socket = new WebSocket(payload);
       }
+      if (type == onClose) {
+        socket?.close();
+      }
       if (socket) {
         socket.onopen = event => {
           dispatch({ type: onOpen, payload: event });
@@ -44,7 +47,6 @@ export const socketMiddleware = (wsActions: TWSMiddleware): Middleware<{}, TRoot
           socket.send(JSON.stringify(message));
         }
       }
-
       next(action);
     };
   };
