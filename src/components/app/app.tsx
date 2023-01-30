@@ -88,6 +88,9 @@ const App = () => {
         <Route path="/" exact>
           <MainPage />
         </Route>
+        <Route path="/react-burger" exact>
+          <MainPage />
+        </Route>
         <Route>
           <NotFoundPage />
         </Route>
